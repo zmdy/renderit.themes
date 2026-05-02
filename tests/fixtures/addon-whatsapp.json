@@ -1,0 +1,11 @@
+{
+  "whatsapp": {
+    "number": "5511999999999",
+    "message": "Olá! Gostaria de saber mais sobre o Renderit.",
+    "label_text": "Fale Conosco",
+    "settings": {
+      "position": "bottom-right",
+      "show_label": "true"
+    }
+  }
+}

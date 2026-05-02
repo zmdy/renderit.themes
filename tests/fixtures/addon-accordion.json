@@ -1,0 +1,26 @@
+{
+  "accordion": {
+    "title": "Perguntas Frequentes",
+    "settings": {
+      "allow_multiple": "false"
+    },
+    "items": [
+      {
+        "question": "Como funciona o Renderit?",
+        "answer": "O Renderit é um motor de build que transforma templates HTML e dados JSON em sites estáticos otimizados. Você foca na estrutura e no design, e nós cuidamos da renderização e performance."
+      },
+      {
+        "question": "Preciso saber programar para usar?",
+        "answer": "Conhecimento básico de HTML e CSS é recomendado para criar seus próprios templates, mas você pode usar temas prontos e apenas preencher os dados via interface visual."
+      },
+      {
+        "question": "Quais são as opções de hospedagem?",
+        "answer": "Como o resultado final é HTML estático, você pode hospedar em qualquer lugar: GitHub Pages, Netlify, Vercel ou até mesmo em um servidor compartilhado básico via FTP."
+      },
+      {
+        "question": "O site gerado é seguro?",
+        "answer": "Sim! Sites estáticos não possuem banco de dados ou processamento server-side vulnerável, o que elimina 99% dos vetores de ataque comuns encontrados em CMS como WordPress."
+      }
+    ]
+  }
+}

@@ -1,0 +1,105 @@
+<!-- Addon: map -->
+<div class="renderit-map-container" id="map-%INDEX%">
+  %IF map.title%
+  <h2 class="renderit-map-title">%map.title%</h2>
+  %ENDIF%
+
+  <div class="renderit-map-wrapper">
+    %IF map.provider == "osm"%
+    <iframe 
+      class="renderit-map-iframe"
+      src="https://www.openstreetmap.org/export/embed.html?bbox=-46.66%2C-23.56%2C-46.62%2C-23.53&layer=mapnik&marker=-23.55%2C-46.63" 
+      style="border: 0" 
+      allowfullscreen="" 
+      loading="lazy">
+    </iframe>
+    %ELSE%
+    <iframe 
+      class="renderit-map-iframe"
+      src="https://maps.google.com/maps?q=%map.address%&t=&z=%map.zoom%&ie=UTF8&iwloc=&output=embed" 
+      style="border: 0" 
+      allowfullscreen="" 
+      loading="lazy">
+    </iframe>
+    %ENDIF%
+  </div>
+
+  %IF map.address%
+  <div class="renderit-map-info">
+    <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+    <span>%map.address%</span>
+  </div>
+  %ENDIF%
+</div>
+
+<style>
+  :root {
+    --map-surface: %design.colors.surface%;
+    --map-text: %design.colors.on-surface%;
+    --map-radius: %design.rounded.lg%;
+    --map-font: %design.fonts.primary%;
+    --map-primary: %design.colors.primary%;
+  }
+
+  .renderit-map-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    font-family: var(--map-font), sans-serif;
+    color: var(--map-text);
+  }
+
+  .renderit-map-title {
+    text-align: center;
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+  }
+
+  .renderit-map-wrapper {
+    position: relative;
+    width: 100%;
+    height: %map.height%;
+    min-height: 300px;
+    background: #eee;
+    border-radius: var(--map-radius);
+    overflow: hidden;
+    box-shadow: %design.elevation.md%;
+  }
+
+  .renderit-map-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    filter: grayscale(0.2) contrast(1.1);
+  }
+
+  .renderit-map-info {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-weight: 500;
+    opacity: 0.8;
+  }
+
+  .renderit-map-info svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--map-primary);
+  }
+
+  @media (max-width: 768px) {
+    .renderit-map-wrapper { height: 350px; }
+  }
+</style>
+
+<script>
+(function() {
+  // Addon puramente declarativo via iframe, 
+  // scripts adicionais podem ser adicionados para integração com API se necessário.
+})();
+</script>

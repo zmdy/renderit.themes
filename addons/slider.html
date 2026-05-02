@@ -1,0 +1,283 @@
+<!-- Addon: slider -->
+<div class="renderit-slider" id="slider-%INDEX%">
+  <div class="renderit-slider-viewport">
+    <div class="renderit-slider-track">
+      %FOREACH slider.items%
+      <div class="renderit-slider-slide" data-index="%INDEX%">
+        <img src="%image%" alt="%title%" class="renderit-slider-bg">
+        <div class="renderit-slider-content">
+          %IF title%
+          <h2 class="renderit-slider-title">%title%</h2>
+          %ENDIF%
+          %IF subtitle%
+          <p class="renderit-slider-subtitle">%subtitle%</p>
+          %ENDIF%
+          %IF cta_url%
+          <a href="%cta_url%" class="renderit-slider-cta">%cta_label%</a>
+          %ENDIF%
+        </div>
+      </div>
+      %ENDFOREACH%
+    </div>
+  </div>
+
+  <button class="renderit-slider-prev" aria-label="Anterior">
+    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+  </button>
+  <button class="renderit-slider-next" aria-label="Próximo">
+    <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+  </button>
+
+  <div class="renderit-slider-dots"></div>
+</div>
+
+<style>
+  :root {
+    --slider-primary: %design.colors.primary%;
+    --slider-on-primary: %design.colors.surface%;
+    --slider-font: %design.fonts.primary%;
+    --slider-radius: %design.rounded.lg%;
+  }
+
+  .renderit-slider {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+    background: #111;
+    font-family: var(--slider-font), sans-serif;
+    border-radius: var(--slider-radius);
+  }
+
+  .renderit-slider-viewport {
+    width: 100%;
+    height: 100%;
+  }
+
+  .renderit-slider-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .renderit-slider-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .renderit-slider-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.6;
+    z-index: 1;
+  }
+
+  .renderit-slider-content {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    max-width: 800px;
+    color: white;
+  }
+
+  .renderit-slider-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.5s ease 0.2s;
+  }
+
+  .renderit-slider-subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease 0.4s;
+  }
+
+  .renderit-slider-slide.active .renderit-slider-title,
+  .renderit-slider-slide.active .renderit-slider-subtitle {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .renderit-slider-cta {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    background: var(--slider-primary);
+    color: var(--slider-on-primary);
+    text-decoration: none;
+    border-radius: 99px;
+    font-weight: 600;
+    transition: transform 0.3s ease, filter 0.3s ease;
+  }
+
+  .renderit-slider-cta:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+  }
+
+  .renderit-slider-prev, .renderit-slider-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border: none;
+    color: white;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+  }
+
+  .renderit-slider-prev:hover, .renderit-slider-next:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .renderit-slider-prev { left: 20px; }
+  .renderit-slider-next { right: 20px; }
+
+  .renderit-slider-prev svg, .renderit-slider-next svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+  }
+
+  .renderit-slider-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+  }
+
+  .renderit-slider-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .renderit-slider-dot.active {
+    background: white;
+    transform: scale(1.2);
+  }
+
+  @media (max-width: 768px) {
+    .renderit-slider { height: 400px; }
+    .renderit-slider-title { font-size: 2.2rem; }
+    .renderit-slider-prev, .renderit-slider-next { display: none; }
+  }
+</style>
+
+<script>
+(function() {
+  const sliders = document.querySelectorAll('.renderit-slider');
+  
+  sliders.forEach(slider => {
+    const track = slider.querySelector('.renderit-slider-track');
+    const slides = Array.from(slider.querySelectorAll('.renderit-slider-slide'));
+    const prevBtn = slider.querySelector('.renderit-slider-prev');
+    const nextBtn = slider.querySelector('.renderit-slider-next');
+    const dotsContainer = slider.querySelector('.renderit-slider-dots');
+    
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+    
+    // Configurações dinâmicas
+    const autoplay = "%slider.settings.autoplay%" === "true";
+    const interval = parseInt("%slider.settings.interval%") || 5000;
+
+    // Criar dots
+    slides.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = `renderit-slider-dot ${i === 0 ? 'active' : ''}`;
+      dot.addEventListener('click', () => goToSlide(i));
+      dotsContainer.appendChild(dot);
+    });
+
+    const dots = Array.from(slider.querySelectorAll('.renderit-slider-dot'));
+
+    function updateSlider() {
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      
+      slides.forEach((s, i) => {
+        s.classList.toggle('active', i === currentIndex);
+      });
+      
+      dots.forEach((d, i) => {
+        d.classList.toggle('active', i === currentIndex);
+      });
+    }
+
+    function goToSlide(index) {
+      currentIndex = (index + totalSlides) % totalSlides;
+      updateSlider();
+      resetAutoplay();
+    }
+
+    function nextSlide() {
+      goToSlide(currentIndex + 1);
+    }
+
+    function prevSlide() {
+      goToSlide(currentIndex - 1);
+    }
+
+    prevBtn?.addEventListener('click', prevSlide);
+    nextBtn?.addEventListener('click', nextSlide);
+
+    // Touch support simples
+    let touchStartX = 0;
+    slider.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+    slider.addEventListener('touchend', e => {
+      const touchEndX = e.changedTouches[0].clientX;
+      if (touchStartX - touchEndX > 50) nextSlide();
+      if (touchStartX - touchEndX < -50) prevSlide();
+    });
+
+    // Autoplay
+    let autoplayTimer;
+    function startAutoplay() {
+      if (autoplay) {
+        autoplayTimer = setInterval(nextSlide, interval);
+      }
+    }
+
+    function resetAutoplay() {
+      if (autoplayTimer) {
+        clearInterval(autoplayTimer);
+        startAutoplay();
+      }
+    }
+
+    // Inicialização
+    updateSlider();
+    startAutoplay();
+  });
+})();
+</script>

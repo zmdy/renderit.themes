@@ -1,0 +1,296 @@
+<!-- Addon: form -->
+<div class="renderit-form-container" id="form-%INDEX%">
+  <div class="renderit-form-header">
+    %IF form.title%
+    <h2 class="renderit-form-title">%form.title%</h2>
+    %ENDIF%
+    %IF form.subtitle%
+    <p class="renderit-form-subtitle">%form.subtitle%</p>
+    %ENDIF%
+  </div>
+
+  <form class="renderit-form" action="%form.endpoint%" method="POST" novalidate>
+    <div class="renderit-form-fields">
+      %FOREACH form.fields%
+      <div class="renderit-form-group">
+        <label class="renderit-form-label" for="field-%INDEX%">%label%</label>
+        
+        %IF type == "textarea"%
+        <textarea 
+          name="%name%" 
+          id="field-%INDEX%" 
+          class="renderit-form-input" 
+          placeholder="%placeholder%"
+          %IF required%required%ENDIF%
+        ></textarea>
+        %ELSE%
+        <input 
+          type="%type%" 
+          name="%name%" 
+          id="field-%INDEX%" 
+          class="renderit-form-input" 
+          placeholder="%placeholder%"
+          %IF required%required%ENDIF%
+        >
+        %ENDIF%
+        
+        <span class="renderit-form-error-msg">Este campo é obrigatório</span>
+      </div>
+      %ENDFOREACH%
+    </div>
+
+    <button type="submit" class="renderit-form-submit">
+      <span class="submit-text">%form.button_label%</span>
+      <span class="submit-loader"></span>
+    </button>
+  </form>
+
+  <div class="renderit-form-feedback success">
+    <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+    <p>%form.success_message%</p>
+  </div>
+
+  <div class="renderit-form-feedback error">
+    <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+    <p>Ocorreu um erro ao enviar sua mensagem. Tente novamente.</p>
+  </div>
+</div>
+
+<style>
+  :root {
+    --form-primary: %design.colors.primary%;
+    --form-surface: %design.colors.surface%;
+    --form-text: %design.colors.on-surface%;
+    --form-border: %design.colors.secondary%;
+    --form-error: %design.colors.error%;
+    --form-radius: %design.rounded.md%;
+    --form-font: %design.fonts.primary%;
+  }
+
+  .renderit-form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2.5rem;
+    background: var(--form-surface);
+    border-radius: var(--form-radius);
+    box-shadow: %design.elevation.md%;
+    font-family: var(--form-font), sans-serif;
+    color: var(--form-text);
+  }
+
+  .renderit-form-header {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .renderit-form-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .renderit-form-subtitle {
+    font-size: 1rem;
+    opacity: 0.7;
+  }
+
+  .renderit-form-fields {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .renderit-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .renderit-form-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    opacity: 0.9;
+  }
+
+  .renderit-form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--form-border);
+    border-radius: var(--form-radius);
+    background: transparent;
+    color: inherit;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .renderit-form-input:focus {
+    outline: none;
+    border-color: var(--form-primary);
+    box-shadow: 0 0 0 3px rgba(var(--form-primary-rgb), 0.1);
+  }
+
+  textarea.renderit-form-input {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  .renderit-form-error-msg {
+    font-size: 0.75rem;
+    color: var(--form-error);
+    display: none;
+  }
+
+  .renderit-form-group.has-error .renderit-form-input {
+    border-color: var(--form-error);
+  }
+
+  .renderit-form-group.has-error .renderit-form-error-msg {
+    display: block;
+  }
+
+  .renderit-form-submit {
+    width: 100%;
+    padding: 1rem;
+    background: var(--form-primary);
+    color: white;
+    border: none;
+    border-radius: var(--form-radius);
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .renderit-form-submit:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+
+  .renderit-form-submit:active {
+    transform: translateY(0);
+  }
+
+  .renderit-form-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .submit-loader {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    display: none;
+    animation: renderit-spin 0.8s linear infinite;
+  }
+
+  @keyframes renderit-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .renderit-form.loading .submit-text { display: none; }
+  .renderit-form.loading .submit-loader { display: block; }
+
+  .renderit-form-feedback {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1rem;
+    animation: renderit-fade-in 0.4s ease;
+  }
+
+  .renderit-form-feedback svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1rem;
+  }
+
+  .renderit-form-feedback.success svg { fill: var(--design.colors.success%); }
+  .renderit-form-feedback.error svg { fill: var(--form-error); }
+
+  @keyframes renderit-fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .renderit-form-container.submitted .renderit-form-header,
+  .renderit-form-container.submitted .renderit-form {
+    display: none;
+  }
+
+  .renderit-form-container.submitted-success .success { display: flex; }
+  .renderit-form-container.submitted-error .error { display: flex; }
+
+</style>
+
+<script>
+(function() {
+  const containers = document.querySelectorAll('.renderit-form-container');
+  
+  containers.forEach(container => {
+    const form = container.querySelector('.renderit-form');
+    const inputs = form.querySelectorAll('.renderit-form-input');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      if (form.classList.contains('loading')) return;
+
+      // Validação básica
+      let isValid = true;
+      inputs.forEach(input => {
+        const group = input.closest('.renderit-form-group');
+        if (input.hasAttribute('required') && !input.value.trim()) {
+          group.classList.add('has-error');
+          isValid = false;
+        } else {
+          group.classList.remove('has-error');
+        }
+      });
+
+      if (!isValid) return;
+
+      // Simulação de envio ou fetch real
+      form.classList.add('loading');
+      
+      try {
+        const formData = new FormData(form);
+        const endpoint = form.getAttribute('action') || '#';
+        
+        // Se houver endpoint, envia. Senão, simula sucesso.
+        if (endpoint !== '#') {
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            body: formData
+          });
+          if (!response.ok) throw new Error();
+        } else {
+          await new Promise(r => setTimeout(r, 1500)); // Delay para simular rede
+        }
+
+        container.classList.add('submitted', 'submitted-success');
+      } catch (err) {
+        container.classList.add('submitted', 'submitted-error');
+        // Opcional: voltar após alguns segundos
+        setTimeout(() => {
+          container.classList.remove('submitted', 'submitted-error');
+          form.classList.remove('loading');
+        }, 3000);
+      }
+    });
+
+    // Limpar erro ao digitar
+    inputs.forEach(input => {
+      input.addEventListener('input', () => {
+        input.closest('.renderit-form-group').classList.remove('has-error');
+      });
+    });
+  });
+})();
+</script>

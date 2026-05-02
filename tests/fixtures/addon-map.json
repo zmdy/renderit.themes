@@ -1,0 +1,9 @@
+{
+  "map": {
+    "title": "Nossa Localização",
+    "address": "Av. Paulista, 1000 - Bela Vista, São Paulo - SP, 01310-100",
+    "zoom": "15",
+    "height": "450px",
+    "provider": "google"
+  }
+}

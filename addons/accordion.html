@@ -1,0 +1,158 @@
+<!-- Addon: accordion -->
+<div class="renderit-accordion-container" id="accordion-%INDEX%">
+  %IF accordion.title%
+  <h2 class="renderit-accordion-main-title">%accordion.title%</h2>
+  %ENDIF%
+
+  <div class="renderit-accordion">
+    %FOREACH accordion.items%
+    <div class="renderit-accordion-item" data-index="%INDEX%">
+      <button class="renderit-accordion-header" aria-expanded="false">
+        <span class="renderit-accordion-question">%question%</span>
+        <span class="renderit-accordion-icon">
+          <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        </span>
+      </button>
+      <div class="renderit-accordion-content">
+        <div class="renderit-accordion-inner">
+          %answer%
+        </div>
+      </div>
+    </div>
+    %ENDFOREACH%
+  </div>
+</div>
+
+<style>
+  :root {
+    --accordion-primary: %design.colors.primary%;
+    --accordion-surface: %design.colors.surface%;
+    --accordion-text: %design.colors.on-surface%;
+    --accordion-border: %design.colors.secondary%;
+    --accordion-radius: %design.rounded.md%;
+    --accordion-font: %design.fonts.primary%;
+  }
+
+  .renderit-accordion-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: var(--accordion-font), sans-serif;
+    color: var(--accordion-text);
+  }
+
+  .renderit-accordion-main-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-weight: 700;
+  }
+
+  .renderit-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .renderit-accordion-item {
+    background: var(--accordion-surface);
+    border: 1px solid var(--accordion-border);
+    border-radius: var(--accordion-radius);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .renderit-accordion-item:hover {
+    border-color: var(--accordion-primary);
+  }
+
+  .renderit-accordion-header {
+    width: 100%;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    color: inherit;
+    font-family: inherit;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .renderit-accordion-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    color: var(--accordion-primary);
+  }
+
+  .renderit-accordion-icon svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+
+  .renderit-accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .renderit-accordion-inner {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    line-height: 1.6;
+    opacity: 0.8;
+  }
+
+  /* Estado Aberto */
+  .renderit-accordion-item.active {
+    border-color: var(--accordion-primary);
+    box-shadow: %design.elevation.sm%;
+  }
+
+  .renderit-accordion-item.active .renderit-accordion-icon {
+    transform: rotate(45deg);
+  }
+
+  .renderit-accordion-item.active .renderit-accordion-content {
+    max-height: 500px; /* Valor seguro para animação */
+  }
+
+</style>
+
+<script>
+(function() {
+  const containers = document.querySelectorAll('.renderit-accordion-container');
+  
+  containers.forEach(container => {
+    const items = container.querySelectorAll('.renderit-accordion-item');
+    const allowMultiple = "%accordion.settings.allow_multiple%" === "true";
+
+    items.forEach(item => {
+      const header = item.querySelector('.renderit-accordion-header');
+      
+      header.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+
+        if (!allowMultiple && !isActive) {
+          // Fecha todos os outros se não permitir múltiplos
+          items.forEach(otherItem => {
+            otherItem.classList.remove('active');
+            otherItem.querySelector('.renderit-accordion-header').setAttribute('aria-expanded', 'false');
+          });
+        }
+
+        // Toggle do atual
+        item.classList.toggle('active');
+        header.setAttribute('aria-expanded', !isActive);
+      });
+    });
+  });
+})();
+</script>
