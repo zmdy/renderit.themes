@@ -1,0 +1,196 @@
+<!-- Addon: pricing -->
+<section id="renderit-pricing-%INDEX%" class="renderit-pricing-section">
+  <div class="renderit-pricing-grid">
+    %FOREACH pricing.plans%
+    <div class="renderit-pricing-card %IF highlighted == "true"%is-highlighted%ENDIF%">
+      %IF highlighted == "true"%
+      <div class="renderit-pricing-badge">Mais Popular</div>
+      %ENDIF%
+      
+      <div class="renderit-pricing-header">
+        <h3 class="renderit-pricing-title">%title%</h3>
+        <div class="renderit-pricing-price-box">
+          <span class="renderit-pricing-currency">%pricing.currency%</span>
+          <span class="renderit-pricing-amount">%price%</span>
+          <span class="renderit-pricing-period">/%period%</span>
+        </div>
+        <p class="renderit-pricing-desc">%description%</p>
+      </div>
+      
+      <ul class="renderit-pricing-features">
+        %FOREACH features%
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>%feature%</span>
+        </li>
+        %ENDFOREACH%
+      </ul>
+      
+      <div class="renderit-pricing-footer">
+        <a href="%cta_url%" class="renderit-pricing-cta">
+          %cta_label%
+        </a>
+      </div>
+    </div>
+    %ENDFOREACH%
+  </div>
+</section>
+
+<style>
+  :root {
+    --price-bg: %design.colors.surface%;
+    --price-text: %design.colors.on-surface%;
+    --price-primary: %design.colors.primary%;
+    --price-accent: %design.colors.tertiary%;
+    --price-radius: %design.rounded.lg%;
+  }
+
+  .renderit-pricing-section {
+    padding: 60px 0;
+  }
+
+  .renderit-pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: center;
+  }
+
+  .renderit-pricing-card {
+    background: var(--price-bg);
+    color: var(--testi-text);
+    padding: 50px 40px;
+    border-radius: var(--price-radius);
+    box-shadow: %design.elevation.md%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .renderit-pricing-card.is-highlighted {
+    border: 2px solid var(--price-primary);
+    transform: scale(1.05);
+    z-index: 10;
+    box-shadow: %design.elevation.xl%;
+  }
+
+  .renderit-pricing-badge {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--price-primary);
+    color: #fff;
+    padding: 6px 18px;
+    border-radius: %design.rounded.full%;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .renderit-pricing-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .renderit-pricing-title {
+    margin: 0 0 20px 0;
+    font-family: %design.fonts.primary%;
+    font-size: 20px;
+    font-weight: 600;
+    opacity: 0.8;
+  }
+
+  .renderit-pricing-price-box {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 4px;
+    margin-bottom: 15px;
+  }
+
+  .renderit-pricing-currency {
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .renderit-pricing-amount {
+    font-size: 56px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .renderit-pricing-period {
+    font-size: 16px;
+    opacity: 0.6;
+  }
+
+  .renderit-pricing-desc {
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 0.7;
+  }
+
+  .renderit-pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 40px 0;
+    flex-grow: 1;
+  }
+
+  .renderit-pricing-features li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    font-size: 15px;
+  }
+
+  .renderit-pricing-features svg {
+    width: 18px;
+    height: 18px;
+    color: var(--price-primary);
+    flex-shrink: 0;
+  }
+
+  .renderit-pricing-footer {
+    text-align: center;
+  }
+
+  .renderit-pricing-cta {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: transparent;
+    border: 2px solid var(--price-primary);
+    color: var(--price-primary);
+    border-radius: %design.rounded.md%;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s;
+  }
+
+  .is-highlighted .renderit-pricing-cta {
+    background: var(--price-primary);
+    color: #fff;
+  }
+
+  .renderit-pricing-cta:hover {
+    background: var(--price-primary);
+    color: #fff;
+  }
+</style>
+
+<script>
+(function() {
+  // Addon Pricing - IIFE Logic (reserved for future interactivity)
+})();
+</script>

@@ -1,0 +1,11 @@
+{
+  "countdown": {
+    "title": "O Lançamento Começa Em:",
+    "end_date": "2026-12-31T23:59:59",
+    "expired_message": "O evento já começou! Aproveite as ofertas.",
+    "label_days": "Dias",
+    "label_hours": "Horas",
+    "label_minutes": "Minutos",
+    "label_seconds": "Segundos"
+  }
+}

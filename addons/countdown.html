@@ -1,0 +1,154 @@
+<!-- Addon: countdown -->
+<div id="renderit-countdown-%INDEX%" class="renderit-countdown-container" data-date="%countdown.end_date%">
+  %IF countdown.title%
+  <h3 class="renderit-countdown-title">%countdown.title%</h3>
+  %ENDIF%
+  
+  <div class="renderit-countdown-timer">
+    <div class="renderit-countdown-item">
+      <span class="renderit-countdown-value js-days">00</span>
+      <span class="renderit-countdown-label">%countdown.label_days%</span>
+    </div>
+    <div class="renderit-countdown-item">
+      <span class="renderit-countdown-value js-hours">00</span>
+      <span class="renderit-countdown-label">%countdown.label_hours%</span>
+    </div>
+    <div class="renderit-countdown-item">
+      <span class="renderit-countdown-value js-minutes">00</span>
+      <span class="renderit-countdown-label">%countdown.label_minutes%</span>
+    </div>
+    <div class="renderit-countdown-item">
+      <span class="renderit-countdown-value js-seconds">00</span>
+      <span class="renderit-countdown-label">%countdown.label_seconds%</span>
+    </div>
+  </div>
+
+  <div class="renderit-countdown-expired" style="display: none;">
+    %countdown.expired_message%
+  </div>
+</div>
+
+<style>
+  :root {
+    --cd-bg: %design.colors.surface%;
+    --cd-text: %design.colors.on-surface%;
+    --cd-primary: %design.colors.primary%;
+    --cd-radius: %design.rounded.md%;
+  }
+
+  .renderit-countdown-container {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--cd-text);
+  }
+
+  .renderit-countdown-title {
+    margin-bottom: 30px;
+    font-family: %design.fonts.primary%;
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  .renderit-countdown-timer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .renderit-countdown-item {
+    background: var(--cd-bg);
+    min-width: 90px;
+    padding: 20px 10px;
+    border-radius: var(--cd-radius);
+    box-shadow: %design.elevation.md%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+
+  .renderit-countdown-value {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--cd-primary);
+    margin-bottom: 5px;
+  }
+
+  .renderit-countdown-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.6;
+    font-weight: 600;
+  }
+
+  .renderit-countdown-expired {
+    font-size: 20px;
+    font-weight: 600;
+    padding: 20px;
+    background: rgba(0,0,0,0.05);
+    border-radius: var(--cd-radius);
+  }
+
+  @media (max-width: 480px) {
+    .renderit-countdown-item {
+      min-width: 70px;
+      padding: 15px 5px;
+    }
+    .renderit-countdown-value {
+      font-size: 28px;
+    }
+    .renderit-countdown-label {
+      font-size: 10px;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  const containerId = 'renderit-countdown-%INDEX%';
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const endDateStr = container.getAttribute('data-date');
+  if (!endDateStr) return;
+
+  const endDate = new Date(endDateStr).getTime();
+  const timerEl = container.querySelector('.renderit-countdown-timer');
+  const expiredEl = container.querySelector('.renderit-countdown-expired');
+  
+  const els = {
+    days: container.querySelector('.js-days'),
+    hours: container.querySelector('.js-hours'),
+    minutes: container.querySelector('.js-minutes'),
+    seconds: container.querySelector('.js-seconds')
+  };
+
+  function update() {
+    const now = new Date().getTime();
+    const distance = endDate - now;
+
+    if (distance < 0) {
+      clearInterval(interval);
+      timerEl.style.display = 'none';
+      expiredEl.style.display = 'block';
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    els.days.textContent = days.toString().padStart(2, '0');
+    els.hours.textContent = hours.toString().padStart(2, '0');
+    els.minutes.textContent = minutes.toString().padStart(2, '0');
+    els.seconds.textContent = seconds.toString().padStart(2, '0');
+  }
+
+  const interval = setInterval(update, 1000);
+  update();
+})();
+</script>

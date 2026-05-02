@@ -1,0 +1,54 @@
+{
+  "pricing": {
+    "currency": "R$",
+    "plans": [
+      {
+        "title": "Iniciante",
+        "price": "49",
+        "period": "mês",
+        "description": "Ideal para pequenos negócios e projetos pessoais.",
+        "highlighted": "false",
+        "features": [
+          { "feature": "Até 3 sites estáticos" },
+          { "feature": "Addons básicos inclusos" },
+          { "feature": "Hospedagem estática" },
+          { "feature": "Suporte via email" }
+        ],
+        "cta_label": "Começar Agora",
+        "cta_url": "#"
+      },
+      {
+        "title": "Profissional",
+        "price": "99",
+        "period": "mês",
+        "description": "Para profissionais que precisam de escala e recursos avançados.",
+        "highlighted": "true",
+        "features": [
+          { "feature": "Sites ilimitados" },
+          { "feature": "Todos os Addons Core" },
+          { "feature": "Modo Manager incluso" },
+          { "feature": "Suporte prioritário" },
+          { "feature": "SSL Gratuito" }
+        ],
+        "cta_label": "Escolher Plano",
+        "cta_url": "#"
+      },
+      {
+        "title": "Enterprise",
+        "price": "299",
+        "period": "mês",
+        "description": "Solução customizada para agências e grandes empresas.",
+        "highlighted": "false",
+        "features": [
+          { "feature": "White Label" },
+          { "feature": "Addons Customizados" },
+          { "feature": "SLA de 99.9%" },
+          { "feature": "Gerente de conta" },
+          { "feature": "API Access" }
+        ],
+        "cta_label": "Falar com Vendas",
+        "cta_url": "#"
+      }
+    ]
+  }
+}

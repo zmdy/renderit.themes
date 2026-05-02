@@ -1,0 +1,232 @@
+<!-- Addon: popup -->
+<div id="renderit-popup-%INDEX%" class="renderit-popup-overlay" style="display: none;" aria-hidden="true">
+  <div class="renderit-popup-container">
+    <button class="renderit-popup-close" aria-label="Fechar popup">&times;</button>
+    
+    <div class="renderit-popup-content-wrapper">
+      %IF popup.image%
+      <div class="renderit-popup-image">
+        <img src="%popup.image%" alt="%popup.title%">
+      </div>
+      %ENDIF%
+      
+      <div class="renderit-popup-body">
+        %IF popup.title%
+        <h2 class="renderit-popup-title">%popup.title%</h2>
+        %ENDIF%
+        
+        <div class="renderit-popup-text">
+          %popup.content%
+        </div>
+        
+        %IF popup.cta_label%
+        <div class="renderit-popup-actions">
+          <a href="%popup.cta_url%" class="renderit-popup-cta">
+            %popup.cta_label%
+          </a>
+        </div>
+        %ENDIF%
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  :root {
+    --popup-bg: %design.colors.surface%;
+    --popup-text: %design.colors.on-surface%;
+    --popup-primary: %design.colors.primary%;
+    --popup-radius: %design.rounded.lg%;
+    --popup-shadow: %design.elevation.xl%;
+  }
+
+  .renderit-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    padding: 20px;
+  }
+
+  .renderit-popup-overlay.is-visible {
+    opacity: 1;
+  }
+
+  .renderit-popup-container {
+    background: var(--popup-bg);
+    color: var(--popup-text);
+    width: 100%;
+    max-width: 600px;
+    border-radius: var(--popup-radius);
+    box-shadow: var(--popup-shadow);
+    position: relative;
+    overflow: hidden;
+    transform: scale(0.9) translateY(20px);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .is-visible .renderit-popup-container {
+    transform: scale(1) translateY(0);
+  }
+
+  .renderit-popup-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.1);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--popup-text);
+    z-index: 2;
+    transition: background 0.2s;
+  }
+
+  .renderit-popup-close:hover {
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .renderit-popup-content-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (min-width: 768px) {
+    .renderit-popup-content-wrapper {
+      flex-direction: row;
+    }
+  }
+
+  .renderit-popup-image {
+    flex: 1;
+    min-height: 200px;
+  }
+
+  .renderit-popup-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .renderit-popup-body {
+    flex: 1.2;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .renderit-popup-title {
+    margin: 0 0 15px 0;
+    font-family: %design.fonts.primary%;
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  .renderit-popup-text {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    opacity: 0.9;
+  }
+
+  .renderit-popup-cta {
+    display: inline-block;
+    background: var(--popup-primary);
+    color: #fff;
+    padding: 12px 28px;
+    border-radius: %design.rounded.md%;
+    text-decoration: none;
+    font-weight: 600;
+    transition: filter 0.2s;
+  }
+
+  .renderit-popup-cta:hover {
+    filter: brightness(1.1);
+  }
+</style>
+
+<script>
+(function() {
+  const popupId = 'renderit-popup-%INDEX%';
+  const overlay = document.getElementById(popupId);
+  if (!overlay) return;
+
+  const closeBtn = overlay.querySelector('.renderit-popup-close');
+  const triggerType = '%popup.trigger_type%' || 'delay';
+  const triggerValue = parseFloat('%popup.trigger_value%') || 3;
+  const storageKey = 'renderit_popup_closed_' + popupId;
+
+  function showPopup() {
+    if (sessionStorage.getItem(storageKey)) return;
+    
+    overlay.style.display = 'flex';
+    overlay.setAttribute('aria-hidden', 'false');
+    // Force reflow
+    overlay.offsetHeight;
+    overlay.classList.add('is-visible');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function hidePopup() {
+    overlay.classList.remove('is-visible');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    
+    setTimeout(() => {
+      overlay.style.display = 'none';
+    }, 400);
+    
+    sessionStorage.setItem(storageKey, 'true');
+  }
+
+  // Event Listeners
+  closeBtn.addEventListener('click', hidePopup);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) hidePopup();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('is-visible')) {
+      hidePopup();
+    }
+  });
+
+  // Trigger Logic
+  if (triggerType === 'delay') {
+    setTimeout(showPopup, triggerValue * 1000);
+  } else if (triggerType === 'scroll') {
+    const handleScroll = () => {
+      const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      if (scrollPercent >= triggerValue) {
+        showPopup();
+        window.removeEventListener('scroll', handleScroll);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+  } else if (triggerType === 'exit') {
+    const handleExit = (e) => {
+      if (e.clientY <= 0) {
+        showPopup();
+        document.removeEventListener('mouseleave', handleExit);
+      }
+    };
+    document.addEventListener('mouseleave', handleExit);
+  }
+})();
+</script>

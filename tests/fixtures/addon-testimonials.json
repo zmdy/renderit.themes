@@ -1,0 +1,30 @@
+{
+  "testimonials": {
+    "items": [
+      {
+        "name": "Ricardo Santos",
+        "role": "CEO",
+        "company": "TechFlow Solutions",
+        "content": "O Renderit transformou completamente nosso fluxo de trabalho. A facilidade de gerenciar múltiplos sites estáticos com uma única estrutura de dados é impressionante.",
+        "avatar": "https://i.pravatar.cc/150?u=ricardo",
+        "rating": 5
+      },
+      {
+        "name": "Mariana Oliveira",
+        "role": "Diretora de Marketing",
+        "company": "EcoVibe",
+        "content": "Conseguimos lançar 5 landing pages em uma única tarde. A performance dos sites gerados é imbatível, o que melhorou muito nosso ROI em anúncios.",
+        "avatar": "https://i.pravatar.cc/150?u=mariana",
+        "rating": 5
+      },
+      {
+        "name": "André Luiz",
+        "role": "Freelance Developer",
+        "company": "",
+        "content": "Como desenvolvedor, a liberdade de usar Vanilla JS sem frameworks pesados é libertadora. O Renderit é a ferramenta que eu não sabia que precisava.",
+        "avatar": "https://i.pravatar.cc/150?u=andre",
+        "rating": 4
+      }
+    ]
+  }
+}

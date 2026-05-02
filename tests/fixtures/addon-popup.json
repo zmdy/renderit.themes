@@ -1,0 +1,11 @@
+{
+  "popup": {
+    "title": "Oferta Especial de Lançamento!",
+    "content": "<p>Inscreva-se agora e receba <strong>20% de desconto</strong> no seu primeiro projeto com o Renderit. Builder.</p><p>Não perca essa oportunidade única de transformar sua presença digital.</p>",
+    "image": "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80&w=1000",
+    "cta_label": "Quero meu desconto",
+    "cta_url": "#contato",
+    "trigger_type": "delay",
+    "trigger_value": 5
+  }
+}
