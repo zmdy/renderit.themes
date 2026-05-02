@@ -1,0 +1,115 @@
+{
+  "site_name": "Gusto & Arte - Ristorante",
+  "design": {
+    "colors": {
+      "primary": "#D4A373",
+      "on-primary": "#FFFFFF",
+      "surface": "#FAFAFA",
+      "on-surface": "#2D2D2D",
+      "neutral": "#E9EDC6",
+      "error": "#BC4749",
+      "success": "#6A994E"
+    },
+    "fonts": {
+      "primary": "'Playfair Display', serif",
+      "secondary": "'Inter', sans-serif"
+    },
+    "rounded": {
+      "sm": "4px",
+      "md": "8px",
+      "lg": "16px",
+      "full": "9999px"
+    },
+    "elevation": {
+      "sm": "0 2px 4px rgba(0,0,0,0.05)",
+      "md": "0 4px 12px rgba(0,0,0,0.1)",
+      "lg": "0 10px 25px rgba(0,0,0,0.15)",
+      "xl": "0 20px 40px rgba(0,0,0,0.2)"
+    },
+    "typography": {
+      "h1": { "fontSize": "48px", "fontWeight": "700" },
+      "h2": { "fontSize": "36px", "fontWeight": "700" },
+      "body-md": { "fontSize": "16px", "fontWeight": "400" },
+      "body-lg": { "fontSize": "18px", "fontWeight": "500" }
+    }
+  },
+  "pages": [
+    {
+      "name": "Home",
+      "path": "index.html",
+      "sections": [
+        {
+          "addon": "animated-text-scramble",
+          "data": {
+            "scramble_text": {
+              "content": "A VERDADEIRA CULINÁRIA ITALIANA",
+              "chars": "X0Y1Z2",
+              "cursor": "_",
+              "duration": 3000,
+              "delay": 500
+            }
+          }
+        },
+        {
+          "addon": "gallery",
+          "data": {
+            "gallery": {
+              "layout": "grid",
+              "items": [
+                { "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=600", "caption": "Salada de Verão" },
+                { "image": "https://images.unsplash.com/photo-1473093226795-af9932fe5856?auto=format&fit=crop&q=80&w=600", "caption": "Pasta al Pesto" },
+                { "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=600", "caption": "Pizza Artesanal" }
+              ]
+            }
+          }
+        },
+        {
+          "addon": "testimonials",
+          "data": {
+            "testimonials": {
+              "items": [
+                { "name": "Ricardo M.", "role": "Crítico Gastronômico", "text": "A melhor experiência italiana da cidade. O sabor é autêntico.", "rating": 5, "photo": "https://i.pravatar.cc/150?u=ricardo" },
+                { "name": "Fernanda L.", "role": "Cliente Fiel", "text": "Ambiente aconchegante e pratos divinos. Recomendo o risoto.", "rating": 5, "photo": "https://i.pravatar.cc/150?u=fernanda" }
+              ]
+            }
+          }
+        },
+        {
+          "addon": "map",
+          "data": {
+            "map": {
+              "address": "Av. Paulista, 1000, São Paulo - SP",
+              "zoom": 15,
+              "marker_title": "Gusto & Arte"
+            }
+          }
+        },
+        {
+          "addon": "form",
+          "data": {
+            "form": {
+              "title": "Reserve sua Mesa",
+              "fields": [
+                { "type": "text", "label": "Nome Completo", "placeholder": "Ex: João Silva", "required": "true" },
+                { "type": "email", "label": "E-mail", "placeholder": "seu@email.com", "required": "true" },
+                { "type": "number", "label": "Nº de Pessoas", "placeholder": "4", "required": "true" }
+              ],
+              "submit_label": "Confirmar Reserva"
+            }
+          }
+        },
+        {
+          "addon": "whatsapp",
+          "data": {
+            "whatsapp": {
+              "number": "5511999999999",
+              "message": "Olá! Gostaria de saber mais sobre o cardápio de hoje.",
+              "label": "Fale Conosco",
+              "position": "right"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
