@@ -1,0 +1,30 @@
+{
+  "timeline": {
+    "items": [
+      {
+        "date": "2023",
+        "title": "Fundação",
+        "content": "O Renderit nasceu da necessidade de criar sites rápidos e fáceis de gerenciar para agências de marketing.",
+        "icon": "<svg viewBox='0 0 24 24'><path d='M12 2L2 7L12 12L22 7L12 2Z'/></svg>"
+      },
+      {
+        "date": "2024",
+        "title": "Expansão da Biblioteca",
+        "content": "Lançamento de mais de 20 addons utilitários e os primeiros 5 temas premium completos.",
+        "icon": "<svg viewBox='0 0 24 24'><path d='M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m-5 14h-4v-4h4v4m0-6h-4V7h4v4z'/></svg>"
+      },
+      {
+        "date": "2025",
+        "title": "Nova Engine v2",
+        "content": "Reformulação completa do motor de build, agora processando templates 3x mais rápido e totalmente no browser.",
+        "icon": "<svg viewBox='0 0 24 24'><path d='M13 10V3L4 14h7v7l9-11h-7z'/></svg>"
+      },
+      {
+        "date": "2026",
+        "title": "Ecossistema Completo",
+        "content": "Lançamento do Manager Mode e integração total com o Renderit.Editor para edição visual não-destrutiva.",
+        "icon": "<svg viewBox='0 0 24 24'><path d='M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z'/></svg>"
+      }
+    ]
+  }
+}

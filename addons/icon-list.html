@@ -1,0 +1,102 @@
+<!-- Addon: icon-list -->
+<div id="renderit-icon-list-%INDEX%" class="renderit-icon-list-container renderit-icon-list-%icon_list.layout%">
+  %FOREACH icon_list.items%
+  <div class="renderit-icon-list-item">
+    %IF link%
+    <a href="%link%" class="renderit-icon-list-link">
+    %ENDIF%
+      <div class="renderit-icon-list-icon">
+        %icon%
+      </div>
+      <span class="renderit-icon-list-text">%text%</span>
+    %IF link%
+    </a>
+    %ENDIF%
+  </div>
+  %ENDFOREACH%
+</div>
+
+<style>
+  :root {
+    --icon-list-gap: 15px;
+    --icon-list-primary: %design.colors.primary%;
+    --icon-list-text: %design.colors.on-surface%;
+    --icon-list-size: 20px;
+  }
+
+  .renderit-icon-list-container {
+    display: flex;
+    gap: var(--icon-list-gap);
+  }
+
+  /* Layout: Vertical (List) */
+  .renderit-icon-list-vertical {
+    flex-direction: column;
+  }
+
+  /* Layout: Horizontal (Grid) */
+  .renderit-icon-list-horizontal {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .renderit-icon-list-item {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .renderit-icon-list-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.2s;
+  }
+
+  .renderit-icon-list-link:hover {
+    opacity: 0.8;
+  }
+
+  .renderit-icon-list-icon {
+    flex-shrink: 0;
+    width: var(--icon-list-size);
+    height: var(--icon-list-size);
+    margin-right: 12px;
+    color: var(--icon-list-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .renderit-icon-list-icon svg, 
+  .renderit-icon-list-icon i {
+    width: 100%;
+    height: 100%;
+    display: block;
+    fill: currentColor;
+  }
+
+  .renderit-icon-list-text {
+    font-family: %design.fonts.primary%;
+    font-size: %design.typography.body-md.fontSize%;
+    color: var(--icon-list-text);
+    line-height: 1.4;
+  }
+
+  @media (max-width: 768px) {
+    .renderit-icon-list-horizontal {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  // Addon Icon List - IIFE Logic
+  const containerId = 'renderit-icon-list-%INDEX%';
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  
+  // Future logic: handle dynamic icon colors or hover animations if needed
+})();
+</script>

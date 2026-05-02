@@ -1,0 +1,220 @@
+<!-- Addon: countdown-event -->
+<div id="renderit-countdown-event-%INDEX%" class="renderit-countdown-event-wrap" data-date="%countdown_event.date%">
+  %IF countdown_event.title%
+  <h2 class="renderit-countdown-event-title">%countdown_event.title%</h2>
+  %ENDIF%
+
+  <div class="renderit-countdown-event-timer">
+    <div class="renderit-countdown-event-item">
+      <div class="renderit-countdown-event-circle">
+        <svg viewBox="0 0 100 100">
+          <circle class="renderit-countdown-bg" cx="50" cy="50" r="45"></circle>
+          <circle class="renderit-countdown-progress js-days-circle" cx="50" cy="50" r="45"></circle>
+        </svg>
+        <span class="renderit-countdown-event-value js-days">00</span>
+      </div>
+      <span class="renderit-countdown-event-label">%countdown_event.label_days%</span>
+    </div>
+
+    <div class="renderit-countdown-event-item">
+      <div class="renderit-countdown-event-circle">
+        <svg viewBox="0 0 100 100">
+          <circle class="renderit-countdown-bg" cx="50" cy="50" r="45"></circle>
+          <circle class="renderit-countdown-progress js-hours-circle" cx="50" cy="50" r="45"></circle>
+        </svg>
+        <span class="renderit-countdown-event-value js-hours">00</span>
+      </div>
+      <span class="renderit-countdown-event-label">%countdown_event.label_hours%</span>
+    </div>
+
+    <div class="renderit-countdown-event-item">
+      <div class="renderit-countdown-event-circle">
+        <svg viewBox="0 0 100 100">
+          <circle class="renderit-countdown-bg" cx="50" cy="50" r="45"></circle>
+          <circle class="renderit-countdown-progress js-minutes-circle" cx="50" cy="50" r="45"></circle>
+        </svg>
+        <span class="renderit-countdown-event-value js-minutes">00</span>
+      </div>
+      <span class="renderit-countdown-event-label">%countdown_event.label_minutes%</span>
+    </div>
+
+    <div class="renderit-countdown-event-item">
+      <div class="renderit-countdown-event-circle">
+        <svg viewBox="0 0 100 100">
+          <circle class="renderit-countdown-bg" cx="50" cy="50" r="45"></circle>
+          <circle class="renderit-countdown-progress js-seconds-circle" cx="50" cy="50" r="45"></circle>
+        </svg>
+        <span class="renderit-countdown-event-value js-seconds">00</span>
+      </div>
+      <span class="renderit-countdown-event-label">%countdown_event.label_seconds%</span>
+    </div>
+  </div>
+
+  <div class="renderit-countdown-event-expired" style="display: none;">
+    %countdown_event.expired_message%
+  </div>
+</div>
+
+<style>
+  :root {
+    --cde-primary: %design.colors.primary%;
+    --cde-bg: %design.colors.neutral%;
+    --cde-text: %design.colors.on-surface%;
+  }
+
+  .renderit-countdown-event-wrap {
+    text-align: center;
+    padding: 40px 0;
+  }
+
+  .renderit-countdown-event-title {
+    margin-bottom: 40px;
+    font-family: %design.fonts.primary%;
+    font-size: 32px;
+    font-weight: 700;
+  }
+
+  .renderit-countdown-event-timer {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .renderit-countdown-event-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .renderit-countdown-event-circle {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .renderit-countdown-event-circle svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+
+  .renderit-countdown-bg {
+    fill: none;
+    stroke: var(--cde-bg);
+    stroke-width: 8;
+  }
+
+  .renderit-countdown-progress {
+    fill: none;
+    stroke: var(--cde-primary);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 283; /* 2 * PI * 45 */
+    stroke-dashoffset: 283;
+    transition: stroke-dashoffset 1s linear;
+  }
+
+  .renderit-countdown-event-value {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--cde-text);
+  }
+
+  .renderit-countdown-event-label {
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    opacity: 0.7;
+  }
+
+  .renderit-countdown-event-expired {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: 600;
+    color: %design.colors.error%;
+  }
+
+  @media (max-width: 600px) {
+    .renderit-countdown-event-circle {
+      width: 90px;
+      height: 90px;
+    }
+    .renderit-countdown-event-value {
+      font-size: 24px;
+    }
+    .renderit-countdown-event-timer {
+      gap: 15px;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  const containerId = 'renderit-countdown-event-%INDEX%';
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const targetDateStr = container.getAttribute('data-date');
+  const targetDate = new Date(targetDateStr).getTime();
+  
+  const els = {
+    days: container.querySelector('.js-days'),
+    hours: container.querySelector('.js-hours'),
+    minutes: container.querySelector('.js-minutes'),
+    seconds: container.querySelector('.js-seconds'),
+    circles: {
+      days: container.querySelector('.js-days-circle'),
+      hours: container.querySelector('.js-hours-circle'),
+      minutes: container.querySelector('.js-minutes-circle'),
+      seconds: container.querySelector('.js-seconds-circle')
+    }
+  };
+
+  const circumference = 283;
+
+  function setProgress(el, percent) {
+    const offset = circumference - (percent / 100 * circumference);
+    el.style.strokeDashoffset = offset;
+  }
+
+  function update() {
+    const now = new Date().getTime();
+    const diff = targetDate - now;
+
+    if (diff <= 0) {
+      clearInterval(interval);
+      container.querySelector('.renderit-countdown-event-timer').style.display = 'none';
+      container.querySelector('.renderit-countdown-event-expired').style.display = 'block';
+      return;
+    }
+
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+    els.days.textContent = d.toString().padStart(2, '0');
+    els.hours.textContent = h.toString().padStart(2, '0');
+    els.minutes.textContent = m.toString().padStart(2, '0');
+    els.seconds.textContent = s.toString().padStart(2, '0');
+
+    // Progress logic
+    setProgress(els.circles.days, (d / 365) * 100); // Normalize to a year or some max
+    setProgress(els.circles.hours, (h / 24) * 100);
+    setProgress(els.circles.minutes, (m / 60) * 100);
+    setProgress(els.circles.seconds, (s / 60) * 100);
+  }
+
+  const interval = setInterval(update, 1000);
+  update();
+})();
+</script>

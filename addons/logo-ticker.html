@@ -1,0 +1,91 @@
+<!-- Addon: logo-ticker -->
+<div id="renderit-logo-ticker-%INDEX%" class="renderit-logo-ticker-container">
+  <div class="renderit-logo-ticker-track js-ticker-track">
+    <div class="renderit-logo-ticker-list">
+      %FOREACH logo_ticker.items%
+      <div class="renderit-logo-ticker-item">
+        <img src="%logo_url%" alt="%alt_text%" onerror="this.style.display='none'">
+      </div>
+      %ENDFOREACH%
+    </div>
+    <!-- The list will be cloned by JS for seamless infinite loop -->
+  </div>
+</div>
+
+<style>
+  :root {
+    --ticker-speed: 30s;
+    --ticker-gap: 50px;
+    --ticker-height: 80px;
+  }
+
+  .renderit-logo-ticker-container {
+    width: 100%;
+    overflow: hidden;
+    padding: 40px 0;
+    position: relative;
+    /* Fade edges mask */
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  }
+
+  .renderit-logo-ticker-track {
+    display: flex;
+    width: max-content;
+    animation: renderit-ticker-scroll var(--ticker-speed) linear infinite;
+  }
+
+  .renderit-logo-ticker-list {
+    display: flex;
+    gap: var(--ticker-gap);
+    padding-right: var(--ticker-gap);
+  }
+
+  .renderit-logo-ticker-item {
+    flex-shrink: 0;
+    height: var(--ticker-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: grayscale(1) opacity(0.5);
+    transition: filter 0.3s ease;
+  }
+
+  .renderit-logo-ticker-item:hover {
+    filter: grayscale(0) opacity(1);
+  }
+
+  .renderit-logo-ticker-item img {
+    max-height: 100%;
+    max-width: 150px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  @keyframes renderit-ticker-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* Pause on hover */
+  .renderit-logo-ticker-container:hover .renderit-logo-ticker-track {
+    animation-play-state: paused;
+  }
+</style>
+
+<script>
+(function() {
+  const containerId = 'renderit-logo-ticker-%INDEX%';
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const track = container.querySelector('.js-ticker-track');
+  const list = container.querySelector('.renderit-logo-ticker-list');
+  
+  if (list) {
+    // Clone the list once for the infinite scroll effect
+    const clone = list.cloneNode(true);
+    track.appendChild(clone);
+  }
+})();
+</script>

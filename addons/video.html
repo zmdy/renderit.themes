@@ -1,0 +1,158 @@
+<!-- Addon: video -->
+<div id="renderit-video-%INDEX%" class="renderit-video-container" data-type="%video.type%" data-url="%video.url%">
+  <div class="renderit-video-wrapper">
+    
+    <!-- Poster / Overlay -->
+    <div class="renderit-video-overlay js-video-overlay" style="background-image: url('%video.poster%');">
+      <div class="renderit-video-play-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M8 5V19L19 12L8 5Z" />
+        </svg>
+      </div>
+      %IF video.title%
+      <div class="renderit-video-caption">%video.title%</div>
+      %ENDIF%
+    </div>
+
+    <!-- Video Iframe / Player Placeholder -->
+    <div class="renderit-video-player js-video-player"></div>
+
+  </div>
+</div>
+
+<style>
+  :root {
+    --video-primary: %design.colors.primary%;
+    --video-radius: %design.rounded.lg%;
+  }
+
+  .renderit-video-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    border-radius: var(--video-radius);
+    overflow: hidden;
+    box-shadow: %design.elevation.lg%;
+  }
+
+  .renderit-video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    background: #000;
+  }
+
+  .renderit-video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    cursor: pointer;
+    transition: opacity 0.4s ease;
+  }
+
+  .renderit-video-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .renderit-video-play-btn {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    position: relative;
+    z-index: 3;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s;
+  }
+
+  .renderit-video-play-btn svg {
+    width: 32px;
+    height: 32px;
+    margin-left: 4px;
+  }
+
+  .renderit-video-overlay:hover .renderit-video-play-btn {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.3);
+    border-color: var(--video-primary);
+    color: var(--video-primary);
+  }
+
+  .renderit-video-caption {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: #ffffff;
+    font-family: %design.fonts.primary%;
+    font-size: 18px;
+    font-weight: 600;
+    z-index: 3;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  }
+
+  .renderit-video-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .renderit-video-player iframe,
+  .renderit-video-player video {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+</style>
+
+<script>
+(function() {
+  const containerId = 'renderit-video-%INDEX%';
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const overlay = container.querySelector('.js-video-overlay');
+  const player = container.querySelector('.js-video-player');
+  const type = container.getAttribute('data-type');
+  const url = container.getAttribute('data-url');
+
+  overlay.addEventListener('click', function() {
+    let embedHtml = '';
+
+    if (type === 'youtube') {
+      const videoId = url.split('v=')[1] || url.split('/').pop();
+      embedHtml = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+    } else if (type === 'vimeo') {
+      const videoId = url.split('/').pop();
+      embedHtml = `<iframe src="https://player.vimeo.com/video/${videoId}?autoplay=1" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+    } else {
+      embedHtml = `<video src="${url}" controls autoplay></video>`;
+    }
+
+    player.innerHTML = embedHtml;
+    overlay.style.opacity = '0';
+    setTimeout(() => overlay.style.display = 'none', 400);
+  });
+})();
+</script>

@@ -1,0 +1,10 @@
+{
+  "newsletter": {
+    "title": "Fique por dentro das novidades",
+    "subtitle": "Receba atualizações exclusivas sobre o Renderit. Builder e novos temas diretamente no seu e-mail.",
+    "placeholder": "Seu melhor e-mail",
+    "button_label": "Inscrever-se",
+    "success_message": "Obrigado! Sua inscrição foi confirmada com sucesso.",
+    "error_message": "Ops! Ocorreu um erro ao processar sua inscrição. Tente novamente."
+  }
+}

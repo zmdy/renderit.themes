@@ -1,0 +1,11 @@
+{
+  "countdown_event": {
+    "title": "Black Friday Antecipada",
+    "date": "2026-11-27T00:00:00",
+    "expired_message": "As ofertas já estão no ar!",
+    "label_days": "Dias",
+    "label_hours": "Horas",
+    "label_minutes": "Mins",
+    "label_seconds": "Segs"
+  }
+}

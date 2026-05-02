@@ -1,0 +1,147 @@
+<!-- Addon: social-feed -->
+<section id="renderit-social-feed-%INDEX%" class="renderit-social-feed-section">
+  <div class="renderit-social-feed-header">
+    %IF social_feed.title%
+    <h2 class="renderit-social-feed-title">%social_feed.title%</h2>
+    %ENDIF%
+    %IF social_feed.handle%
+    <a href="%social_feed.url%" target="_blank" class="renderit-social-feed-user">
+      @%social_feed.handle%
+    </a>
+    %ENDIF%
+  </div>
+
+  <div class="renderit-social-feed-grid">
+    %FOREACH social_feed.posts%
+    <a href="%url%" target="_blank" class="renderit-social-feed-item">
+      <div class="renderit-social-feed-image">
+        <img src="%image%" alt="%caption%" loading="lazy">
+        <div class="renderit-social-feed-overlay">
+          <div class="renderit-social-feed-meta">
+            <span class="renderit-social-feed-stat">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.03L12 21.35Z"/></svg>
+              %likes%
+            </span>
+            <span class="renderit-social-feed-stat">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              %comments%
+            </span>
+          </div>
+        </div>
+      </div>
+    </a>
+    %ENDFOREACH%
+  </div>
+</section>
+
+<style>
+  :root {
+    --sf-primary: %design.colors.primary%;
+    --sf-gap: 20px;
+  }
+
+  .renderit-social-feed-section {
+    padding: 60px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .renderit-social-feed-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .renderit-social-feed-title {
+    font-family: %design.fonts.primary%;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .renderit-social-feed-user {
+    color: var(--sf-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 18px;
+  }
+
+  .renderit-social-feed-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--sf-gap);
+  }
+
+  .renderit-social-feed-item {
+    display: block;
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #eee;
+    border-radius: %design.rounded.md%;
+  }
+
+  .renderit-social-feed-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .renderit-social-feed-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .renderit-social-feed-item:hover .renderit-social-feed-overlay {
+    opacity: 1;
+  }
+
+  .renderit-social-feed-item:hover .renderit-social-feed-image img {
+    transform: scale(1.1);
+  }
+
+  .renderit-social-feed-meta {
+    color: #ffffff;
+    display: flex;
+    gap: 20px;
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  .renderit-social-feed-stat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .renderit-social-feed-stat svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media (max-width: 600px) {
+    .renderit-social-feed-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .renderit-social-feed-meta {
+      font-size: 14px;
+      gap: 10px;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  // Addon Social Feed - IIFE Logic (reserved for future interactivity)
+})();
+</script>

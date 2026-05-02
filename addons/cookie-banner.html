@@ -1,0 +1,160 @@
+<!-- Addon: cookie-banner -->
+<div id="renderit-cookie-banner-%INDEX%" class="renderit-cookie-banner-wrap" style="display: none;">
+  <div class="renderit-cookie-banner-content">
+    <div class="renderit-cookie-banner-text">
+      %cookie_banner.message%
+      %IF cookie_banner.privacy_link%
+      <a href="%cookie_banner.privacy_link%" class="renderit-cookie-banner-link">%cookie_banner.privacy_label%</a>
+      %ENDIF%
+    </div>
+    <div class="renderit-cookie-banner-actions">
+      %IF cookie_banner.button_decline%
+      <button class="renderit-cookie-banner-btn is-secondary js-cookie-decline">
+        %cookie_banner.button_decline%
+      </button>
+      %ENDIF%
+      <button class="renderit-cookie-banner-btn is-primary js-cookie-accept">
+        %cookie_banner.button_accept%
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  :root {
+    --cb-bg: %design.colors.surface%;
+    --cb-text: %design.colors.on-surface%;
+    --cb-primary: %design.colors.primary%;
+    --cb-radius: %design.rounded.lg%;
+  }
+
+  .renderit-cookie-banner-wrap {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    z-index: 10000;
+    background: var(--cb-bg);
+    color: var(--cb-text);
+    padding: 20px 30px;
+    border-radius: var(--cb-radius);
+    box-shadow: %design.elevation.xl%;
+    border: 1px solid rgba(0,0,0,0.05);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.6s ease;
+  }
+
+  .renderit-cookie-banner-wrap.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .renderit-cookie-banner-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+  }
+
+  .renderit-cookie-banner-text {
+    font-size: 14px;
+    line-height: 1.5;
+    flex-grow: 1;
+  }
+
+  .renderit-cookie-banner-link {
+    color: var(--cb-primary);
+    text-decoration: underline;
+    font-weight: 600;
+    margin-left: 5px;
+  }
+
+  .renderit-cookie-banner-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .renderit-cookie-banner-btn {
+    padding: 10px 20px;
+    border-radius: %design.rounded.md%;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: filter 0.2s, transform 0.1s;
+  }
+
+  .renderit-cookie-banner-btn:active {
+    transform: scale(0.95);
+  }
+
+  .renderit-cookie-banner-btn.is-primary {
+    background: var(--cb-primary);
+    color: #ffffff;
+  }
+
+  .renderit-cookie-banner-btn.is-secondary {
+    background: rgba(0,0,0,0.05);
+    color: var(--cb-text);
+  }
+
+  .renderit-cookie-banner-btn:hover {
+    filter: brightness(1.1);
+  }
+
+  @media (max-width: 768px) {
+    .renderit-cookie-banner-wrap {
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      padding: 20px;
+    }
+    .renderit-cookie-banner-content {
+      flex-direction: column;
+      gap: 20px;
+      text-align: center;
+    }
+    .renderit-cookie-banner-actions {
+      width: 100%;
+    }
+    .renderit-cookie-banner-btn {
+      flex-grow: 1;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  const bannerId = 'renderit-cookie-banner-%INDEX%';
+  const banner = document.getElementById(bannerId);
+  if (!banner) return;
+
+  const storageKey = 'renderit_cookies_accepted';
+  const acceptBtn = banner.querySelector('.js-cookie-accept');
+  const declineBtn = banner.querySelector('.js-cookie-decline');
+
+  // Check if already answered
+  if (localStorage.getItem(storageKey)) {
+    return;
+  }
+
+  // Show banner with animation
+  banner.style.display = 'block';
+  setTimeout(() => banner.classList.add('is-visible'), 100);
+
+  function closeBanner(accepted) {
+    banner.classList.remove('is-visible');
+    localStorage.setItem(storageKey, accepted ? 'true' : 'false');
+    setTimeout(() => banner.style.display = 'none', 600);
+  }
+
+  acceptBtn.addEventListener('click', () => closeBanner(true));
+  if (declineBtn) {
+    declineBtn.addEventListener('click', () => closeBanner(false));
+  }
+})();
+</script>

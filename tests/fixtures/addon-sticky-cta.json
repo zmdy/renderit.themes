@@ -1,0 +1,8 @@
+{
+  "sticky_cta": {
+    "label": "Comece seu Projeto Grátis",
+    "url": "#contato",
+    "position": "bottom",
+    "icon": "<svg viewBox='0 0 24 24'><path d='M5 3l14 9-14 9V3z'/></svg>"
+  }
+}

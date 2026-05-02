@@ -1,0 +1,128 @@
+<!-- Addon: sticky-cta -->
+<div id="renderit-sticky-cta-%INDEX%" class="renderit-sticky-cta-wrap renderit-sticky-cta-%sticky_cta.position%" style="display: none;">
+  <a href="%sticky_cta.url%" class="renderit-sticky-cta-btn">
+    %IF sticky_cta.icon%
+    <span class="renderit-sticky-cta-icon">%sticky_cta.icon%</span>
+    %ENDIF%
+    <span class="renderit-sticky-cta-text">%sticky_cta.label%</span>
+  </a>
+</div>
+
+<style>
+  :root {
+    --scta-primary: %design.colors.primary%;
+    --scta-radius: %design.rounded.full%;
+    --scta-shadow: %design.elevation.xl%;
+  }
+
+  .renderit-sticky-cta-wrap {
+    position: fixed;
+    z-index: 9998;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
+    opacity: 0;
+    transform: translateY(50px);
+  }
+
+  .renderit-sticky-cta-wrap.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Positions */
+  .renderit-sticky-cta-bottom {
+    bottom: 30px;
+    left: 50%;
+    transform: translate(-50%, 50px);
+  }
+  .renderit-sticky-cta-bottom.is-visible {
+    transform: translate(-50%, 0);
+  }
+
+  .renderit-sticky-cta-right {
+    bottom: 30px;
+    right: 30px;
+  }
+
+  .renderit-sticky-cta-left {
+    bottom: 30px;
+    left: 30px;
+  }
+
+  .renderit-sticky-cta-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--scta-primary);
+    color: #ffffff;
+    padding: 15px 30px;
+    border-radius: var(--scta-radius);
+    text-decoration: none;
+    font-weight: 700;
+    box-shadow: var(--scta-shadow);
+    white-space: nowrap;
+    transition: transform 0.2s, filter 0.2s;
+  }
+
+  .renderit-sticky-cta-btn:hover {
+    filter: brightness(1.1);
+    transform: scale(1.05);
+  }
+
+  .renderit-sticky-cta-icon {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+  }
+
+  .renderit-sticky-cta-icon svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+
+  @media (max-width: 600px) {
+    .renderit-sticky-cta-bottom {
+      bottom: 0;
+      left: 0;
+      right: 0;
+      transform: translateY(100%);
+    }
+    .renderit-sticky-cta-bottom.is-visible {
+      transform: translateY(0);
+    }
+    .renderit-sticky-cta-bottom .renderit-sticky-cta-btn {
+      width: 100%;
+      border-radius: 0;
+      justify-content: center;
+      padding: 20px;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  const ctaId = 'renderit-sticky-cta-%INDEX%';
+  const cta = document.getElementById(ctaId);
+  if (!cta) return;
+
+  const showAfter = 300; // pixels
+
+  function handleScroll() {
+    if (window.scrollY > showAfter) {
+      if (cta.style.display === 'none') {
+        cta.style.display = 'block';
+        // Force reflow
+        cta.offsetHeight;
+      }
+      cta.classList.add('is-visible');
+    } else {
+      cta.classList.remove('is-visible');
+    }
+  }
+
+  window.addEventListener('scroll', handleScroll);
+  // Initial check
+  handleScroll();
+})();
+</script>

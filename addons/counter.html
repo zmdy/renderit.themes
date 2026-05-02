@@ -1,0 +1,145 @@
+<!-- Addon: counter -->
+<div id="renderit-counter-%INDEX%" class="renderit-counter-grid">
+  %FOREACH counter.items%
+  <div class="renderit-counter-item">
+    %IF icon%
+    <div class="renderit-counter-icon">
+      %icon%
+    </div>
+    %ENDIF%
+    
+    <div class="renderit-counter-number-wrap">
+      %IF prefix%
+      <span class="renderit-counter-prefix">%prefix%</span>
+      %ENDIF%
+      
+      <span class="renderit-counter-value js-counter-value" data-target="%value%">0</span>
+      
+      %IF suffix%
+      <span class="renderit-counter-suffix">%suffix%</span>
+      %ENDIF%
+    </div>
+    
+    <div class="renderit-counter-label">%label%</div>
+  </div>
+  %ENDFOREACH%
+</div>
+
+<style>
+  :root {
+    --counter-primary: %design.colors.primary%;
+    --counter-text: %design.colors.on-surface%;
+    --counter-radius: %design.rounded.md%;
+  }
+
+  .renderit-counter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  .renderit-counter-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .renderit-counter-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 15px;
+    color: var(--counter-primary);
+  }
+
+  .renderit-counter-icon svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+
+  .renderit-counter-number-wrap {
+    font-family: %design.fonts.primary%;
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--counter-text);
+    line-height: 1;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+  }
+
+  .renderit-counter-value {
+    /* Target value handled by JS */
+  }
+
+  .renderit-counter-prefix,
+  .renderit-counter-suffix {
+    font-size: 32px;
+    opacity: 0.8;
+  }
+
+  .renderit-counter-label {
+    font-size: 16px;
+    font-weight: 600;
+    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 480px) {
+    .renderit-counter-number-wrap {
+      font-size: 36px;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  const containerId = 'renderit-counter-%INDEX%';
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const counters = container.querySelectorAll('.js-counter-value');
+  const duration = 2000; // 2 seconds animation
+
+  function animateCounter(el) {
+    const target = parseInt(el.getAttribute('data-target')) || 0;
+    const start = 0;
+    const startTime = performance.now();
+
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Easing: easeOutExpo
+      const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      const currentCount = Math.floor(ease * (target - start) + start);
+      
+      el.textContent = currentCount.toLocaleString();
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        el.textContent = target.toLocaleString();
+      }
+    }
+
+    requestAnimationFrame(update);
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  counters.forEach(counter => observer.observe(counter));
+})();
+</script>

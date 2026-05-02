@@ -1,0 +1,12 @@
+{
+  "logo_ticker": {
+    "items": [
+      { "logo_url": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg", "alt_text": "Google" },
+      { "logo_url": "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg", "alt_text": "IBM" },
+      { "logo_url": "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg", "alt_text": "Microsoft" },
+      { "logo_url": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg", "alt_text": "Amazon" },
+      { "logo_url": "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg", "alt_text": "Netflix" },
+      { "logo_url": "https://upload.wikimedia.org/wikipedia/commons/b/b9/Slack_Technologies_Logo.svg", "alt_text": "Slack" }
+    ]
+  }
+}

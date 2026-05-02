@@ -1,0 +1,22 @@
+{
+  "tabs": {
+    "orientation": "horizontal",
+    "items": [
+      {
+        "title": "Funcionalidades",
+        "icon": "<svg viewBox='0 0 24 24'><path d='M12 2L2 7L12 12L22 7L12 2Z'/><path d='M2 17L12 22L22 17'/><path d='M2 12L12 17L22 12'/></svg>",
+        "content": "<h3>Otimização Máxima</h3><p>Nossa plataforma garante tempos de carregamento inferiores a 1 segundo para 99% dos casos de uso reais.</p><ul><li>Build instantâneo</li><li>Assets otimizados</li><li>Zero dependências</li></ul>"
+      },
+      {
+        "title": "Integrações",
+        "icon": "<svg viewBox='0 0 24 24'><path d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71'/><path d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71'/></svg>",
+        "content": "<h3>Conectividade Total</h3><p>Conecte seu site com ferramentas externas via API ou use nossos bridges seguros para gestão remota.</p><p>Suporte nativo para Webhooks, Zapier e CRMs do mercado.</p>"
+      },
+      {
+        "title": "Suporte",
+        "icon": "<svg viewBox='0 0 24 24'><path d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'/></svg>",
+        "content": "<h3>Atendimento VIP</h3><p>Time de suporte especializado disponível para ajudar na customização do seu tema e configuração do engine.</p><p>Documentação técnica completa e canal direto via Slack.</p>"
+      }
+    ]
+  }
+}

@@ -1,0 +1,167 @@
+<!-- Addon: stats -->
+<section id="renderit-stats-%INDEX%" class="renderit-stats-section">
+  <div class="renderit-stats-grid">
+    %FOREACH stats.items%
+    <div class="renderit-stats-card">
+      <div class="renderit-stats-header">
+        %IF icon%
+        <div class="renderit-stats-icon">
+          %icon%
+        </div>
+        %ENDIF%
+        <div class="renderit-stats-number-group">
+          %IF prefix%<span class="renderit-stats-prefix">%prefix%</span>%ENDIF%
+          <span class="renderit-stats-value js-stats-value" data-target="%value%">0</span>
+          %IF suffix%<span class="renderit-stats-suffix">%suffix%</span>%ENDIF%
+        </div>
+      </div>
+      <div class="renderit-stats-body">
+        <h4 class="renderit-stats-title">%title%</h4>
+        %IF description%
+        <p class="renderit-stats-desc">%description%</p>
+        %ENDIF%
+      </div>
+    </div>
+    %ENDFOREACH%
+  </div>
+</section>
+
+<style>
+  :root {
+    --stats-primary: %design.colors.primary%;
+    --stats-bg: %design.colors.surface%;
+    --stats-text: %design.colors.on-surface%;
+    --stats-radius: %design.rounded.lg%;
+  }
+
+  .renderit-stats-section {
+    padding: 60px 20px;
+  }
+
+  .renderit-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .renderit-stats-card {
+    background: var(--stats-bg);
+    border-radius: var(--stats-radius);
+    padding: 30px;
+    box-shadow: %design.elevation.md%;
+    border: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+  }
+
+  .renderit-stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: %design.elevation.lg%;
+  }
+
+  .renderit-stats-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .renderit-stats-icon {
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    background: rgba(0,0,0,0.03);
+    border-radius: %design.rounded.md%;
+    color: var(--stats-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .renderit-stats-icon svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+
+  .renderit-stats-number-group {
+    font-family: %design.fonts.primary%;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--stats-text);
+    display: flex;
+    align-items: baseline;
+  }
+
+  .renderit-stats-prefix, .renderit-stats-suffix {
+    font-size: 20px;
+    opacity: 0.6;
+    margin: 0 2px;
+  }
+
+  .renderit-stats-title {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .renderit-stats-desc {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 480px) {
+    .renderit-stats-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  const containerId = 'renderit-stats-%INDEX%';
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const elements = container.querySelectorAll('.js-stats-value');
+  const duration = 2000;
+
+  function animate(el) {
+    const target = parseInt(el.getAttribute('data-target')) || 0;
+    const startTime = performance.now();
+
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+      
+      const current = Math.floor(ease * target);
+      el.textContent = current.toLocaleString();
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        el.textContent = target.toLocaleString();
+      }
+    }
+    requestAnimationFrame(update);
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animate(entry.target);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  elements.forEach(el => observer.observe(el));
+})();
+</script>

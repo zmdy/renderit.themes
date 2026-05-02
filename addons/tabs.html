@@ -1,0 +1,181 @@
+<!-- Addon: tabs -->
+<div id="renderit-tabs-%INDEX%" class="renderit-tabs-container renderit-tabs-%tabs.orientation%">
+  
+  <div class="renderit-tabs-list" role="tablist">
+    %FOREACH tabs.items%
+    <button class="renderit-tabs-trigger %IF FIRST == "true"%is-active%ENDIF%" 
+            role="tab" 
+            aria-selected="%IF FIRST == "true"%true%ELSE%false%ENDIF%"
+            aria-controls="renderit-tab-panel-%INDEX%-%FOREACH_INDEX%"
+            data-target="renderit-tab-panel-%INDEX%-%FOREACH_INDEX%">
+      %IF icon%
+      <span class="renderit-tabs-icon">%icon%</span>
+      %ENDIF%
+      <span class="renderit-tabs-label">%title%</span>
+    </button>
+    %ENDFOREACH%
+  </div>
+
+  <div class="renderit-tabs-content">
+    %FOREACH tabs.items%
+    <div id="renderit-tab-panel-%INDEX%-%FOREACH_INDEX%" 
+         class="renderit-tabs-panel %IF FIRST == "true"%is-visible%ENDIF%" 
+         role="tabpanel"
+         tabindex="0">
+      %content%
+    </div>
+    %ENDFOREACH%
+  </div>
+
+</div>
+
+<style>
+  :root {
+    --tabs-primary: %design.colors.primary%;
+    --tabs-bg: %design.colors.surface%;
+    --tabs-border: rgba(0,0,0,0.1);
+    --tabs-radius: %design.rounded.md%;
+  }
+
+  .renderit-tabs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+  }
+
+  /* Orientation: Vertical */
+  .renderit-tabs-vertical {
+    flex-direction: row;
+  }
+
+  .renderit-tabs-vertical .renderit-tabs-list {
+    flex-direction: column;
+    min-width: 200px;
+    border-bottom: none;
+    border-right: 2px solid var(--tabs-border);
+  }
+
+  /* List / Triggers */
+  .renderit-tabs-list {
+    display: flex;
+    border-bottom: 2px solid var(--tabs-border);
+    gap: 10px;
+  }
+
+  .renderit-tabs-trigger {
+    padding: 12px 20px;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: %design.fonts.primary%;
+    font-weight: 600;
+    color: %design.colors.on-surface%;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+  }
+
+  .renderit-tabs-trigger.is-active {
+    opacity: 1;
+    color: var(--tabs-primary);
+    border-bottom-color: var(--tabs-primary);
+  }
+
+  .renderit-tabs-vertical .renderit-tabs-trigger {
+    border-bottom: none;
+    border-right: 3px solid transparent;
+    margin-bottom: 0;
+    margin-right: -2px;
+    justify-content: flex-start;
+  }
+
+  .renderit-tabs-vertical .renderit-tabs-trigger.is-active {
+    border-right-color: var(--tabs-primary);
+  }
+
+  .renderit-tabs-icon {
+    width: 20px;
+    height: 20px;
+    display: flex;
+  }
+
+  .renderit-tabs-icon svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+
+  /* Content / Panels */
+  .renderit-tabs-content {
+    flex-grow: 1;
+  }
+
+  .renderit-tabs-panel {
+    display: none;
+    animation: renderit-tabs-fade 0.4s ease forwards;
+    padding: 10px 0;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .renderit-tabs-panel.is-visible {
+    display: block;
+  }
+
+  @keyframes renderit-tabs-fade {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    .renderit-tabs-vertical {
+      flex-direction: column;
+    }
+    .renderit-tabs-vertical .renderit-tabs-list {
+      border-right: none;
+      border-bottom: 2px solid var(--tabs-border);
+      min-width: 0;
+    }
+    .renderit-tabs-vertical .renderit-tabs-trigger.is-active {
+      border-right-color: transparent;
+      border-bottom-color: var(--tabs-primary);
+    }
+  }
+</style>
+
+<script>
+(function() {
+  const containerId = 'renderit-tabs-%INDEX%';
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const triggers = container.querySelectorAll('.renderit-tabs-trigger');
+  const panels = container.querySelectorAll('.renderit-tabs-panel');
+
+  triggers.forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const targetId = trigger.getAttribute('data-target');
+
+      // Update Triggers
+      triggers.forEach(t => {
+        t.classList.remove('is-active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      trigger.classList.add('is-active');
+      trigger.setAttribute('aria-selected', 'true');
+
+      // Update Panels
+      panels.forEach(p => {
+        p.classList.remove('is-visible');
+      });
+      const targetPanel = container.querySelector('#' + targetId);
+      if (targetPanel) targetPanel.classList.add('is-visible');
+    });
+  });
+})();
+</script>

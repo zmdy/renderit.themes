@@ -1,0 +1,195 @@
+<!-- Addon: newsletter -->
+<div id="renderit-newsletter-%INDEX%" class="renderit-newsletter-container">
+  <div class="renderit-newsletter-content">
+    %IF newsletter.title%
+    <h2 class="renderit-newsletter-title">%newsletter.title%</h2>
+    %ENDIF%
+    %IF newsletter.subtitle%
+    <p class="renderit-newsletter-subtitle">%newsletter.subtitle%</p>
+    %ENDIF%
+  </div>
+
+  <form class="renderit-newsletter-form js-newsletter-form">
+    <div class="renderit-newsletter-field">
+      <input type="email" 
+             name="email" 
+             placeholder="%newsletter.placeholder%" 
+             required 
+             class="renderit-newsletter-input">
+      <button type="submit" class="renderit-newsletter-submit">
+        <span class="js-btn-text">%newsletter.button_label%</span>
+        <div class="renderit-newsletter-loader js-loader" style="display: none;"></div>
+      </button>
+    </div>
+    <div class="renderit-newsletter-message js-message" style="display: none;"></div>
+  </form>
+</div>
+
+<style>
+  :root {
+    --news-primary: %design.colors.primary%;
+    --news-surface: %design.colors.surface%;
+    --news-text: %design.colors.on-surface%;
+    --news-radius: %design.rounded.md%;
+  }
+
+  .renderit-newsletter-container {
+    padding: 60px 40px;
+    background: %design.colors.neutral%;
+    border-radius: %design.rounded.lg%;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .renderit-newsletter-title {
+    font-family: %design.fonts.primary%;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .renderit-newsletter-subtitle {
+    font-size: 18px;
+    opacity: 0.7;
+    margin-bottom: 30px;
+  }
+
+  .renderit-newsletter-form {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .renderit-newsletter-field {
+    display: flex;
+    gap: 10px;
+    background: var(--news-surface);
+    padding: 6px;
+    border-radius: var(--news-radius);
+    box-shadow: %design.elevation.sm%;
+  }
+
+  .renderit-newsletter-input {
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    padding: 12px 15px;
+    font-size: 16px;
+    color: var(--news-text);
+    outline: none;
+  }
+
+  .renderit-newsletter-submit {
+    background: var(--news-primary);
+    color: #ffffff;
+    border: none;
+    padding: 0 25px;
+    border-radius: %design.rounded.sm%;
+    font-weight: 700;
+    cursor: pointer;
+    transition: filter 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 140px;
+  }
+
+  .renderit-newsletter-submit:hover {
+    filter: brightness(1.1);
+  }
+
+  .renderit-newsletter-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .renderit-newsletter-loader {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: renderit-news-spin 0.8s linear infinite;
+  }
+
+  @keyframes renderit-news-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .renderit-newsletter-message {
+    margin-top: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 4px;
+  }
+
+  .renderit-newsletter-message.is-success {
+    color: %design.colors.success%;
+  }
+
+  .renderit-newsletter-message.is-error {
+    color: %design.colors.error%;
+  }
+
+  @media (max-width: 500px) {
+    .renderit-newsletter-field {
+      flex-direction: column;
+      background: transparent;
+      box-shadow: none;
+      padding: 0;
+    }
+    .renderit-newsletter-input {
+      background: var(--news-surface);
+      border-radius: var(--news-radius);
+      margin-bottom: 10px;
+    }
+    .renderit-newsletter-submit {
+      padding: 15px;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  const containerId = 'renderit-newsletter-%INDEX%';
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const form = container.querySelector('.js-newsletter-form');
+  const messageEl = container.querySelector('.js-message');
+  const loader = container.querySelector('.js-loader');
+  const btnText = container.querySelector('.js-btn-text');
+  const submitBtn = form.querySelector('button');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // UI Loading state
+    submitBtn.disabled = true;
+    loader.style.display = 'block';
+    btnText.style.display = 'none';
+    messageEl.style.display = 'none';
+
+    // Mock request
+    setTimeout(() => {
+      const isSuccess = true; // Simulating success
+      
+      loader.style.display = 'none';
+      btnText.style.display = 'block';
+
+      if (isSuccess) {
+        messageEl.textContent = '%newsletter.success_message%';
+        messageEl.className = 'renderit-newsletter-message is-success js-message';
+        form.reset();
+      } else {
+        messageEl.textContent = '%newsletter.error_message%';
+        messageEl.className = 'renderit-newsletter-message is-error js-message';
+        submitBtn.disabled = false;
+      }
+      
+      messageEl.style.display = 'block';
+    }, 1500);
+  });
+})();
+</script>

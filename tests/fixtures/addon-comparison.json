@@ -1,0 +1,8 @@
+{
+  "comparison": {
+    "before_image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=1200",
+    "after_image": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=1200",
+    "before_label": "Antes (Legacy)",
+    "after_label": "Depois (Renderit)"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "social_feed": {
+    "title": "Siga-nos no Instagram",
+    "handle": "renderit.builder",
+    "url": "https://instagram.com/renderit.builder",
+    "posts": [
+      {
+        "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=600",
+        "caption": "Novo modo manager disponível!",
+        "likes": "124",
+        "comments": "12",
+        "url": "#"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600",
+        "caption": "Código limpo, site rápido.",
+        "likes": "89",
+        "comments": "5",
+        "url": "#"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=600",
+        "caption": "Nossa equipe em ação.",
+        "likes": "210",
+        "comments": "18",
+        "url": "#"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&q=80&w=600",
+        "caption": "Lançamento da Sprint 3.2!",
+        "likes": "156",
+        "comments": "7",
+        "url": "#"
+      }
+    ]
+  }
+}

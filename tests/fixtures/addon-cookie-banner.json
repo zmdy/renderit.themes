@@ -1,0 +1,9 @@
+{
+  "cookie_banner": {
+    "message": "Nós utilizamos cookies para melhorar sua experiência de navegação e analisar nosso tráfego.",
+    "button_accept": "Aceitar Tudo",
+    "button_decline": "Apenas Necessários",
+    "privacy_link": "#privacidade",
+    "privacy_label": "Leia nossa Política de Privacidade."
+  }
+}

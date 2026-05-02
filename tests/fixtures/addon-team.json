@@ -1,0 +1,39 @@
+{
+  "team": {
+    "members": [
+      {
+        "name": "Ana Silva",
+        "role": "CEO & Fundadora",
+        "photo": "https://i.pravatar.cc/400?u=ana",
+        "bio": "Especialista em estratégia digital com mais de 10 anos de experiência transformando negócios locais.",
+        "social_linkedin": "#",
+        "social_instagram": "#",
+        "social_twitter": "#"
+      },
+      {
+        "name": "Bruno Costa",
+        "role": "CTO",
+        "photo": "https://i.pravatar.cc/400?u=bruno",
+        "bio": "Arquiteto de software apaixonado por performance e tecnologias open-source.",
+        "social_linkedin": "#",
+        "social_twitter": "#"
+      },
+      {
+        "name": "Carla Mendes",
+        "role": "Head de Design",
+        "photo": "https://i.pravatar.cc/400?u=carla",
+        "bio": "Criadora de interfaces que equilibram estética premium e usabilidade intuitiva.",
+        "social_instagram": "#",
+        "social_linkedin": "#"
+      },
+      {
+        "name": "Diego Oliveira",
+        "role": "Marketing Lead",
+        "photo": "https://i.pravatar.cc/400?u=diego",
+        "bio": "Focado em growth hacking e estratégias de conversão de alta performance.",
+        "social_twitter": "#",
+        "social_linkedin": "#"
+      }
+    ]
+  }
+}
