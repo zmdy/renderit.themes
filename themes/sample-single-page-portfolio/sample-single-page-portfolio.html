@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>%site_name%</title>
+  <meta name="description" content="%site_description%">
+  
+  <!-- Bootstrap 5 CSS via CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Renderit Design System Variables Mapped to Bootstrap -->
+  <style>
+    :root {
+      /* Bootstrap Core Overrides */
+      --bs-primary: %design.colors.primary%;
+      --bs-body-bg: %design.colors.surface%;
+      --bs-body-color: %design.colors.on-surface%;
+      --bs-secondary: %design.colors.neutral%;
+      
+      /* Typography Overrides */
+      --bs-font-sans-serif: %design.fonts.primary%, system-ui, -apple-system, sans-serif;
+      --bs-body-font-family: %design.fonts.secondary%, sans-serif;
+      --bs-heading-color: %design.colors.on-surface%;
+      
+      /* Custom Renderit Variables */
+      --renderit-on-primary: %design.colors.on-primary%;
+      --renderit-radius: %design.rounded.md%;
+    }
+
+    body {
+      background-color: var(--bs-body-bg);
+      color: var(--bs-body-color);
+      font-family: var(--bs-body-font-family);
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, h4, h5, h6, .navbar-brand {
+      font-family: var(--bs-font-sans-serif);
+      font-weight: 700;
+    }
+
+    /* Custom Styling for Portfolio Brutalist / Clean Aesthetic */
+    .hero-section {
+      padding: 120px 0;
+      background-color: var(--bs-secondary);
+      border-bottom: 2px solid var(--bs-body-color);
+    }
+
+    .btn-custom {
+      background-color: var(--bs-primary);
+      color: var(--renderit-on-primary);
+      border-radius: var(--renderit-radius);
+      padding: 12px 30px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .btn-custom:hover {
+      background-color: transparent;
+      color: var(--bs-primary);
+      border-color: var(--bs-primary);
+    }
+    
+    .section-padding {
+      padding: 100px 0;
+    }
+
+    .navbar {
+      background-color: var(--bs-body-bg) !important;
+      border-bottom: 1px solid var(--bs-secondary);
+    }
+
+    .navbar-nav .nav-link {
+      color: var(--bs-body-color) !important;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#navbar-main" data-bs-smooth-scroll="true" tabindex="0">
+
+  <!-- Navigation -->
+  <nav id="navbar-main" class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand fs-3" href="#">%site_name%</a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#sobre">Sobre Mim</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#experiencia">Experiência</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#clientes">Clientes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contato">Contato</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section text-center text-md-start">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-8">
+            <h6 class="text-uppercase tracking-wider mb-3" style="color: var(--bs-primary)">%hero.subtitle%</h6>
+            <h1 class="display-2 fw-bolder mb-4">%hero.title%</h1>
+            <p class="lead mb-5 opacity-75" style="max-width: 600px;">%hero.description%</p>
+            <a href="#contato" class="btn btn-custom text-decoration-none">Vamos Conversar</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="sobre" class="section-padding">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-12 text-center">
+            <h2 class="display-5 mb-3">Os Números Falam por Si</h2>
+          </div>
+        </div>
+        <!-- Addon: Stats -->
+        <div class="row justify-content-center">
+          <div class="col-12">
+            %ADDON stats%
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="experiencia" class="section-padding" style="background-color: var(--bs-secondary);">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-12">
+            <h2 class="display-5 mb-4 border-bottom border-dark pb-3">Trajetória Profissional</h2>
+          </div>
+        </div>
+        <!-- Addon: Timeline -->
+        <div class="row">
+          <div class="col-12">
+            %ADDON timeline%
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="clientes" class="section-padding">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-12 text-center">
+            <h2 class="display-5 mb-3">O que dizem os clientes</h2>
+          </div>
+        </div>
+        <!-- Addon: Testimonials -->
+        <div class="row">
+          <div class="col-12">
+            %ADDON testimonials%
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section id="contato" class="section-padding" style="background-color: var(--bs-secondary);">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8 text-center mb-5">
+            <h2 class="display-5 mb-3">Pronto para o próximo projeto?</h2>
+            <p class="lead opacity-75">Entre em contato para discutirmos ideias, soluções e oportunidades.</p>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="card border-0 shadow-lg p-4 p-md-5" style="border-radius: var(--renderit-radius); background-color: var(--bs-body-bg);">
+              <!-- Addon: Form -->
+              %ADDON form%
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-5 border-top border-dark">
+    <div class="container text-center">
+      <h3 class="fw-bold mb-3">%site_name%</h3>
+      <p class="mb-4 opacity-75">%footer.address%</p>
+      <div class="opacity-50 small">
+        &copy; %YEAR% %site_name%. Todos os direitos reservados.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
