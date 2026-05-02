@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>%site_name%</title>
+  <meta name="description" content="%site_description%">
+  
+  <!-- Bulma CSS via CDN (v1.0.0 suporta variáveis CSS nativas) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+  
+  <!-- Renderit Design System Variables Mapped to Bulma -->
+  <style>
+    :root {
+      /* Mapeamento para o sistema nativo de cores do Bulma 1.0 */
+      --bulma-primary: %design.colors.primary%;
+      --bulma-primary-h: var(--bulma-primary);
+      --bulma-primary-s: var(--bulma-primary);
+      --bulma-primary-l: var(--bulma-primary);
+      
+      --bulma-background: %design.colors.surface%;
+      --bulma-body-background-color: var(--bulma-background);
+      
+      --bulma-text: %design.colors.on-surface%;
+      --bulma-text-strong: %design.colors.on-surface%;
+      
+      --bulma-family-sans-serif: %design.fonts.secondary%, BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+      --bulma-title-family: %design.fonts.primary%, serif;
+      
+      --bulma-radius: %design.rounded.md%;
+      --bulma-radius-large: %design.rounded.lg%;
+
+      /* Cores auxiliares Renderit */
+      --color-neutral: %design.colors.neutral%;
+      --color-on-primary: %design.colors.on-primary%;
+    }
+
+    body {
+      background-color: var(--bulma-body-background-color);
+      color: var(--bulma-text);
+      font-family: var(--bulma-family-sans-serif);
+    }
+
+    .title, .subtitle {
+      font-family: var(--bulma-title-family);
+    }
+
+    /* Customizações extras para garantir contraste e integração */
+    .button.is-primary {
+      background-color: var(--bulma-primary);
+      color: var(--color-on-primary);
+      border: none;
+    }
+
+    .button.is-primary:hover {
+      filter: brightness(1.1);
+      color: var(--color-on-primary);
+    }
+
+    .hero-section {
+      background-color: var(--bulma-background);
+      border-bottom: 1px solid var(--color-neutral);
+    }
+
+    .section-light {
+      background-color: var(--color-neutral);
+    }
+
+    .navbar {
+      background-color: var(--bulma-background);
+      border-bottom: 1px solid var(--color-neutral);
+    }
+
+    .navbar-item {
+      color: var(--bulma-text);
+    }
+
+    /* Ajuste para o Addon Sticky CTA não sobrepor o footer */
+    .main-content {
+      padding-bottom: 100px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item title is-4 mb-0" href="#">
+          %site_name%
+        </a>
+
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasic">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+
+      <div id="navbarBasic" class="navbar-menu">
+        <div class="navbar-end">
+          <a class="navbar-item" href="#recursos">Recursos</a>
+          <a class="navbar-item" href="#planos">Planos</a>
+          <a class="navbar-item" href="#faq">FAQ</a>
+          <div class="navbar-item">
+            <div class="buttons">
+              <a href="#planos" class="button is-primary is-rounded">
+                <strong>Começar Agora</strong>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    
+    <!-- Hero Section -->
+    <section class="hero is-medium hero-section mt-6">
+      <div class="hero-body text-center">
+        <div class="container has-text-centered">
+          <p class="subtitle is-6 has-text-weight-semibold mb-3" style="color: var(--bulma-primary);">
+            %hero.subtitle%
+          </p>
+          <h1 class="title is-1 is-size-2-mobile mb-5">
+            %hero.title%
+          </h1>
+          <p class="subtitle is-4 is-size-5-mobile mx-auto mb-6" style="max-width: 700px; opacity: 0.8;">
+            %hero.description%
+          </p>
+          <div class="buttons is-centered">
+            <a href="#planos" class="button is-primary is-large is-rounded shadow">
+              Teste Gratuitamente
+            </a>
+            <a href="#recursos" class="button is-light is-large is-rounded">
+              Saiba Mais
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials / Social Proof Section -->
+    <section id="recursos" class="section section-light">
+      <div class="container">
+        <div class="content has-text-centered mb-6">
+          <h2 class="title is-3">Empresas que confiam em nós</h2>
+        </div>
+        <!-- Addon: Testimonials -->
+        %ADDON testimonials%
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="planos" class="section">
+      <div class="container">
+        <div class="content has-text-centered mb-6">
+          <h2 class="title is-2">Planos Transparentes</h2>
+          <p class="subtitle is-5">Escolha a solução ideal para o momento da sua empresa.</p>
+        </div>
+        
+        <!-- Addon: Pricing -->
+        <div class="columns is-centered">
+          <div class="column is-10">
+            %ADDON pricing%
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section (Accordion) -->
+    <section id="faq" class="section section-light">
+      <div class="container">
+        <div class="content has-text-centered mb-6">
+          <h2 class="title is-3">Perguntas Frequentes</h2>
+        </div>
+        
+        <!-- Addon: Accordion -->
+        <div class="columns is-centered">
+          <div class="column is-8">
+            <div class="box" style="background-color: var(--bulma-background);">
+              %ADDON accordion%
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer pb-6" style="background-color: var(--bulma-text); color: var(--bulma-background);">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-4">
+          <h4 class="title is-5 has-text-white">%site_name%</h4>
+          <p style="opacity: 0.7;">Transformando a forma como você trabalha através de soluções inovadoras e design inteligente.</p>
+        </div>
+        <div class="column is-offset-4 is-4 has-text-right-tablet">
+          <p class="mb-2" style="opacity: 0.7;">%footer.address%</p>
+          <p class="is-size-7" style="opacity: 0.5;">
+            &copy; %YEAR% %site_name%. Todos os direitos reservados.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Addon: Sticky CTA -->
+  %ADDON sticky-cta%
+
+  <!-- Addon: Cookie Banner -->
+  %ADDON cookie-banner%
+
+  <!-- Bulma Mobile Menu Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+      if ($navbarBurgers.length > 0) {
+        $navbarBurgers.forEach( el => {
+          el.addEventListener('click', () => {
+            const target = el.dataset.target;
+            const $target = document.getElementById(target);
+            el.classList.toggle('is-active');
+            $target.classList.toggle('is-active');
+          });
+        });
+      }
+    });
+  </script>
+</body>
+</html>
