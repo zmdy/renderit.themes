@@ -1,0 +1,9 @@
+{
+  "scramble_text": {
+    "content": "SISTEMA DE SEGURANÇA ATIVADO",
+    "chars": "01ABCDEF#!@$%",
+    "cursor": "|",
+    "duration": 2500,
+    "delay": 500
+  }
+}

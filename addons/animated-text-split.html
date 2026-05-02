@@ -1,0 +1,78 @@
+<!-- Addon: animated-text-split -->
+<div id="renderit-split-text-%INDEX%" class="renderit-split-text-wrap" 
+     data-effect="%split_text.effect%"
+     data-duration="%split_text.duration%"
+     data-delay="%split_text.delay%"
+     data-easing="%split_text.easing%">
+  <div class="renderit-split-text-content">
+    %split_text.content%
+  </div>
+</div>
+
+<style>
+  .renderit-split-text-wrap {
+    overflow: hidden;
+    font-family: %design.fonts.primary%;
+    font-size: %design.typography.h2.fontSize%;
+    font-weight: %design.typography.h2.fontWeight%;
+    color: %design.colors.on-surface%;
+    line-height: 1.2;
+    padding: 20px 0;
+  }
+
+  .renderit-split-text-content {
+    opacity: 0; /* Hidden until anime.js initializes */
+  }
+
+  /* Specific styles for split effects */
+  .renderit-split-text-wrap span {
+    display: inline-block;
+    will-change: transform, opacity;
+  }
+</style>
+
+<script src="https://unpkg.com/animejs@4.0.0-beta.0/lib/anime.min.js"></script>
+<script>
+(function() {
+  const containerId = 'renderit-split-text-%INDEX%';
+  const container = document.getElementById(containerId);
+  if (!container || !window.anime) return;
+
+  const content = container.querySelector('.renderit-split-text-content');
+  const effect = container.getAttribute('data-effect') || 'chars'; // chars, words, lines
+  const duration = parseInt(container.getAttribute('data-duration')) || 1000;
+  const delay = parseInt(container.getAttribute('data-delay')) || 50;
+  const easing = container.getAttribute('data-easing') || 'outExpo';
+
+  // Function to initialize splitting and animation
+  function init() {
+    content.style.opacity = '1';
+    
+    // Anime.js v4 Text Plugin implementation
+    const targets = anime.text({
+      targets: content,
+      split: effect, // 'chars', 'words', or 'lines'
+      // wrap: true, // We could use this if the user wants specific tags
+    });
+
+    anime({
+      targets: targets,
+      translateY: [100, 0],
+      opacity: [0, 1],
+      duration: duration,
+      delay: anime.stagger(delay),
+      easing: easing
+    });
+  }
+
+  // Use IntersectionObserver to trigger animation
+  const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      init();
+      observer.unobserve(container);
+    }
+  }, { threshold: 0.2 });
+
+  observer.observe(container);
+})();
+</script>

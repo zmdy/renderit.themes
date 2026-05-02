@@ -1,0 +1,9 @@
+{
+  "split_text": {
+    "content": "Inovação que Transforma Ideias em Realidade Digital",
+    "effect": "words",
+    "duration": 1200,
+    "delay": 100,
+    "easing": "outElastic(1, .8)"
+  }
+}

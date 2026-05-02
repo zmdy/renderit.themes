@@ -1,0 +1,66 @@
+<!-- Addon: animated-text-scramble -->
+<div id="renderit-scramble-text-%INDEX%" class="renderit-scramble-text-wrap"
+     data-chars="%scramble_text.chars%"
+     data-cursor="%scramble_text.cursor%"
+     data-duration="%scramble_text.duration%"
+     data-delay="%scramble_text.delay%">
+  <div class="renderit-scramble-text-content">
+    %scramble_text.content%
+  </div>
+</div>
+
+<style>
+  .renderit-scramble-text-wrap {
+    font-family: %design.fonts.secondary%; /* Often used for code/scramble effects */
+    font-size: %design.typography.body-lg.fontSize%;
+    font-weight: 600;
+    color: %design.colors.primary%;
+    padding: 10px 0;
+    min-height: 1.5em;
+  }
+
+  .renderit-scramble-text-content {
+    display: inline-block;
+  }
+</style>
+
+<script src="https://unpkg.com/animejs@4.0.0-beta.0/lib/anime.min.js"></script>
+<script>
+(function() {
+  const containerId = 'renderit-scramble-text-%INDEX%';
+  const container = document.getElementById(containerId);
+  if (!container || !window.anime) return;
+
+  const content = container.querySelector('.renderit-scramble-text-content');
+  const scrambleChars = container.getAttribute('data-chars') || '!<>-_\\/[]{}—=+*^?#________';
+  const cursorChar = container.getAttribute('data-cursor') || '_';
+  const duration = parseInt(container.getAttribute('data-duration')) || 2000;
+  const delay = parseInt(container.getAttribute('data-delay')) || 0;
+
+  function init() {
+    // Anime.js v4 Scramble implementation using the text plugin
+    // Note: The scramble feature is part of the v4 text() plugin
+    anime({
+      targets: content,
+      duration: duration,
+      delay: delay,
+      easing: 'linear',
+      // Scramble effect configuration
+      text: {
+        value: content.textContent.trim(),
+        scramble: scrambleChars,
+        cursor: cursorChar
+      }
+    });
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      setTimeout(init, 200); // Slight delay for smoother start
+      observer.unobserve(container);
+    }
+  }, { threshold: 0.5 });
+
+  observer.observe(container);
+})();
+</script>
