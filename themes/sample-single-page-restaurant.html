@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>%site_name%</title>
+  <meta name="description" content="%site_description%">
+  
+  <!-- Renderit Design System Variables -->
+  <style>
+    :root {
+      --color-primary: %design.colors.primary%;
+      --color-on-primary: %design.colors.on-primary%;
+      --color-surface: %design.colors.surface%;
+      --color-on-surface: %design.colors.on-surface%;
+      --color-neutral: %design.colors.neutral%;
+      
+      --font-primary: %design.fonts.primary%;
+      --font-secondary: %design.fonts.secondary%;
+    }
+
+    body {
+      font-family: var(--font-secondary), sans-serif;
+      background-color: var(--color-surface);
+      color: var(--color-on-surface);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-primary), serif;
+    }
+  </style>
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: 'var(--color-primary)',
+            'on-primary': 'var(--color-on-primary)',
+            surface: 'var(--color-surface)',
+            'on-surface': 'var(--color-on-surface)',
+            neutral: 'var(--color-neutral)',
+          },
+          fontFamily: {
+            sans: ['var(--font-secondary)', 'sans-serif'],
+            serif: ['var(--font-primary)', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <!-- Header -->
+  <header class="fixed w-full z-50 bg-surface/90 backdrop-blur-md shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <div class="flex-shrink-0">
+          <a href="#" class="text-3xl font-serif font-bold text-primary tracking-tight">
+            %site_name%
+          </a>
+        </div>
+        <nav class="hidden md:flex space-x-8">
+          <a href="#menu" class="text-on-surface hover:text-primary transition-colors duration-200">Menu</a>
+          <a href="#depoimentos" class="text-on-surface hover:text-primary transition-colors duration-200">Avaliações</a>
+          <a href="#reservas" class="text-on-surface hover:text-primary transition-colors duration-200">Reservas</a>
+          <a href="#localizacao" class="text-on-surface hover:text-primary transition-colors duration-200">Localização</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+    
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-neutral">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+        <div class="mb-6 inline-block">
+          <!-- Addon: Animated Text Scramble (utilizado como tag de impacto) -->
+          %ADDON animated-text-scramble%
+        </div>
+        <h1 class="text-5xl md:text-7xl font-serif font-bold mb-6 leading-tight">
+          %hero.title%
+        </h1>
+        <p class="text-xl md:text-2xl opacity-80 max-w-3xl mx-auto mb-10">
+          %hero.subtitle%
+        </p>
+        <a href="#reservas" class="inline-block bg-primary text-on-primary px-8 py-4 rounded-full text-lg font-semibold hover:opacity-90 transition-opacity shadow-lg">
+          Faça sua Reserva
+        </a>
+      </div>
+    </section>
+
+    <!-- Menu / Gallery Section -->
+    <section id="menu" class="py-24 bg-surface">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-serif font-bold mb-4 text-primary">Nossas Especialidades</h2>
+          <p class="text-lg opacity-70">Descubra os pratos que fazem a nossa fama.</p>
+        </div>
+        
+        <!-- Addon: Gallery -->
+        <div class="mt-8">
+          %ADDON gallery%
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="depoimentos" class="py-24 bg-neutral">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-serif font-bold mb-4">A Experiência dos Clientes</h2>
+        </div>
+        
+        <!-- Addon: Testimonials -->
+        %ADDON testimonials%
+      </div>
+    </section>
+
+    <!-- Reservation Form Section -->
+    <section id="reservas" class="py-24 bg-surface">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-neutral rounded-2xl shadow-xl p-8 md:p-12">
+          <!-- Addon: Form -->
+          %ADDON form%
+        </div>
+      </div>
+    </section>
+
+    <!-- Location / Map Section -->
+    <section id="localizacao" class="py-0">
+      <!-- Addon: Map (Ocupa a largura total) -->
+      <div class="w-full h-96">
+        %ADDON map%
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-on-surface text-surface py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h2 class="text-2xl font-serif font-bold text-primary mb-4">%site_name%</h2>
+        <p class="opacity-70 mb-8">%footer.address%</p>
+        <div class="border-t border-surface/20 pt-8 opacity-60 text-sm">
+          &copy; %YEAR% %site_name%. Todos os direitos reservados.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Addon: WhatsApp (Flutuante) -->
+  %ADDON whatsapp%
+
+</body>
+</html>
