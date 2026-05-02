@@ -1,0 +1,100 @@
+<!-- Partial: header.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>%site_name%</title>
+  
+  <!-- Materialize CSS via CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <style>
+    :root {
+      --color-primary: %design.colors.primary%;
+      --color-on-primary: %design.colors.on-primary%;
+      --color-surface: %design.colors.surface%;
+      --color-on-surface: %design.colors.on-surface%;
+      --color-neutral: %design.colors.neutral%;
+      
+      --font-primary: %design.fonts.primary%, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+      --font-secondary: %design.fonts.secondary%, sans-serif;
+    }
+
+    body {
+      background-color: var(--color-surface);
+      color: var(--color-on-surface);
+      font-family: var(--font-secondary);
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1 0 auto;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-primary);
+      font-weight: 700;
+    }
+
+    /* Utilitários de Cor para sobrescrever o Materialize */
+    .theme-primary-bg { background-color: var(--color-primary) !important; color: var(--color-on-primary) !important; }
+    .theme-primary-text { color: var(--color-primary) !important; }
+    .theme-neutral-bg { background-color: var(--color-neutral) !important; }
+    .theme-surface-bg { background-color: var(--color-surface) !important; }
+    
+    .btn, .btn-large {
+      background-color: var(--color-primary) !important;
+      color: var(--color-on-primary) !important;
+      border-radius: %design.rounded.md%;
+    }
+
+    .btn:hover, .btn-large:hover {
+      filter: brightness(1.1);
+    }
+
+    nav {
+      background-color: var(--color-surface);
+      box-shadow: none;
+      border-bottom: 1px solid var(--color-neutral);
+    }
+
+    nav a.brand-logo, nav ul a {
+      color: var(--color-on-surface);
+    }
+    
+    nav ul a:hover {
+      background-color: transparent;
+      color: var(--color-primary);
+    }
+
+    .sidenav-trigger i {
+      color: var(--color-on-surface);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Menu Navegação -->
+  <nav>
+    <div class="nav-wrapper container">
+      <a href="index.html" class="brand-logo theme-primary-text" style="font-weight: bold;">%site_name%</a>
+      <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="index.html">Início</a></li>
+        <li><a href="sobre.html">Sobre a Empresa</a></li>
+        <li><a href="contato.html">Contato</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <ul class="sidenav" id="mobile-nav">
+    <li><a href="index.html">Início</a></li>
+    <li><a href="sobre.html">Sobre a Empresa</a></li>
+    <li><a href="contato.html">Contato</a></li>
+  </ul>
+
+  <main>
