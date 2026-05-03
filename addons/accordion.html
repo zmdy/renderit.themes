@@ -1,12 +1,12 @@
 <!-- Addon: accordion -->
-<div class="renderit-accordion-container" id="accordion-%INDEX%">
+<div class="renderit-accordion-container" id="accordion-%id%">
   %IF accordion.title%
   <h2 class="renderit-accordion-main-title">%accordion.title%</h2>
   %ENDIF%
 
   <div class="renderit-accordion">
     %FOREACH accordion.items%
-    <div class="renderit-accordion-item" data-index="%INDEX%">
+    <div class="renderit-accordion-item" data-index="%id%">
       <button class="renderit-accordion-header" aria-expanded="false">
         <span class="renderit-accordion-question">%question%</span>
         <span class="renderit-accordion-icon">

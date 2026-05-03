@@ -1,5 +1,5 @@
 <!-- Addon: animated-text-split -->
-<div id="renderit-split-text-%INDEX%" class="renderit-split-text-wrap" 
+<div id="renderit-split-text-%id%" class="renderit-split-text-wrap" 
      data-effect="%split_text.effect%"
      data-duration="%split_text.duration%"
      data-delay="%split_text.delay%"
@@ -34,7 +34,7 @@
 <script src="https://unpkg.com/animejs@4.0.0-beta.0/lib/anime.min.js"></script>
 <script>
 (function() {
-  const containerId = 'renderit-split-text-%INDEX%';
+  const containerId = 'renderit-split-text-%id%';
   const container = document.getElementById(containerId);
   if (!container || !window.anime) return;
 

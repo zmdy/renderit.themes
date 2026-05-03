@@ -1,5 +1,5 @@
 <!-- Addon: stats -->
-<section id="renderit-stats-%INDEX%" class="renderit-stats-section">
+<section id="renderit-stats-%id%" class="renderit-stats-section">
   <div class="renderit-stats-grid">
     %FOREACH stats.items%
     <div class="renderit-stats-card">
@@ -125,7 +125,7 @@
 
 <script>
 (function() {
-  const containerId = 'renderit-stats-%INDEX%';
+  const containerId = 'renderit-stats-%id%';
   const container = document.getElementById(containerId);
   if (!container) return;
 

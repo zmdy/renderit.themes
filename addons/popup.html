@@ -1,5 +1,5 @@
 <!-- Addon: popup -->
-<div id="renderit-popup-%INDEX%" class="renderit-popup-overlay" style="display: none;" aria-hidden="true">
+<div id="renderit-popup-%id%" class="renderit-popup-overlay" style="display: none;" aria-hidden="true">
   <div class="renderit-popup-container">
     <button class="renderit-popup-close" aria-label="Fechar popup">&times;</button>
     
@@ -163,7 +163,7 @@
 
 <script>
 (function() {
-  const popupId = 'renderit-popup-%INDEX%';
+  const popupId = 'renderit-popup-%id%';
   const overlay = document.getElementById(popupId);
   if (!overlay) return;
 

@@ -1,5 +1,5 @@
 <!-- Addon: counter -->
-<div id="renderit-counter-%INDEX%" class="renderit-counter-grid">
+<div id="renderit-counter-%id%" class="renderit-counter-grid">
   %FOREACH counter.items%
   <div class="renderit-counter-item">
     %IF icon%
@@ -99,7 +99,7 @@
 
 <script>
 (function() {
-  const containerId = 'renderit-counter-%INDEX%';
+  const containerId = 'renderit-counter-%id%';
   const container = document.getElementById(containerId);
   if (!container) return;
 

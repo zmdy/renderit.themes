@@ -1,5 +1,5 @@
 <!-- Addon: form -->
-<div class="renderit-form-container" id="form-%INDEX%">
+<div class="renderit-form-container" id="form-%id%">
   <div class="renderit-form-header">
     %IF form.title%
     <h2 class="renderit-form-title">%form.title%</h2>
@@ -13,12 +13,12 @@
     <div class="renderit-form-fields">
       %FOREACH form.fields%
       <div class="renderit-form-group">
-        <label class="renderit-form-label" for="field-%INDEX%">%label%</label>
+        <label class="renderit-form-label" for="field-%id%">%label%</label>
         
         %IF type == "textarea"%
         <textarea 
           name="%name%" 
-          id="field-%INDEX%" 
+          id="field-%id%" 
           class="renderit-form-input" 
           placeholder="%placeholder%"
           %IF required%required%ENDIF%
@@ -27,7 +27,7 @@
         <input 
           type="%type%" 
           name="%name%" 
-          id="field-%INDEX%" 
+          id="field-%id%" 
           class="renderit-form-input" 
           placeholder="%placeholder%"
           %IF required%required%ENDIF%

@@ -1,5 +1,5 @@
 <!-- Addon: cookie-banner -->
-<div id="renderit-cookie-banner-%INDEX%" class="renderit-cookie-banner-wrap" style="display: none;">
+<div id="renderit-cookie-banner-%id%" class="renderit-cookie-banner-wrap" style="display: none;">
   <div class="renderit-cookie-banner-content">
     <div class="renderit-cookie-banner-text">
       %cookie_banner.message%
@@ -129,7 +129,7 @@
 
 <script>
 (function() {
-  const bannerId = 'renderit-cookie-banner-%INDEX%';
+  const bannerId = 'renderit-cookie-banner-%id%';
   const banner = document.getElementById(bannerId);
   if (!banner) return;
 

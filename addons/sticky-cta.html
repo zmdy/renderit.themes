@@ -1,5 +1,5 @@
 <!-- Addon: sticky-cta -->
-<div id="renderit-sticky-cta-%INDEX%" class="renderit-sticky-cta-wrap renderit-sticky-cta-%sticky_cta.position%" style="display: none;">
+<div id="renderit-sticky-cta-%id%" class="renderit-sticky-cta-wrap renderit-sticky-cta-%sticky_cta.position%" style="display: none;">
   <a href="%sticky_cta.url%" class="renderit-sticky-cta-btn">
     %IF sticky_cta.icon%
     <span class="renderit-sticky-cta-icon">%sticky_cta.icon%</span>
@@ -102,7 +102,7 @@
 
 <script>
 (function() {
-  const ctaId = 'renderit-sticky-cta-%INDEX%';
+  const ctaId = 'renderit-sticky-cta-%id%';
   const cta = document.getElementById(ctaId);
   if (!cta) return;
 

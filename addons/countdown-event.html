@@ -1,5 +1,5 @@
 <!-- Addon: countdown-event -->
-<div id="renderit-countdown-event-%INDEX%" class="renderit-countdown-event-wrap" data-date="%countdown_event.date%">
+<div id="renderit-countdown-event-%id%" class="renderit-countdown-event-wrap" data-date="%countdown_event.date%">
   %IF countdown_event.title%
   <h2 class="renderit-countdown-event-title">%countdown_event.title%</h2>
   %ENDIF%
@@ -159,7 +159,7 @@
 
 <script>
 (function() {
-  const containerId = 'renderit-countdown-event-%INDEX%';
+  const containerId = 'renderit-countdown-event-%id%';
   const container = document.getElementById(containerId);
   if (!container) return;
 

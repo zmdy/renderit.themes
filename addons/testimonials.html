@@ -1,5 +1,5 @@
 <!-- Addon: testimonials -->
-<section id="renderit-testimonials-%INDEX%" class="renderit-testimonials-section">
+<section id="renderit-testimonials-%id%" class="renderit-testimonials-section">
   <div class="renderit-testimonials-grid">
     %FOREACH testimonials.items%
     <div class="renderit-testimonial-card">
@@ -140,7 +140,7 @@
 
 <script>
 (function() {
-  const sectionId = 'renderit-testimonials-%INDEX%';
+  const sectionId = 'renderit-testimonials-%id%';
   const section = document.getElementById(sectionId);
   if (!section) return;
 

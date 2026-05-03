@@ -1,12 +1,12 @@
 <!-- Addon: gallery -->
-<div class="renderit-gallery-container" id="gallery-%INDEX%">
+<div class="renderit-gallery-container" id="gallery-%id%">
   %IF gallery.title%
   <h2 class="renderit-gallery-main-title">%gallery.title%</h2>
   %ENDIF%
 
   <div class="renderit-gallery-grid" style="--gallery-cols: %gallery.settings.columns%; --gallery-gap: %gallery.settings.gap%;">
     %FOREACH gallery.items%
-    <div class="renderit-gallery-item" data-index="%INDEX%">
+    <div class="renderit-gallery-item" data-index="%id%">
       <img src="%thumb%" data-full="%image%" alt="%caption%" class="renderit-gallery-img">
       <div class="renderit-gallery-overlay">
         <span class="renderit-gallery-caption">%caption%</span>

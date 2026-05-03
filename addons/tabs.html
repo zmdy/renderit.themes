@@ -1,13 +1,13 @@
 <!-- Addon: tabs -->
-<div id="renderit-tabs-%INDEX%" class="renderit-tabs-container renderit-tabs-%tabs.orientation%">
+<div id="renderit-tabs-%id%" class="renderit-tabs-container renderit-tabs-%tabs.orientation%">
   
   <div class="renderit-tabs-list" role="tablist">
     %FOREACH tabs.items%
     <button class="renderit-tabs-trigger %IF FIRST == "true"%is-active%ENDIF%" 
             role="tab" 
             aria-selected="%IF FIRST == "true"%true%ELSE%false%ENDIF%"
-            aria-controls="renderit-tab-panel-%INDEX%-%FOREACH_INDEX%"
-            data-target="renderit-tab-panel-%INDEX%-%FOREACH_INDEX%">
+            aria-controls="renderit-tab-panel-%id%-%FOREACH_INDEX%"
+            data-target="renderit-tab-panel-%id%-%FOREACH_INDEX%">
       %IF icon%
       <span class="renderit-tabs-icon">%icon%</span>
       %ENDIF%
@@ -18,7 +18,7 @@
 
   <div class="renderit-tabs-content">
     %FOREACH tabs.items%
-    <div id="renderit-tab-panel-%INDEX%-%FOREACH_INDEX%" 
+    <div id="renderit-tab-panel-%id%-%FOREACH_INDEX%" 
          class="renderit-tabs-panel %IF FIRST == "true"%is-visible%ENDIF%" 
          role="tabpanel"
          tabindex="0">
@@ -150,7 +150,7 @@
 
 <script>
 (function() {
-  const containerId = 'renderit-tabs-%INDEX%';
+  const containerId = 'renderit-tabs-%id%';
   const container = document.getElementById(containerId);
   if (!container) return;
 

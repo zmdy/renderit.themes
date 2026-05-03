@@ -1,5 +1,5 @@
 <!-- Addon: video -->
-<div id="renderit-video-%INDEX%" class="renderit-video-container" data-type="%video.type%" data-url="%video.url%">
+<div id="renderit-video-%id%" class="renderit-video-container" data-type="%video.type%" data-url="%video.url%">
   <div class="renderit-video-wrapper">
     
     <!-- Poster / Overlay -->
@@ -128,7 +128,7 @@
 
 <script>
 (function() {
-  const containerId = 'renderit-video-%INDEX%';
+  const containerId = 'renderit-video-%id%';
   const container = document.getElementById(containerId);
   if (!container) return;
 

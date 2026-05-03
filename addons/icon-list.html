@@ -1,5 +1,5 @@
 <!-- Addon: icon-list -->
-<div id="renderit-icon-list-%INDEX%" class="renderit-icon-list-container renderit-icon-list-%icon_list.layout%">
+<div id="renderit-icon-list-%id%" class="renderit-icon-list-container renderit-icon-list-%icon_list.layout%">
   %FOREACH icon_list.items%
   <div class="renderit-icon-list-item">
     %IF link%
@@ -93,7 +93,7 @@
 <script>
 (function() {
   // Addon Icon List - IIFE Logic
-  const containerId = 'renderit-icon-list-%INDEX%';
+  const containerId = 'renderit-icon-list-%id%';
   const container = document.getElementById(containerId);
   if (!container) return;
   

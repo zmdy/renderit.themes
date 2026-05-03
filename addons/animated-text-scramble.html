@@ -1,5 +1,5 @@
 <!-- Addon: animated-text-scramble -->
-<div id="renderit-scramble-text-%INDEX%" class="renderit-scramble-text-wrap"
+<div id="renderit-scramble-text-%id%" class="renderit-scramble-text-wrap"
      data-chars="%scramble_text.chars%"
      data-cursor="%scramble_text.cursor%"
      data-duration="%scramble_text.duration%"
@@ -27,7 +27,7 @@
 <script src="https://unpkg.com/animejs@4.0.0-beta.0/lib/anime.min.js"></script>
 <script>
 (function() {
-  const containerId = 'renderit-scramble-text-%INDEX%';
+  const containerId = 'renderit-scramble-text-%id%';
   const container = document.getElementById(containerId);
   if (!container || !window.anime) return;
 

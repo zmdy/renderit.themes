@@ -1,5 +1,5 @@
 <!-- Addon: logo-ticker -->
-<div id="renderit-logo-ticker-%INDEX%" class="renderit-logo-ticker-container">
+<div id="renderit-logo-ticker-%id%" class="renderit-logo-ticker-container">
   <div class="renderit-logo-ticker-track js-ticker-track">
     <div class="renderit-logo-ticker-list">
       %FOREACH logo_ticker.items%
@@ -75,7 +75,7 @@
 
 <script>
 (function() {
-  const containerId = 'renderit-logo-ticker-%INDEX%';
+  const containerId = 'renderit-logo-ticker-%id%';
   const container = document.getElementById(containerId);
   if (!container) return;
 

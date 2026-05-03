@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Renderit Addons Showcase</title>
+  
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0F1115',
+            surface: '#16191E',
+            panel: '#1E2228',
+            border: '#2A2F37',
+            accent: '#3B82F6',
+            'accent-dim': 'rgba(59, 130, 246, 0.1)',
+            text: '#E2E8F0',
+            'text-dim': '#94A3B8'
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #0F1115;
+      color: #E2E8F0;
+    }
+    .glass {
+      background: rgba(22, 25, 30, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    .addon-item.active {
+      background: rgba(59, 130, 246, 0.1);
+      border-color: rgba(59, 130, 246, 0.3);
+      color: #3B82F6;
+    }
+    #preview-container {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      min-height: 400px;
+    }
+  </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden antialiased">
+
+  <!-- Header -->
+  <header class="h-16 shrink-0 border-b border-border flex items-center justify-between px-6 glass z-50">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 bg-accent rounded-lg flex items-center justify-center shadow-lg shadow-accent/20">
+        <i class="fa-solid fa-puzzle-piece text-white text-sm"></i>
+      </div>
+      <h1 class="text-lg font-bold tracking-tight">Renderit <span class="text-accent">Addons</span></h1>
+      <span class="text-[10px] uppercase tracking-widest bg-white/5 px-2 py-0.5 rounded font-medium text-text-dim">Themes Library</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <a href="https://github.com/zmdy/renderit.builder" target="_blank" class="text-text-dim hover:text-white transition-colors">
+        <i class="fa-brands fa-github text-xl"></i>
+      </a>
+    </div>
+  </header>
+
+  <div class="flex-1 flex overflow-hidden">
+    <!-- Sidebar: Addon List -->
+    <aside class="w-72 shrink-0 border-r border-border flex flex-col bg-surface/50">
+      <div class="p-4">
+        <div class="relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-text-dim text-xs"></i>
+          <input type="text" id="search-addons" placeholder="Search addons..." 
+                 class="w-full bg-panel border border-border rounded-md py-2 pl-9 pr-3 text-xs focus:outline-none focus:ring-1 focus:ring-accent transition-all">
+        </div>
+      </div>
+      
+      <nav id="addon-list" class="flex-1 overflow-y-auto p-2 space-y-1 scrollbar-hide">
+        <!-- Addons will be injected here -->
+        <div class="animate-pulse space-y-2 p-2">
+          <div class="h-8 bg-panel rounded w-full"></div>
+          <div class="h-8 bg-panel rounded w-full"></div>
+          <div class="h-8 bg-panel rounded w-3/4"></div>
+        </div>
+      </nav>
+
+      <div class="p-4 border-t border-border">
+        <div class="text-[10px] uppercase tracking-widest text-text-dim font-bold mb-2">Controls</div>
+        <button id="btn-refresh" class="w-full bg-panel hover:bg-panel/80 border border-border rounded-md py-2 text-xs flex items-center justify-center gap-2 transition-all">
+          <i class="fa-solid fa-rotate text-[10px]"></i> Reload Addon
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col overflow-hidden bg-bg">
+      
+      <!-- Toolbar -->
+      <div class="h-12 border-b border-border flex items-center justify-between px-6 bg-surface/30">
+        <div class="flex items-center gap-4">
+          <h2 id="current-addon-name" class="font-semibold text-sm">Select an Addon</h2>
+          <div id="addon-badge" class="hidden text-[10px] px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/20">Active</div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="view-desktop" class="p-2 rounded hover:bg-panel text-accent transition-colors" title="Desktop View">
+            <i class="fa-solid fa-desktop"></i>
+          </button>
+          <button id="view-mobile" class="p-2 rounded hover:bg-panel text-text-dim hover:text-white transition-colors" title="Mobile View">
+            <i class="fa-solid fa-mobile-screen"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Content Split -->
+      <div class="flex-1 flex overflow-hidden">
+        
+        <!-- Left: Live Preview -->
+        <div class="flex-1 flex flex-col p-6 overflow-hidden">
+          <div class="text-[11px] font-bold text-text-dim uppercase tracking-wider mb-3 flex items-center justify-between">
+            <span>Live Preview</span>
+            <span class="font-mono lowercase font-normal opacity-50" id="preview-status">idle</span>
+          </div>
+          <div id="preview-wrapper" class="flex-1 relative bg-white rounded-xl shadow-2xl overflow-hidden transition-all duration-300">
+             <iframe id="preview-frame" class="w-full h-full border-none"></iframe>
+          </div>
+        </div>
+
+        <!-- Right: Config Editor -->
+        <div class="w-96 shrink-0 border-l border-border flex flex-col glass overflow-hidden">
+          <div class="h-12 border-b border-border flex items-center px-4 gap-2">
+            <i class="fa-solid fa-code text-accent text-xs"></i>
+            <span class="text-xs font-bold uppercase tracking-widest">Mock Data (JSON)</span>
+          </div>
+          <div class="flex-1 overflow-hidden relative">
+            <textarea id="json-editor" class="w-full h-full bg-transparent p-4 font-mono text-xs text-text-dim focus:text-white focus:outline-none resize-none scrollbar-hide"></textarea>
+          </div>
+          <div class="p-4 bg-surface/50 border-t border-border">
+            <button id="btn-update-preview" class="w-full bg-accent hover:bg-blue-600 text-white font-bold py-2.5 rounded-lg text-xs shadow-lg shadow-accent/20 transition-all flex items-center justify-center gap-2">
+              <i class="fa-solid fa-play"></i> Apply Changes
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 bg-surface border border-border px-4 py-3 rounded-lg shadow-2xl translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 z-[100]">
+    <div id="toast-icon" class="w-8 h-8 rounded-full flex items-center justify-center bg-success/10 text-success">
+      <i class="fa-solid fa-check"></i>
+    </div>
+    <div id="toast-message" class="text-xs font-medium">Addon updated!</div>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module">
+    // Mock Data for all addons
+    const addonMocks = {
+      'stats': {
+        'items': [
+          { 'icon': '<i class="fa-solid fa-bolt"></i>', 'prefix': '+', 'value': '1200', 'suffix': '', 'title': 'Projects', 'description': 'Delivered on time.' },
+          { 'icon': '<i class="fa-solid fa-users"></i>', 'prefix': '', 'value': '450', 'suffix': 'K', 'title': 'Users', 'description': 'Active monthly.' }
+        ]
+      },
+      'animated-text-scramble': {
+        'scramble_text': {
+          'chars': '!<>-_\\/[]{}—=+*^?#________',
+          'cursor': '_',
+          'duration': '2000',
+          'delay': '500',
+          'content': 'Sabor Bruto. Prazer Real.'
+        }
+      },
+      'gallery': {
+        'title': 'Nossas Criações',
+        'settings': { 'columns': '3', 'gap': '16px' },
+        'items': [
+          { 'thumb': 'https://picsum.photos/400/400?random=1', 'image': 'https://picsum.photos/800/800?random=1', 'caption': 'Premium Burger One' },
+          { 'thumb': 'https://picsum.photos/400/400?random=2', 'image': 'https://picsum.photos/800/800?random=2', 'caption': 'Craft Beer Selection' },
+          { 'thumb': 'https://picsum.photos/400/400?random=3', 'image': 'https://picsum.photos/800/800?random=3', 'caption': 'Side Fries Special' }
+        ]
+      },
+      'testimonials': {
+        'items': [
+          { 'content': 'Incrível! O melhor burger de BH.', 'avatar': 'https://i.pravatar.cc/150?u=1', 'name': 'Pedro Henrique', 'role': 'Food Critic', 'rating': '5' }
+        ]
+      },
+      'form': {
+        'title': 'Fale Conosco',
+        'subtitle': 'Mande sua mensagem',
+        'endpoint': '#',
+        'fields': [
+          { 'label': 'Nome', 'type': 'text', 'name': 'nome', 'placeholder': 'Seu nome', 'required': 'true' },
+          { 'label': 'E-mail', 'type': 'email', 'name': 'email', 'placeholder': 'seu@email.com', 'required': 'true' }
+        ],
+        'button_label': 'Enviar Mensagem',
+        'success_message': 'Enviado!'
+      },
+      'accordion': {
+        'title': 'Perguntas Frequentes',
+        'items': [
+          { 'question': 'Qual o horário de funcionamento?', 'answer': 'Das 18h às 00h.' },
+          { 'question': 'Vocês fazem entrega?', 'answer': 'Sim, via iFood.' }
+        ]
+      },
+      'slider': {
+        'slides': [
+          { 'image': 'https://picsum.photos/1200/600?random=4', 'title': 'Bem-vindo ao Brutus', 'subtitle': 'O sabor da brasa' },
+          { 'image': 'https://picsum.photos/1200/600?random=5', 'title': 'Happy Hour', 'subtitle': 'Cerveja gelada todo dia' }
+        ]
+      },
+      'timeline': {
+        'items': [
+          { 'date': '2020', 'title': 'Fundação', 'content': 'Começamos numa garagem.' },
+          { 'date': '2022', 'title': 'Nova Sede', 'content': 'Mudamos para o centro.' }
+        ]
+      },
+      'pricing': {
+        'items': [
+          { 'title': 'Básico', 'price': '19', 'currency': 'R$', 'period': '/mês', 'features': ['1 Burger', '1 Refri'], 'button_text': 'Pedir', 'highlight': 'false' },
+          { 'title': 'Família', 'price': '59', 'currency': 'R$', 'period': '/mês', 'features': ['4 Burgers', '1 Batata G'], 'button_text': 'Pedir', 'highlight': 'true' }
+        ]
+      },
+      'whatsapp': {
+        'number': '5531999999999',
+        'message': 'Olá! Gostaria de fazer um pedido.',
+        'label_text': 'WhatsApp',
+        'settings': { 'position': 'right', 'show_label': 'true' }
+      },
+      'social-feed': {
+        'title': 'Siga-nos no Instagram',
+        'items': [
+          { 'image': 'https://picsum.photos/400/400?random=10', 'url': '#' },
+          { 'image': 'https://picsum.photos/400/400?random=11', 'url': '#' },
+          { 'image': 'https://picsum.photos/400/400?random=12', 'url': '#' }
+        ]
+      },
+      'countdown': {
+        'title': 'Inauguração em breve',
+        'date': '2026-12-31T23:59:59',
+        'labels': { 'days': 'Dias', 'hours': 'Horas', 'minutes': 'Min', 'seconds': 'Seg' }
+      }
+    };
+
+    // Design context for rendering (mimics config.data.design)
+    const designContext = {
+      colors: {
+        primary: '#3B82F6',
+        surface: '#FFFFFF',
+        'on-surface': '#1F2937',
+        secondary: '#F3F4F6',
+        neutral: '#9CA3AF'
+      },
+      typography: {
+        'body-lg': { fontSize: '18px' },
+        'headline-md': { fontSize: '32px' }
+      },
+      fonts: {
+        primary: 'Inter',
+        secondary: 'Inter'
+      },
+      rounded: {
+        lg: '12px',
+        md: '8px'
+      },
+      elevation: {
+        md: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+        lg: '0 10px 15px -3px rgb(0 0 0 / 0.1)'
+      }
+    };
+
+    let currentAddon = null;
+
+    async function loadAddons() {
+      try {
+        // Since we can't reliably list directory from browser, we use the known list
+        const addons = [
+          'accordion', 'animated-text-scramble', 'animated-text-split', 'comparison', 
+          'cookie-banner', 'countdown', 'countdown-event', 'counter', 'flipbox', 
+          'form', 'gallery', 'icon-list', 'logo-ticker', 'map', 'newsletter', 
+          'popup', 'pricing', 'slider', 'social-feed', 'stats', 'sticky-cta', 
+          'tabs', 'team', 'testimonials', 'timeline', 'video', 'whatsapp'
+        ];
+        
+        const listContainer = document.getElementById('addon-list');
+        listContainer.innerHTML = '';
+        
+        addons.forEach(name => {
+          const div = document.createElement('div');
+          div.className = 'addon-item group flex items-center justify-between px-3 py-2 rounded-md border border-transparent hover:bg-panel cursor-pointer transition-all';
+          div.dataset.name = name;
+          div.innerHTML = `
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-cube text-text-dim group-hover:text-accent text-[10px]"></i>
+              <span class="text-[12px] font-medium capitalize">${name.replace(/-/g, ' ')}</span>
+            </div>
+            <i class="fa-solid fa-chevron-right text-[8px] opacity-0 group-hover:opacity-100 transition-all"></i>
+          `;
+          
+          div.onclick = () => selectAddon(name);
+          listContainer.appendChild(div);
+        });
+      } catch (e) {
+        console.error('Failed to load addons', e);
+      }
+    }
+
+    async function selectAddon(name) {
+      currentAddon = name;
+      
+      // UI Updates
+      document.querySelectorAll('.addon-item').forEach(el => el.classList.remove('active'));
+      document.querySelector(`[data-name="${name}"]`).classList.add('active');
+      document.getElementById('current-addon-name').textContent = name.replace(/-/g, ' ').toUpperCase();
+      document.getElementById('addon-badge').classList.remove('hidden');
+      
+      // Load Default Mock Data
+      const mock = addonMocks[name] || { items: [] };
+      document.getElementById('json-editor').value = JSON.stringify(mock, null, 2);
+      
+      renderCurrentAddon();
+    }
+
+    async function renderCurrentAddon() {
+      if (!currentAddon) return;
+      
+      const statusEl = document.getElementById('preview-status');
+      statusEl.textContent = 'rendering...';
+      
+      try {
+        const response = await fetch(`addons/${currentAddon}.html`);
+        let html = await response.text();
+        const data = JSON.parse(document.getElementById('json-editor').value);
+        
+        // Minimal Renderer for Showcase
+        // 1. Resolve Vars
+        const context = {
+          ...data,
+          [currentAddon.replace(/-/g, '_')]: data,
+          design: designContext,
+          id: 'preview-id'
+        };
+
+        // Simple variable resolution (recursive-ish)
+        const resolve = (path, obj) => {
+          return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+        };
+
+        // Resolve FOREACH
+        html = html.replace(/%FOREACH\s+([^%]+)%([\s\S]*?)%ENDFOREACH%/g, (match, path, innerHtml) => {
+          const items = resolve(path, context);
+          if (!Array.isArray(items)) return '';
+          return items.map(item => {
+            let itemHtml = innerHtml;
+            // Resolve vars inside loop
+            return itemHtml.replace(/%([^%]+)%/g, (m, p) => {
+              const val = resolve(p, item) ?? resolve(p, context) ?? '';
+              return typeof val === 'object' ? JSON.stringify(val) : val;
+            });
+          }).join('');
+        });
+
+        // Resolve IFs
+        html = html.replace(/%IF\s+([^%]+)%([\s\S]*?)%ENDIF%/g, (match, path, innerHtml) => {
+          const val = resolve(path, context);
+          return val ? innerHtml : '';
+        });
+
+        // Resolve remaining Vars
+        html = html.replace(/%([^%]+)%/g, (match, path) => {
+          const val = resolve(path, context) ?? '';
+          return typeof val === 'object' ? JSON.stringify(val) : val;
+        });
+
+        // Inject into Iframe
+        const frame = document.getElementById('preview-frame');
+        const doc = frame.contentDocument || frame.contentWindow.document;
+        doc.open();
+        doc.write(`
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Bebas+Neue&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+            <style>
+              body { margin: 0; padding: 40px; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #f8fafc; }
+              #wrapper { width: 100%; max-width: 1200px; }
+            </style>
+          </head>
+          <body>
+            <div id="wrapper">
+              ${html}
+            </div>
+          </body>
+          </html>
+        `);
+        doc.close();
+        
+        statusEl.textContent = 'ready';
+        showToast('Addon rendered successfully!');
+      } catch (e) {
+        console.error('Render failed', e);
+        statusEl.textContent = 'error';
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').textContent = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
+    }
+
+    // Event Listeners
+    document.getElementById('btn-update-preview').onclick = renderCurrentAddon;
+    document.getElementById('btn-refresh').onclick = renderCurrentAddon;
+    
+    document.getElementById('view-desktop').onclick = () => {
+      document.getElementById('preview-wrapper').style.width = '100%';
+      document.getElementById('view-desktop').classList.add('text-accent');
+      document.getElementById('view-mobile').classList.remove('text-accent');
+    };
+    
+    document.getElementById('view-mobile').onclick = () => {
+      document.getElementById('preview-wrapper').style.width = '375px';
+      document.getElementById('preview-wrapper').classList.add('mx-auto');
+      document.getElementById('view-mobile').classList.add('text-accent');
+      document.getElementById('view-desktop').classList.remove('text-accent');
+    };
+
+    document.getElementById('search-addons').oninput = (e) => {
+      const q = e.target.value.toLowerCase();
+      document.querySelectorAll('.addon-item').forEach(el => {
+        const name = el.dataset.name.toLowerCase();
+        el.style.display = name.includes(q) ? 'flex' : 'none';
+      });
+    };
+
+    // Init
+    loadAddons().then(() => {
+      // Select first addon by default
+      selectAddon('stats');
+    });
+  </script>
+</body>
+</html>

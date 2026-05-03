@@ -1,5 +1,5 @@
 <!-- Addon: newsletter -->
-<div id="renderit-newsletter-%INDEX%" class="renderit-newsletter-container">
+<div id="renderit-newsletter-%id%" class="renderit-newsletter-container">
   <div class="renderit-newsletter-content">
     %IF newsletter.title%
     <h2 class="renderit-newsletter-title">%newsletter.title%</h2>
@@ -152,7 +152,7 @@
 
 <script>
 (function() {
-  const containerId = 'renderit-newsletter-%INDEX%';
+  const containerId = 'renderit-newsletter-%id%';
   const container = document.getElementById(containerId);
   if (!container) return;
 
