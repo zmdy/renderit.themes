@@ -101,13 +101,15 @@
   .renderit-accordion-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .renderit-accordion-inner {
     padding: 0 1.5rem 1.5rem 1.5rem;
     line-height: 1.6;
-    opacity: 0.8;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.4s ease 0.1s;
   }
 
   /* Estado Aberto */
@@ -121,7 +123,12 @@
   }
 
   .renderit-accordion-item.active .renderit-accordion-content {
-    max-height: 500px; /* Valor seguro para animação */
+    max-height: 1000px; /* Valor maior para garantir que caiba todo o texto */
+  }
+
+  .renderit-accordion-item.active .renderit-accordion-inner {
+    opacity: 0.8;
+    transform: translateY(0);
   }
 
 </style>
@@ -141,16 +148,31 @@
         const isActive = item.classList.contains('active');
 
         if (!allowMultiple && !isActive) {
-          // Fecha todos os outros se não permitir múltiplos
+          // 1. Fecha todos os outros primeiro
+          let hasOpen = false;
           items.forEach(otherItem => {
-            otherItem.classList.remove('active');
-            otherItem.querySelector('.renderit-accordion-header').setAttribute('aria-expanded', 'false');
+            if (otherItem.classList.contains('active')) {
+              otherItem.classList.remove('active');
+              otherItem.querySelector('.renderit-accordion-header').setAttribute('aria-expanded', 'false');
+              hasOpen = true;
+            }
           });
-        }
 
-        // Toggle do atual
-        item.classList.toggle('active');
-        header.setAttribute('aria-expanded', !isActive);
+          // 2. Se tinha algum aberto, espera a animação de fechar (0.3s) antes de abrir o novo
+          if (hasOpen) {
+            setTimeout(() => {
+              item.classList.add('active');
+              header.setAttribute('aria-expanded', 'true');
+            }, 300);
+          } else {
+            item.classList.add('active');
+            header.setAttribute('aria-expanded', 'true');
+          }
+        } else {
+          // Comportamento normal (Toggle)
+          item.classList.toggle('active');
+          header.setAttribute('aria-expanded', !isActive);
+        }
       });
     });
   });
