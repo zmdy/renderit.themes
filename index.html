@@ -77,15 +77,17 @@
 
     /* Reset styles inside preview to prevent leakage from showcase */
     .renderit-preview-scope {
-      all: initial;
-      /* Reset all properties */
       display: block;
-      font-family: 'Inter', sans-serif;
+      position: relative;
       padding: 40px;
       box-sizing: border-box;
       width: 100%;
       height: 100%;
       overflow-y: auto;
+      /* Soft reset: allow global fonts and variables but isolate layout */
+      color: #1f2937;
+      line-height: 1.5;
+      font-size: 16px;
     }
 
     .renderit-preview-scope * {
@@ -359,9 +361,17 @@
       if (!css) return '';
       // Simple regex to prefix rules, excluding media queries and @keyframes
       return css.replace(/([^\s{}][^{}]*)\{/g, (match, selector) => {
-        if (selector.trim().startsWith('@')) return match;
+        const trimmedSelector = selector.trim();
+        if (trimmedSelector.startsWith('@')) return match;
+        
         // Handle comma separated selectors
-        const scopedSelector = selector.split(',').map(s => `${scope} ${s.trim()}`).join(', ');
+        const scopedSelector = selector.split(',').map(s => {
+          const part = s.trim();
+          if (!part) return '';
+          if (part === ':root') return scope; // Map :root variables to the preview root itself
+          return `${scope} ${part}`;
+        }).join(', ');
+        
         return `${scopedSelector} {`;
       });
     }
@@ -477,15 +487,20 @@
           }).join('');
         });
 
-        // Resolve IFs with ELSE support
-        html = html.replace(/%IF\s+([^%]+)%([\s\S]*?)%ENDIF%/g, (match, path, inner) => {
-          const val = resolve(path, context);
-          if (inner.includes('%ELSE%')) {
-            const parts = inner.split('%ELSE%');
-            return val ? parts[0] : parts[1];
-          }
-          return val ? inner : '';
-        });
+        // Resolve IFs recursively with ELSE support
+        let prevHtml;
+        do {
+          prevHtml = html;
+          // Note: we use [\s\S] instead of . to match newlines
+          html = html.replace(/%IF\s+([^%]+)%((?:(?!%IF)[\s\S])*?)%ENDIF%/g, (match, path, inner) => {
+            const val = resolve(path, context);
+            if (inner.includes('%ELSE%')) {
+              const parts = inner.split('%ELSE%');
+              return val ? parts[0] : parts[1];
+            }
+            return val ? inner : '';
+          });
+        } while (html !== prevHtml);
         html = html.replace(/%([^%]+)%/g, (m, p) => {
           const val = resolve(p, context) ?? m;
           return typeof val === 'object' ? JSON.stringify(val) : val;
