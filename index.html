@@ -3,13 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Renderit Addons Showcase</title>
+  <title>Renderit Addons Showcase (No-Iframe)</title>
+  
+  <!-- Core Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
   
   <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Google Fonts: Inter & JetBrains Mono -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Bebas+Neue&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -54,12 +57,32 @@
       border-color: rgba(59, 130, 246, 0.3);
       color: #3B82F6;
     }
-    #preview-container {
-      background: white;
-      border-radius: 8px;
-      overflow: hidden;
+
+    /* PREVIEW SCOPING & ISOLATION */
+    #preview-area {
+      background: #f8fafc;
       min-height: 400px;
+      position: relative;
+      color: #1f2937; /* Default light theme text */
+      text-align: left;
     }
+
+    /* Reset styles inside preview to prevent leakage from showcase */
+    .renderit-preview-scope {
+      all: initial; /* Reset all properties */
+      display: block;
+      font-family: 'Inter', sans-serif;
+      padding: 40px;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+    }
+    .renderit-preview-scope * {
+      box-sizing: border-box;
+    }
+    /* Re-enable important things */
+    .renderit-preview-scope script, .renderit-preview-scope style { display: none; }
   </style>
 </head>
 <body class="h-screen flex flex-col overflow-hidden antialiased">
@@ -68,43 +91,38 @@
   <header class="h-16 shrink-0 border-b border-border flex items-center justify-between px-6 glass z-50">
     <div class="flex items-center gap-3">
       <div class="w-8 h-8 bg-accent rounded-lg flex items-center justify-center shadow-lg shadow-accent/20">
-        <i class="fa-solid fa-puzzle-piece text-white text-sm"></i>
+        <i class="fa-solid fa-bolt-lightning text-white text-sm"></i>
       </div>
-      <h1 class="text-lg font-bold tracking-tight">Renderit <span class="text-accent">Addons</span></h1>
-      <span class="text-[10px] uppercase tracking-widest bg-white/5 px-2 py-0.5 rounded font-medium text-text-dim">Themes Library</span>
+      <h1 class="text-lg font-bold tracking-tight">Renderit <span class="text-accent">Showcase</span></h1>
+      <span class="text-[10px] uppercase tracking-widest bg-white/5 px-2 py-0.5 rounded font-medium text-text-dim">Direct Rendering</span>
     </div>
 
     <div class="flex items-center gap-4">
-      <a href="https://github.com/zmdy/renderit.builder" target="_blank" class="text-text-dim hover:text-white transition-colors">
-        <i class="fa-brands fa-github text-xl"></i>
-      </a>
+      <div class="text-[10px] text-text-dim flex items-center gap-2 mr-4">
+        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+        No-Iframe Engine v2.0
+      </div>
     </div>
   </header>
 
   <div class="flex-1 flex overflow-hidden">
     <!-- Sidebar: Addon List -->
     <aside class="w-72 shrink-0 border-r border-border flex flex-col bg-surface/50">
-      <div class="p-4">
+      <div class="p-4 border-b border-border/50">
         <div class="relative">
           <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-text-dim text-xs"></i>
-          <input type="text" id="search-addons" placeholder="Search addons..." 
+          <input type="text" id="search-addons" placeholder="Search components..." 
                  class="w-full bg-panel border border-border rounded-md py-2 pl-9 pr-3 text-xs focus:outline-none focus:ring-1 focus:ring-accent transition-all">
         </div>
       </div>
       
       <nav id="addon-list" class="flex-1 overflow-y-auto p-2 space-y-1 scrollbar-hide">
         <!-- Addons will be injected here -->
-        <div class="animate-pulse space-y-2 p-2">
-          <div class="h-8 bg-panel rounded w-full"></div>
-          <div class="h-8 bg-panel rounded w-full"></div>
-          <div class="h-8 bg-panel rounded w-3/4"></div>
-        </div>
       </nav>
 
       <div class="p-4 border-t border-border">
-        <div class="text-[10px] uppercase tracking-widest text-text-dim font-bold mb-2">Controls</div>
         <button id="btn-refresh" class="w-full bg-panel hover:bg-panel/80 border border-border rounded-md py-2 text-xs flex items-center justify-center gap-2 transition-all">
-          <i class="fa-solid fa-rotate text-[10px]"></i> Reload Addon
+          <i class="fa-solid fa-rotate text-[10px]"></i> Re-Run Scripts
         </button>
       </div>
     </aside>
@@ -133,13 +151,15 @@
       <div class="flex-1 flex overflow-hidden">
         
         <!-- Left: Live Preview -->
-        <div class="flex-1 flex flex-col p-6 overflow-hidden">
+        <div class="flex-1 flex flex-col p-6 overflow-hidden bg-bg">
           <div class="text-[11px] font-bold text-text-dim uppercase tracking-wider mb-3 flex items-center justify-between">
-            <span>Live Preview</span>
+            <span>Direct Component Preview</span>
             <span class="font-mono lowercase font-normal opacity-50" id="preview-status">idle</span>
           </div>
           <div id="preview-wrapper" class="flex-1 relative bg-white rounded-xl shadow-2xl overflow-hidden transition-all duration-300">
-             <iframe id="preview-frame" class="w-full h-full border-none"></iframe>
+             <div id="preview-area" class="w-full h-full overflow-y-auto">
+                <div id="preview-root" class="renderit-preview-scope"></div>
+             </div>
           </div>
         </div>
 
@@ -153,8 +173,8 @@
             <textarea id="json-editor" class="w-full h-full bg-transparent p-4 font-mono text-xs text-text-dim focus:text-white focus:outline-none resize-none scrollbar-hide"></textarea>
           </div>
           <div class="p-4 bg-surface/50 border-t border-border">
-            <button id="btn-update-preview" class="w-full bg-accent hover:bg-blue-600 text-white font-bold py-2.5 rounded-lg text-xs shadow-lg shadow-accent/20 transition-all flex items-center justify-center gap-2">
-              <i class="fa-solid fa-play"></i> Apply Changes
+            <button id="btn-update-preview" class="w-full bg-accent hover:bg-blue-600 text-white font-bold py-3 rounded-lg text-xs shadow-lg shadow-accent/20 transition-all flex items-center justify-center gap-2">
+              <i class="fa-solid fa-play"></i> Apply & Execute
             </button>
           </div>
         </div>
@@ -165,7 +185,7 @@
 
   <!-- Notification Toast -->
   <div id="toast" class="fixed bottom-6 right-6 bg-surface border border-border px-4 py-3 rounded-lg shadow-2xl translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 z-[100]">
-    <div id="toast-icon" class="w-8 h-8 rounded-full flex items-center justify-center bg-success/10 text-success">
+    <div id="toast-icon" class="w-8 h-8 rounded-full flex items-center justify-center bg-blue-500/10 text-accent">
       <i class="fa-solid fa-check"></i>
     </div>
     <div id="toast-message" class="text-xs font-medium">Addon updated!</div>
@@ -188,6 +208,15 @@
           'duration': '2000',
           'delay': '500',
           'content': 'Sabor Bruto. Prazer Real.'
+        }
+      },
+      'animated-text-split': {
+        'split_text': {
+          'effect': 'chars',
+          'duration': '1200',
+          'delay': '60',
+          'easing': 'easeOutExpo',
+          'content': 'Transformamos Ideias em Código'
         }
       },
       'gallery': {
@@ -261,7 +290,6 @@
       }
     };
 
-    // Design context for rendering (mimics config.data.design)
     const designContext = {
       colors: {
         primary: '#3B82F6',
@@ -272,68 +300,103 @@
       },
       typography: {
         'body-lg': { fontSize: '18px' },
-        'headline-md': { fontSize: '32px' }
+        'headline-md': { fontSize: '32px' },
+        'h2': { fontSize: '24px', fontWeight: 'bold' }
       },
       fonts: {
         primary: 'Inter',
         secondary: 'Inter'
       },
-      rounded: {
-        lg: '12px',
-        md: '8px'
-      },
-      elevation: {
-        md: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
-        lg: '0 10px 15px -3px rgb(0 0 0 / 0.1)'
-      }
+      rounded: { lg: '12px', md: '8px' },
+      elevation: { md: '0 4px 6px -1px rgb(0 0 0 / 0.1)', lg: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }
     };
 
     let currentAddon = null;
 
+    // Helper: Scope CSS to the preview root
+    function scopeCSS(css, scope) {
+      if (!css) return '';
+      // Simple regex to prefix rules, excluding media queries and @keyframes
+      return css.replace(/([^\s{}][^{}]*)\{/g, (match, selector) => {
+        if (selector.trim().startsWith('@')) return match;
+        // Handle comma separated selectors
+        const scopedSelector = selector.split(',').map(s => `${scope} ${s.trim()}`).join(', ');
+        return `${scopedSelector} {`;
+      });
+    }
+
+    // Track injected scripts for cleanup
+    let _injectedScripts = [];
+
+    function cleanupPreviousScripts() {
+      _injectedScripts.forEach(el => el.remove());
+      _injectedScripts = [];
+    }
+
+    // Helper: Execute Scripts safely
+    function executeScripts(container) {
+      const scripts = container.querySelectorAll('script');
+      scripts.forEach(oldScript => {
+        oldScript.remove(); // Always remove from DOM first
+
+        if (oldScript.src) {
+          // External script: only inject if not already in head
+          if (!document.querySelector(`script[src="${oldScript.src}"]`)) {
+            const newScript = document.createElement('script');
+            newScript.src = oldScript.src;
+            newScript.dataset.injectedByShowcase = '1';
+            document.head.appendChild(newScript);
+            _injectedScripts.push(newScript);
+          }
+        } else {
+          // Inline script: execute via new Function for isolation
+          // This prevents ghost re-executions and scope pollution
+          try {
+            const fn = new Function(oldScript.innerHTML);
+            fn();
+          } catch(e) {
+            console.error('[Showcase] Script execution error:', e);
+          }
+        }
+      });
+    }
+
     async function loadAddons() {
-      try {
-        // Since we can't reliably list directory from browser, we use the known list
-        const addons = [
-          'accordion', 'animated-text-scramble', 'animated-text-split', 'comparison', 
-          'cookie-banner', 'countdown', 'countdown-event', 'counter', 'flipbox', 
-          'form', 'gallery', 'icon-list', 'logo-ticker', 'map', 'newsletter', 
-          'popup', 'pricing', 'slider', 'social-feed', 'stats', 'sticky-cta', 
-          'tabs', 'team', 'testimonials', 'timeline', 'video', 'whatsapp'
-        ];
-        
-        const listContainer = document.getElementById('addon-list');
-        listContainer.innerHTML = '';
-        
-        addons.forEach(name => {
-          const div = document.createElement('div');
-          div.className = 'addon-item group flex items-center justify-between px-3 py-2 rounded-md border border-transparent hover:bg-panel cursor-pointer transition-all';
-          div.dataset.name = name;
-          div.innerHTML = `
-            <div class="flex items-center gap-3">
-              <i class="fa-solid fa-cube text-text-dim group-hover:text-accent text-[10px]"></i>
-              <span class="text-[12px] font-medium capitalize">${name.replace(/-/g, ' ')}</span>
-            </div>
-            <i class="fa-solid fa-chevron-right text-[8px] opacity-0 group-hover:opacity-100 transition-all"></i>
-          `;
-          
-          div.onclick = () => selectAddon(name);
-          listContainer.appendChild(div);
-        });
-      } catch (e) {
-        console.error('Failed to load addons', e);
-      }
+      const addons = [
+        'accordion', 'animated-text-scramble', 'animated-text-split', 'comparison', 
+        'cookie-banner', 'countdown', 'countdown-event', 'counter', 'flipbox', 
+        'form', 'gallery', 'icon-list', 'logo-ticker', 'map', 'newsletter', 
+        'popup', 'pricing', 'slider', 'social-feed', 'stats', 'sticky-cta', 
+        'tabs', 'team', 'testimonials', 'timeline', 'video', 'whatsapp'
+      ];
+      
+      const listContainer = document.getElementById('addon-list');
+      listContainer.innerHTML = '';
+      
+      addons.forEach(name => {
+        const div = document.createElement('div');
+        div.className = 'addon-item group flex items-center justify-between px-3 py-2 rounded-md border border-transparent hover:bg-panel cursor-pointer transition-all';
+        div.dataset.name = name;
+        div.innerHTML = `
+          <div class="flex items-center gap-3">
+            <i class="fa-solid fa-cube text-text-dim group-hover:text-accent text-[10px]"></i>
+            <span class="text-[12px] font-medium capitalize">${name.replace(/-/g, ' ')}</span>
+          </div>
+        `;
+        div.onclick = () => selectAddon(name);
+        listContainer.appendChild(div);
+      });
     }
 
     async function selectAddon(name) {
       currentAddon = name;
-      
-      // UI Updates
       document.querySelectorAll('.addon-item').forEach(el => el.classList.remove('active'));
-      document.querySelector(`[data-name="${name}"]`).classList.add('active');
+      const activeItem = document.querySelector(`[data-name="${name}"]`);
+      if (activeItem) activeItem.classList.add('active');
+      
       document.getElementById('current-addon-name').textContent = name.replace(/-/g, ' ').toUpperCase();
       document.getElementById('addon-badge').classList.remove('hidden');
       
-      // Load Default Mock Data
       const mock = addonMocks[name] || { items: [] };
       document.getElementById('json-editor').value = JSON.stringify(mock, null, 2);
       
@@ -342,7 +405,6 @@
 
     async function renderCurrentAddon() {
       if (!currentAddon) return;
-      
       const statusEl = document.getElementById('preview-status');
       statusEl.textContent = 'rendering...';
       
@@ -351,72 +413,60 @@
         let html = await response.text();
         const data = JSON.parse(document.getElementById('json-editor').value);
         
-        // Minimal Renderer for Showcase
-        // 1. Resolve Vars
+        // Context with dynamic ID
         const context = {
           ...data,
           [currentAddon.replace(/-/g, '_')]: data,
           design: designContext,
-          id: 'preview-id'
+          id: `pv-${Math.random().toString(36).substring(2, 6)}`
         };
 
-        // Simple variable resolution (recursive-ish)
-        const resolve = (path, obj) => {
-          return path.split('.').reduce((acc, part) => acc && acc[part], obj);
-        };
+        const resolve = (path, obj) => path.split('.').reduce((acc, part) => acc && acc[part], obj);
 
-        // Resolve FOREACH
-        html = html.replace(/%FOREACH\s+([^%]+)%([\s\S]*?)%ENDFOREACH%/g, (match, path, innerHtml) => {
+        // Render Logic
+        html = html.replace(/%FOREACH\s+([^%]+)%([\s\S]*?)%ENDFOREACH%/g, (match, path, inner) => {
           const items = resolve(path, context);
           if (!Array.isArray(items)) return '';
-          return items.map(item => {
-            let itemHtml = innerHtml;
-            // Resolve vars inside loop
-            return itemHtml.replace(/%([^%]+)%/g, (m, p) => {
-              const val = resolve(p, item) ?? resolve(p, context) ?? '';
-              return typeof val === 'object' ? JSON.stringify(val) : val;
-            });
+          return items.map((item, idx) => {
+             const itemContext = { ...context, ...item, INDEX: idx };
+             return inner.replace(/%([^%]+)%/g, (m, p) => {
+               const val = resolve(p, itemContext) ?? resolve(p, context) ?? m;
+               return typeof val === 'object' ? JSON.stringify(val) : val;
+             });
           }).join('');
         });
 
-        // Resolve IFs
-        html = html.replace(/%IF\s+([^%]+)%([\s\S]*?)%ENDIF%/g, (match, path, innerHtml) => {
-          const val = resolve(path, context);
-          return val ? innerHtml : '';
-        });
-
-        // Resolve remaining Vars
-        html = html.replace(/%([^%]+)%/g, (match, path) => {
-          const val = resolve(path, context) ?? '';
+        html = html.replace(/%IF\s+([^%]+)%([\s\S]*?)%ENDIF%/g, (m, p, inner) => resolve(p, context) ? inner : '');
+        html = html.replace(/%([^%]+)%/g, (m, p) => {
+          const val = resolve(p, context) ?? m;
           return typeof val === 'object' ? JSON.stringify(val) : val;
         });
 
-        // Inject into Iframe
-        const frame = document.getElementById('preview-frame');
-        const doc = frame.contentDocument || frame.contentWindow.document;
-        doc.open();
-        doc.write(`
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Bebas+Neue&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-            <style>
-              body { margin: 0; padding: 40px; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #f8fafc; }
-              #wrapper { width: 100%; max-width: 1200px; }
-            </style>
-          </head>
-          <body>
-            <div id="wrapper">
-              ${html}
-            </div>
-          </body>
-          </html>
-        `);
-        doc.close();
+        // INJECTION LOGIC (NO IFRAME)
+        const root = document.getElementById('preview-root');
         
+        // Clean up previous runs (DOM + injected scripts)
+        cleanupPreviousScripts();
+        root.innerHTML = '';
+        
+        // Create a temporary container to parse the HTML
+        const temp = document.createElement('div');
+        temp.innerHTML = html;
+
+        // Scope styles
+        const styles = temp.querySelectorAll('style');
+        styles.forEach(s => {
+          s.innerHTML = scopeCSS(s.innerHTML, '#preview-root');
+        });
+
+        // Move to root
+        root.appendChild(temp);
+        
+        // Execute scripts
+        executeScripts(root);
+
         statusEl.textContent = 'ready';
-        showToast('Addon rendered successfully!');
+        showToast('Renderizado com sucesso!');
       } catch (e) {
         console.error('Render failed', e);
         statusEl.textContent = 'error';
@@ -430,7 +480,6 @@
       setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
     }
 
-    // Event Listeners
     document.getElementById('btn-update-preview').onclick = renderCurrentAddon;
     document.getElementById('btn-refresh').onclick = renderCurrentAddon;
     
@@ -450,16 +499,11 @@
     document.getElementById('search-addons').oninput = (e) => {
       const q = e.target.value.toLowerCase();
       document.querySelectorAll('.addon-item').forEach(el => {
-        const name = el.dataset.name.toLowerCase();
-        el.style.display = name.includes(q) ? 'flex' : 'none';
+        el.style.display = el.dataset.name.toLowerCase().includes(q) ? 'flex' : 'none';
       });
     };
 
-    // Init
-    loadAddons().then(() => {
-      // Select first addon by default
-      selectAddon('stats');
-    });
+    loadAddons().then(() => selectAddon('stats'));
   </script>
 </body>
 </html>

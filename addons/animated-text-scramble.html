@@ -24,43 +24,80 @@
   }
 </style>
 
-<script src="https://unpkg.com/animejs@4.0.0-beta.0/lib/anime.min.js"></script>
 <script>
 (function() {
   const containerId = 'renderit-scramble-text-%id%';
-  const container = document.getElementById(containerId);
-  if (!container || !window.anime) return;
-
-  const content = container.querySelector('.renderit-scramble-text-content');
-  const scrambleChars = container.getAttribute('data-chars') || '!<>-_\\/[]{}—=+*^?#________';
-  const cursorChar = container.getAttribute('data-cursor') || '_';
-  const duration = parseInt(container.getAttribute('data-duration')) || 2000;
-  const delay = parseInt(container.getAttribute('data-delay')) || 0;
-
+  
   function init() {
-    // Anime.js v4 Scramble implementation using the text plugin
-    // Note: The scramble feature is part of the v4 text() plugin
-    anime({
-      targets: content,
-      duration: duration,
-      delay: delay,
-      easing: 'linear',
-      // Scramble effect configuration
-      text: {
-        value: content.textContent.trim(),
-        scramble: scrambleChars,
-        cursor: cursorChar
+    const container = document.getElementById(containerId);
+    const anime = window.anime;
+    if (!container || !anime) return;
+
+    const content = container.querySelector('.renderit-scramble-text-content');
+    if (!content) return;
+
+    const chars = container.getAttribute('data-chars') || '!<>-_\\/[]{}—=+*^?#________';
+    const cursor = container.getAttribute('data-cursor') || '_';
+    const duration = parseInt(container.getAttribute('data-duration')) || 2000;
+    const delay = parseInt(container.getAttribute('data-delay')) || 0;
+    const finalContent = content.textContent.trim();
+
+    // The Scramble Engine
+    const queue = [];
+    for (let i = 0; i < finalContent.length; i++) {
+      const from = '';
+      const to = finalContent[i];
+      // Randomly stagger the reveal per character
+      const start = Math.random() * 0.5;
+      const end = start + Math.random() * 0.5;
+      queue.push({ from, to, start, end, char: '' });
+    }
+
+    function render(progress) {
+      let output = '';
+      let complete = 0;
+      for (let i = 0, n = queue.length; i < n; i++) {
+        let { from, to, start, end, char } = queue[i];
+        if (progress >= end) {
+          complete++;
+          output += to;
+        } else if (progress >= start) {
+          if (!char || Math.random() < 0.28) {
+            char = chars[Math.floor(Math.random() * chars.length)];
+            queue[i].char = char;
+          }
+          output += `<span class="renderit-scramble-char">${char}</span>`;
+        } else {
+          output += from;
+        }
       }
-    });
+      content.innerHTML = output + (complete < queue.length ? `<span class="renderit-scramble-cursor">${cursor}</span>` : '');
+    }
+
+    // Trigger using Anime.js for precise timing
+    setTimeout(() => {
+      anime({
+        targets: { progress: 0 },
+        progress: 1,
+        duration: duration,
+        easing: 'linear',
+        update: (anim) => {
+          render(anim.animations[0].currentValue);
+        }
+      });
+    }, delay || 100);
   }
 
-  const observer = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting) {
-      setTimeout(init, 200); // Slight delay for smoother start
-      observer.unobserve(container);
-    }
-  }, { threshold: 0.5 });
-
-  observer.observe(container);
+  // Auto-init or retry if global anime is slow (though now it is in head)
+  if (window.anime) {
+    init();
+  } else {
+    const check = setInterval(() => {
+      if (window.anime) {
+        clearInterval(check);
+        init();
+      }
+    }, 50);
+  }
 })();
 </script>

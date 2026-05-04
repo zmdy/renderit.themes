@@ -31,48 +31,89 @@
   }
 </style>
 
-<script src="https://unpkg.com/animejs@4.0.0-beta.0/lib/anime.min.js"></script>
 <script>
 (function() {
   const containerId = 'renderit-split-text-%id%';
-  const container = document.getElementById(containerId);
-  if (!container || !window.anime) return;
-
-  const content = container.querySelector('.renderit-split-text-content');
-  const effect = container.getAttribute('data-effect') || 'chars'; // chars, words, lines
-  const duration = parseInt(container.getAttribute('data-duration')) || 1000;
-  const delay = parseInt(container.getAttribute('data-delay')) || 50;
-  const easing = container.getAttribute('data-easing') || 'outExpo';
-
-  // Function to initialize splitting and animation
+  
   function init() {
-    content.style.opacity = '1';
-    
-    // Anime.js v4 Text Plugin implementation
-    const targets = anime.text({
-      targets: content,
-      split: effect, // 'chars', 'words', or 'lines'
-      // wrap: true, // We could use this if the user wants specific tags
-    });
+    const container = document.getElementById(containerId);
+    const anime = window.anime;
+    if (!container || !anime) return;
 
-    anime({
-      targets: targets,
-      translateY: [100, 0],
-      opacity: [0, 1],
-      duration: duration,
-      delay: anime.stagger(delay),
-      easing: easing
-    });
+    const content = container.querySelector('.renderit-split-text-content');
+    if (!content) return;
+
+    const effect = container.getAttribute('data-effect') || 'chars';
+    const duration = parseInt(container.getAttribute('data-duration')) || 1000;
+    const delay = parseInt(container.getAttribute('data-delay')) || 50;
+    const easing = container.getAttribute('data-easing') || 'easeOutExpo';
+
+    // Internal Split Utility
+    function split(el, type) {
+      const text = el.textContent.trim();
+      if (!text) return [];
+      el.textContent = '';
+      
+      if (type === 'chars') {
+        return text.split('').map(char => {
+          const span = document.createElement('span');
+          span.style.display = 'inline-block';
+          span.textContent = char === ' ' ? '\u00A0' : char;
+          el.appendChild(span);
+          return span;
+        });
+      } else if (type === 'words') {
+        return text.split(/\s+/).filter(Boolean).map(word => {
+          const span = document.createElement('span');
+          span.style.display = 'inline-block';
+          span.style.marginRight = '0.25em';
+          span.textContent = word;
+          el.appendChild(span);
+          return span;
+        });
+      }
+      // lines fallback: treat whole element as one target
+      return [el];
+    }
+
+    const rawEffect = effect.startsWith('%') ? 'chars' : effect; // fallback if template var didn't resolve
+    const rawEasing = easing.startsWith('%') ? 'easeOutExpo' : easing;
+    const targets = split(content, rawEffect);
+    content.style.opacity = '1';
+
+    if (!targets || targets.length === 0) {
+      content.style.opacity = '1';
+      console.warn('[Renderit split-text] No targets to animate. Check data-effect and content.');
+      return;
+    }
+
+    // Trigger after a short delay to ensure element is in DOM
+    setTimeout(() => {
+      try {
+        anime({
+          targets: targets,
+          translateY: [20, 0],
+          opacity: [0, 1],
+          duration: duration,
+          delay: anime.stagger(delay),
+          easing: rawEasing
+        });
+      } catch(e) {
+        console.error('[Renderit split-text] Animation error:', e);
+        content.style.opacity = '1';
+      }
+    }, 100);
   }
 
-  // Use IntersectionObserver to trigger animation
-  const observer = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting) {
-      init();
-      observer.unobserve(container);
-    }
-  }, { threshold: 0.2 });
-
-  observer.observe(container);
+  if (window.anime) {
+    init();
+  } else {
+    const check = setInterval(() => {
+      if (window.anime) {
+        clearInterval(check);
+        init();
+      }
+    }, 50);
+  }
 })();
 </script>
