@@ -1,68 +1,122 @@
 <!-- Addon: form -->
-<div class="renderit-form-container" id="form-%id%">
-  <div class="renderit-form-header">
-    %IF form.title%
-    <h2 class="renderit-form-title">%form.title%</h2>
-    %ENDIF%
-    %IF form.subtitle%
-    <p class="renderit-form-subtitle">%form.subtitle%</p>
-    %ENDIF%
-  </div>
 
-  <form class="renderit-form" action="%form.endpoint%" method="POST" novalidate>
-    <div class="renderit-form-fields">
-      %FOREACH form.fields%
-      <div class="renderit-form-group">
-        <label class="renderit-form-label" for="field-%id%">%label%</label>
-        
-        %IF type == "textarea"%
-        <textarea 
-          name="%name%" 
-          id="field-%id%" 
-          class="renderit-form-input" 
-          placeholder="%placeholder%"
-          %IF required%required%ENDIF%
-        ></textarea>
-        %ELSE%
-        <input 
-          type="%type%" 
-          name="%name%" 
-          id="field-%id%" 
-          class="renderit-form-input" 
-          placeholder="%placeholder%"
-          %IF required%required%ENDIF%
-        >
-        %ENDIF%
-        
-        <span class="renderit-form-error-msg">Este campo é obrigatório</span>
+<!-- Alpine.js: load only if not already present -->
+<script>
+if (!window.Alpine) {
+  (function() {
+    var s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  })();
+}
+</script>
+
+<!-- Form config registration — runs before Alpine boots -->
+<script>
+window._renderitForms = window._renderitForms || {};
+window._renderitForms['%id%'] = {
+  title:           '%form.title%',
+  subtitle:        '%form.subtitle%',
+  button_label:    '%form.button_label%',
+  success_message: '%form.success_message%',
+  endpoint:        '%form.endpoint%',
+  method:          '%form.method%',
+  fields: [
+    %FOREACH form.fields%{ type: '%type%', name: '%name%', label: '%label%', placeholder: '%placeholder%', required: ('%required%' === 'true' || '%required%' === '1') },
+    %ENDFOREACH%
+  ]
+};
+</script>
+
+<div id="renderit-form-%id%"
+     class="renderit-form-container"
+     x-data="renderitForm('%id%')"
+     x-cloak>
+
+  <!-- Header -->
+  <template x-if="!state.submitted">
+    <div>
+      <div class="renderit-form-header">
+        <h2 class="renderit-form-title" x-show="cfg.title" x-text="cfg.title"></h2>
+        <p class="renderit-form-subtitle" x-show="cfg.subtitle" x-text="cfg.subtitle"></p>
       </div>
-      %ENDFOREACH%
+
+      <!-- Fields -->
+      <div class="renderit-form-fields">
+        <template x-for="field in cfg.fields" :key="field.name">
+          <div class="renderit-form-group" :class="{ 'has-error': errors[field.name] }">
+            <label class="renderit-form-label" :for="'f-%id%-' + field.name">
+              <span x-text="field.label"></span>
+              <span x-show="field.required" class="renderit-form-required" aria-hidden="true"> *</span>
+            </label>
+
+            <textarea
+              x-show="field.type === 'textarea'"
+              :name="field.name"
+              :id="'f-%id%-' + field.name"
+              class="renderit-form-input"
+              :placeholder="field.placeholder"
+              x-model="values[field.name]"
+              @blur="validate(field)"
+              rows="4"
+            ></textarea>
+
+            <input
+              x-show="field.type !== 'textarea'"
+              :type="field.type"
+              :name="field.name"
+              :id="'f-%id%-' + field.name"
+              class="renderit-form-input"
+              :placeholder="field.placeholder"
+              x-model="values[field.name]"
+              @blur="validate(field)"
+            >
+
+            <p class="renderit-form-error-msg"
+               x-show="errors[field.name]"
+               x-text="errors[field.name]"
+               role="alert">
+            </p>
+          </div>
+        </template>
+      </div>
+
+      <!-- Submit -->
+      <button type="button"
+              class="renderit-form-submit"
+              @click="submitForm()"
+              :disabled="state.loading">
+        <span x-show="!state.loading" x-text="cfg.button_label"></span>
+        <span class="submit-loader" x-show="state.loading" aria-label="Enviando..."></span>
+      </button>
     </div>
+  </template>
 
-    <button type="submit" class="renderit-form-submit">
-      <span class="submit-text">%form.button_label%</span>
-      <span class="submit-loader"></span>
-    </button>
-  </form>
-
-  <div class="renderit-form-feedback success">
-    <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-    <p>%form.success_message%</p>
+  <!-- Success feedback -->
+  <div class="renderit-form-feedback success" x-show="state.submitted && !state.error">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+    <p x-text="cfg.success_message"></p>
   </div>
 
-  <div class="renderit-form-feedback error">
-    <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-    <p>Ocorreu um erro ao enviar sua mensagem. Tente novamente.</p>
+  <!-- Error feedback -->
+  <div class="renderit-form-feedback error" x-show="state.submitted && state.error">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+    <p>Ocorreu um erro. Tente novamente.</p>
   </div>
+
 </div>
 
 <style>
-  :root {
+  [x-cloak] { display: none !important; }
+
+  #renderit-form-%id% {
     --form-primary: %design.colors.primary%;
     --form-surface: %design.colors.surface%;
     --form-text: %design.colors.on-surface%;
-    --form-border: %design.colors.secondary%;
-    --form-error: %design.colors.error%;
+    --form-border: rgba(0,0,0,0.15);
+    --form-error: #ef4444;
+    --form-success: #22c55e;
     --form-radius: %design.rounded.md%;
     --form-font: %design.fonts.primary%;
   }
@@ -78,219 +132,203 @@
     color: var(--form-text);
   }
 
-  .renderit-form-header {
-    margin-bottom: 2rem;
-    text-align: center;
-  }
+  .renderit-form-header { margin-bottom: 2rem; text-align: center; }
+  .renderit-form-title { font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem; }
+  .renderit-form-subtitle { font-size: 1rem; opacity: 0.7; margin: 0; }
+  .renderit-form-required { color: var(--form-error); }
 
-  .renderit-form-title {
-    font-size: 1.75rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-  }
+  .renderit-form-fields { display: grid; gap: 1.25rem; margin-bottom: 2rem; }
 
-  .renderit-form-subtitle {
-    font-size: 1rem;
-    opacity: 0.7;
-  }
-
-  .renderit-form-fields {
-    display: grid;
-    gap: 1.25rem;
-    margin-bottom: 2rem;
-  }
-
-  .renderit-form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+  .renderit-form-group { display: flex; flex-direction: column; gap: 0.4rem; }
 
   .renderit-form-label {
     font-size: 0.875rem;
     font-weight: 600;
     opacity: 0.9;
+    display: flex;
+    gap: 2px;
   }
 
   .renderit-form-input {
     width: 100%;
     padding: 0.75rem 1rem;
-    border: 1px solid var(--form-border);
+    border: 1.5px solid var(--form-border);
     border-radius: var(--form-radius);
     background: transparent;
     color: inherit;
     font-size: 1rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: inherit;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    box-sizing: border-box;
   }
 
   .renderit-form-input:focus {
     outline: none;
     border-color: var(--form-primary);
-    box-shadow: 0 0 0 3px rgba(var(--form-primary-rgb), 0.1);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--form-primary) 20%, transparent);
   }
 
-  textarea.renderit-form-input {
-    min-height: 120px;
-    resize: vertical;
-  }
+  textarea.renderit-form-input { resize: vertical; }
+
+  .renderit-form-group.has-error .renderit-form-input { border-color: var(--form-error); }
 
   .renderit-form-error-msg {
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     color: var(--form-error);
-    display: none;
+    margin: 0;
+    animation: renderit-shake 0.3s ease;
   }
 
-  .renderit-form-group.has-error .renderit-form-input {
-    border-color: var(--form-error);
-  }
-
-  .renderit-form-group.has-error .renderit-form-error-msg {
-    display: block;
+  @keyframes renderit-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
   }
 
   .renderit-form-submit {
     width: 100%;
     padding: 1rem;
     background: var(--form-primary);
-    color: white;
+    color: #fff;
     border: none;
     border-radius: var(--form-radius);
     font-weight: 700;
     font-size: 1rem;
+    font-family: inherit;
     cursor: pointer;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: opacity 0.2s, transform 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    min-height: 52px;
   }
 
-  .renderit-form-submit:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
-  }
-
-  .renderit-form-submit:active {
-    transform: translateY(0);
-  }
-
-  .renderit-form-submit:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
+  .renderit-form-submit:hover:not(:disabled) { opacity: 0.88; transform: translateY(-1px); }
+  .renderit-form-submit:active:not(:disabled) { transform: translateY(0); }
+  .renderit-form-submit:disabled { opacity: 0.55; cursor: not-allowed; }
 
   .submit-loader {
-    width: 20px;
-    height: 20px;
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    border-top-color: white;
+    width: 22px;
+    height: 22px;
+    border: 3px solid rgba(255,255,255,0.35);
+    border-top-color: #fff;
     border-radius: 50%;
-    display: none;
-    animation: renderit-spin 0.8s linear infinite;
+    animation: renderit-spin 0.7s linear infinite;
   }
 
-  @keyframes renderit-spin {
-    to { transform: rotate(360deg); }
-  }
-
-  .renderit-form.loading .submit-text { display: none; }
-  .renderit-form.loading .submit-loader { display: block; }
+  @keyframes renderit-spin { to { transform: rotate(360deg); } }
 
   .renderit-form-feedback {
-    display: none;
+    display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 2rem 1rem;
-    animation: renderit-fade-in 0.4s ease;
+    padding: 2.5rem 1rem;
+    gap: 1rem;
+    animation: renderit-fadein 0.4s ease;
   }
 
-  .renderit-form-feedback svg {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 1rem;
+  .renderit-form-feedback svg { width: 52px; height: 52px; }
+  .renderit-form-feedback.success { color: var(--form-success); }
+  .renderit-form-feedback.error { color: var(--form-error); }
+  .renderit-form-feedback p { font-size: 1.1rem; font-weight: 600; margin: 0; color: var(--form-text); }
+
+  @keyframes renderit-fadein {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
-
-  .renderit-form-feedback.success svg { fill: var(--design.colors.success%); }
-  .renderit-form-feedback.error svg { fill: var(--form-error); }
-
-  @keyframes renderit-fade-in {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .renderit-form-container.submitted .renderit-form-header,
-  .renderit-form-container.submitted .renderit-form {
-    display: none;
-  }
-
-  .renderit-form-container.submitted-success .success { display: flex; }
-  .renderit-form-container.submitted-error .error { display: flex; }
-
 </style>
 
 <script>
-(function() {
-  const containers = document.querySelectorAll('.renderit-form-container');
-  
-  containers.forEach(container => {
-    const form = container.querySelector('.renderit-form');
-    const inputs = form.querySelectorAll('.renderit-form-input');
+(function waitForAlpine() {
+  if (typeof window.Alpine === 'undefined') {
+    return setTimeout(waitForAlpine, 50);
+  }
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      if (form.classList.contains('loading')) return;
+  // Register Alpine component (idempotent)
+  if (!Alpine._renderitFormRegistered) {
+    Alpine._renderitFormRegistered = true;
 
-      // Validação básica
-      let isValid = true;
-      inputs.forEach(input => {
-        const group = input.closest('.renderit-form-group');
-        if (input.hasAttribute('required') && !input.value.trim()) {
-          group.classList.add('has-error');
-          isValid = false;
-        } else {
-          group.classList.remove('has-error');
+    Alpine.data('renderitForm', (id) => {
+      const cfg = window._renderitForms[id] || { fields: [], title: '', button_label: 'Enviar' };
+
+      // Build reactive values + errors maps
+      const values = {};
+      const errors = {};
+      cfg.fields.forEach(f => { values[f.name] = ''; errors[f.name] = ''; });
+
+      const emailRE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+      return {
+        cfg,
+        values,
+        errors,
+        state: { loading: false, submitted: false, error: false },
+
+        validate(field) {
+          const v = (this.values[field.name] || '').trim();
+          if (field.required && !v) {
+            this.errors[field.name] = 'Este campo é obrigatório.';
+            return false;
+          }
+          if (field.type === 'email' && v && !emailRE.test(v)) {
+            this.errors[field.name] = 'Digite um e-mail válido.';
+            return false;
+          }
+          this.errors[field.name] = '';
+          return true;
+        },
+
+        validateAll() {
+          let ok = true;
+          this.cfg.fields.forEach(f => { if (!this.validate(f)) ok = false; });
+          return ok;
+        },
+
+        async submitForm() {
+          if (this.state.loading) return;
+          if (!this.validateAll()) return;
+
+          this.state.loading = true;
+
+          try {
+            const endpoint = this.cfg.endpoint;
+            const method   = (this.cfg.method || 'POST').toUpperCase();
+            const isDemo   = !!document.getElementById('preview-root') || !endpoint || endpoint === '#';
+
+            if (isDemo) {
+              await new Promise(r => setTimeout(r, 1200));
+            } else {
+              const fd = new FormData();
+              Object.entries(this.values).forEach(([k, v]) => fd.append(k, v));
+
+              const res = await fetch(
+                method === 'GET'
+                  ? `${endpoint}?${new URLSearchParams(fd)}`
+                  : endpoint,
+                method === 'GET' ? { method } : { method, body: fd }
+              );
+              if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            }
+
+            this.state.submitted = true;
+            this.state.error     = false;
+          } catch (err) {
+            console.error('[renderit-form] Submit error:', err);
+            this.state.submitted = true;
+            this.state.error     = true;
+          } finally {
+            this.state.loading = false;
+          }
         }
-      });
-
-      if (!isValid) return;
-
-      // Simulação de envio ou fetch real
-      form.classList.add('loading');
-      
-      try {
-        const formData = new FormData(form);
-        const endpoint = form.getAttribute('action') || '#';
-        
-        // Se houver endpoint, envia. Senão, simula sucesso.
-        if (endpoint !== '#') {
-          const response = await fetch(endpoint, {
-            method: 'POST',
-            body: formData
-          });
-          if (!response.ok) throw new Error();
-        } else {
-          await new Promise(r => setTimeout(r, 1500)); // Delay para simular rede
-        }
-
-        container.classList.add('submitted', 'submitted-success');
-      } catch (err) {
-        container.classList.add('submitted', 'submitted-error');
-        // Opcional: voltar após alguns segundos
-        setTimeout(() => {
-          container.classList.remove('submitted', 'submitted-error');
-          form.classList.remove('loading');
-        }, 3000);
-      }
+      };
     });
+  }
 
-    // Limpar erro ao digitar
-    inputs.forEach(input => {
-      input.addEventListener('input', () => {
-        input.closest('.renderit-form-group').classList.remove('has-error');
-      });
-    });
-  });
+  // Manually initialize the component if Alpine already started
+  const el = document.getElementById('renderit-form-%id%');
+  if (el && window.Alpine.initTree) {
+    window.Alpine.initTree(el);
+  }
 })();
 </script>

@@ -293,15 +293,18 @@
         ]
       },
       'form': {
-        'title': 'Fale Conosco',
-        'subtitle': 'Mande sua mensagem',
-        'endpoint': '#',
-        'fields': [
-          { 'label': 'Nome', 'type': 'text', 'name': 'nome', 'placeholder': 'Seu nome', 'required': 'true' },
-          { 'label': 'E-mail', 'type': 'email', 'name': 'email', 'placeholder': 'seu@email.com', 'required': 'true' }
-        ],
+        'title': 'Entre em Contato',
+        'subtitle': 'Preencha o formulário abaixo e retornaremos em breve.',
         'button_label': 'Enviar Mensagem',
-        'success_message': 'Enviado!'
+        'success_message': 'Mensagem enviada com sucesso! Obrigado pelo contato.',
+        'endpoint': '', 
+        'method': 'POST',
+        'fields': [
+          { 'label': 'Nome Completo', 'name': 'name', 'type': 'text', 'placeholder': 'Seu nome...', 'required': true },
+          { 'label': 'E-mail', 'name': 'email', 'type': 'email', 'placeholder': 'seu@email.com', 'required': true },
+          { 'label': 'Assunto', 'name': 'subject', 'type': 'text', 'placeholder': 'Como podemos ajudar?', 'required': false },
+          { 'label': 'Mensagem', 'name': 'message', 'type': 'textarea', 'placeholder': 'Escreva aqui...', 'required': true }
+        ]
       },
       'accordion': {
         'title': 'Perguntas Frequentes',
