@@ -1,152 +1,47 @@
 <!-- Addon: comparison -->
-<div id="renderit-comparison-%id%" class="renderit-comparison-container js-comparison">
-  <div class="renderit-comparison-wrapper">
-    
-    <!-- After Image (Background) -->
-    <div class="renderit-comparison-after">
-      <img src="%comparison.after_image%" alt="After" loading="lazy">
-      %IF comparison.after_label%
-      <span class="renderit-comparison-label is-after">%comparison.after_label%</span>
-      %ENDIF%
-    </div>
+<link rel="stylesheet" href="https://unpkg.com/image-compare-viewer/dist/image-compare-viewer.min.css">
+<script src="https://unpkg.com/image-compare-viewer/dist/image-compare-viewer.min.js"></script>
 
-    <!-- Before Image (Overlaid with clip) -->
-    <div class="renderit-comparison-before js-comparison-before">
-      <img src="%comparison.before_image%" alt="Before" loading="lazy">
-      %IF comparison.before_label%
-      <span class="renderit-comparison-label is-before">%comparison.before_label%</span>
-      %ENDIF%
-    </div>
-
-    <!-- Slider Handle -->
-    <div class="renderit-comparison-handle js-comparison-handle">
-      <div class="renderit-comparison-line"></div>
-      <div class="renderit-comparison-circle">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
-          <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
-        </svg>
-      </div>
-    </div>
-
+<div class="renderit-comparison-container">
+  <div id="renderit-comparison-%id%" class="image-compare">
+    <img src="%comparison.before_image%" alt="%comparison.before_label%">
+    <img src="%comparison.after_image%" alt="%comparison.after_label%">
   </div>
 </div>
 
 <style>
-  :root {
-    --comp-handle-color: #ffffff;
-    --comp-primary: %design.colors.primary%;
-    --comp-radius: %design.rounded.lg%;
-  }
-
   .renderit-comparison-container {
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;
-    border-radius: var(--comp-radius);
+    border-radius: %design.rounded.lg%;
     overflow: hidden;
     box-shadow: %design.elevation.md%;
-    user-select: none;
-    -webkit-user-drag: none;
   }
 
-  .renderit-comparison-wrapper {
-    position: relative;
+  .image-compare {
     width: 100%;
     aspect-ratio: 16 / 9;
-    background: #eee;
   }
 
-  .renderit-comparison-before,
-  .renderit-comparison-after {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  /* Customizing the library UI to match Renderit Design */
+  #renderit-comparison-%id% .icv__control-line {
+    background: %design.colors.primary%;
+    width: 2px;
   }
 
-  .renderit-comparison-before {
-    z-index: 2;
-    overflow: hidden;
-    width: 50%; /* Initial state */
+  #renderit-comparison-%id% .icv__circle-outer {
+    border: 3px solid %design.colors.primary%;
+    background: #fff;
   }
 
-  .renderit-comparison-container img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    pointer-events: none;
-  }
-
-  /* Fixed width image for the 'before' div to prevent shrinking */
-  .renderit-comparison-before img {
-    width: 100vw; 
-    max-width: 1000px;
-  }
-
-  /* Labels */
-  .renderit-comparison-label {
-    position: absolute;
-    top: 20px;
-    background: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    padding: 5px 12px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 700;
+  #renderit-comparison-%id% .icv__label {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    font-family: %design.fonts.primary%;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    z-index: 3;
-    pointer-events: none;
-  }
-
-  .is-before { left: 20px; }
-  .is-after { right: 20px; }
-
-  /* Handle */
-  .renderit-comparison-handle {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    bottom: 0;
-    width: 4px;
-    margin-left: -2px;
-    background: var(--comp-handle-color);
-    z-index: 4;
-    cursor: ew-resize;
-  }
-
-  .renderit-comparison-circle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 44px;
-    height: 44px;
-    background: var(--comp-handle-color);
-    border: 3px solid var(--comp-primary);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--comp-primary);
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-  }
-
-  .renderit-comparison-circle svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  @media (max-width: 768px) {
-    .renderit-comparison-wrapper {
-      aspect-ratio: 4 / 3;
-    }
+    font-weight: 700;
   }
 </style>
 
@@ -156,49 +51,30 @@
   const container = document.getElementById(containerId);
   if (!container) return;
 
-  const handle = container.querySelector('.js-comparison-handle');
-  const beforeImg = container.querySelector('.js-comparison-before');
-  const wrapper = container.querySelector('.renderit-comparison-wrapper');
-  
-  let active = false;
+  // Initialize library
+  const options = {
+    controlColor: "%design.colors.primary%",
+    controlShadow: true,
+    addCircle: true,
+    showLabels: true,
+    labelOptions: {
+      before: '%comparison.before_label%',
+      after: '%comparison.after_label%',
+      onHover: false
+    },
+    smoothing: true,
+    smoothingAmount: 100
+  };
 
-  function updatePosition(x) {
-    const rect = wrapper.getBoundingClientRect();
-    let position = ((x - rect.left) / rect.width) * 100;
-
-    if (position < 0) position = 0;
-    if (position > 100) position = 100;
-
-    handle.style.left = position + '%';
-    beforeImg.style.width = position + '%';
-  }
-
-  // Mouse Events
-  container.addEventListener('mousedown', () => active = true);
-  window.addEventListener('mouseup', () => active = false);
-  
-  window.addEventListener('mousemove', (e) => {
-    if (!active) return;
-    updatePosition(e.pageX);
-  });
-
-  // Touch Events
-  container.addEventListener('touchstart', () => active = true);
-  window.addEventListener('touchend', () => active = false);
-  
-  window.addEventListener('touchmove', (e) => {
-    if (!active) return;
-    updatePosition(e.touches[0].pageX);
-  });
-
-  // Ensure image in before div stays full width
-  const beforeImgTag = beforeImg.querySelector('img');
-  const resizeObserver = new ResizeObserver(entries => {
-    for (let entry of entries) {
-      beforeImgTag.style.width = entry.contentRect.width + 'px';
+  // Wait for library to be available in global scope
+  const init = () => {
+    if (typeof ImageCompare !== 'undefined') {
+      new ImageCompare(container, options).mount();
+    } else {
+      setTimeout(init, 50);
     }
-  });
-  resizeObserver.observe(wrapper);
-
+  };
+  
+  init();
 })();
 </script>

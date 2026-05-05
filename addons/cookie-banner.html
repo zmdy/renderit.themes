@@ -137,8 +137,9 @@
   const acceptBtn = banner.querySelector('.js-cookie-accept');
   const declineBtn = banner.querySelector('.js-cookie-decline');
 
-  // Check if already answered
-  if (localStorage.getItem(storageKey)) {
+  // Check if already answered (bypass if in showcase)
+  const isShowcase = !!document.getElementById('preview-root');
+  if (localStorage.getItem(storageKey) && !isShowcase) {
     return;
   }
 
