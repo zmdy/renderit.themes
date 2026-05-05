@@ -1,91 +1,134 @@
 <!-- Addon: logo-ticker -->
-<div id="renderit-logo-ticker-%id%" class="renderit-logo-ticker-container">
-  <div class="renderit-logo-ticker-track js-ticker-track">
-    <div class="renderit-logo-ticker-list">
-      %FOREACH logo_ticker.items%
-      <div class="renderit-logo-ticker-item">
-        <img src="%logo_url%" alt="%alt_text%" onerror="this.style.display='none'">
-      </div>
-      %ENDFOREACH%
+<div id="renderit-logo-ticker-%id%" class="renderit-logo-ticker-container swiper">
+  <div class="swiper-wrapper">
+    %FOREACH logo_ticker.items%
+    <div class="swiper-slide renderit-logo-ticker-item">
+      <img src="%logo_url%" alt="%alt_text%" loading="lazy">
     </div>
-    <!-- The list will be cloned by JS for seamless infinite loop -->
+    %ENDFOREACH%
   </div>
+  <!-- Mask edges -->
+  <div class="renderit-ticker-mask-left"></div>
+  <div class="renderit-ticker-mask-right"></div>
 </div>
 
 <style>
-  :root {
-    --ticker-speed: 30s;
-    --ticker-gap: 50px;
+  #renderit-logo-ticker-%id% {
     --ticker-height: 80px;
   }
 
   .renderit-logo-ticker-container {
     width: 100%;
-    overflow: hidden;
     padding: 40px 0;
     position: relative;
-    /* Fade edges mask */
-    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    overflow: hidden;
+    cursor: grab;
+    background: rgba(0,0,0,0.02);
   }
 
-  .renderit-logo-ticker-track {
-    display: flex;
-    width: max-content;
-    animation: renderit-ticker-scroll var(--ticker-speed) linear infinite;
-  }
-
-  .renderit-logo-ticker-list {
-    display: flex;
-    gap: var(--ticker-gap);
-    padding-right: var(--ticker-gap);
+  .renderit-logo-ticker-container:active {
+    cursor: grabbing;
   }
 
   .renderit-logo-ticker-item {
-    flex-shrink: 0;
+    width: auto !important;
     height: var(--ticker-height);
     display: flex;
     align-items: center;
     justify-content: center;
-    filter: grayscale(1) opacity(0.5);
-    transition: filter 0.3s ease;
-  }
-
-  .renderit-logo-ticker-item:hover {
-    filter: grayscale(0) opacity(1);
+    padding: 0 40px;
   }
 
   .renderit-logo-ticker-item img {
-    max-height: 100%;
-    max-width: 150px;
-    width: auto;
+    height: 100%;
+    width: 120px;
     object-fit: contain;
+    pointer-events: none;
   }
 
-  @keyframes renderit-ticker-scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+  .renderit-logo-ticker-container .swiper-wrapper {
+    transition-timing-function: linear !important;
   }
 
-  /* Pause on hover */
-  .renderit-logo-ticker-container:hover .renderit-logo-ticker-track {
-    animation-play-state: paused;
+  .renderit-ticker-mask-left,
+  .renderit-ticker-mask-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 15%;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .renderit-ticker-mask-left {
+    left: 0;
+    background: linear-gradient(to right, %design.colors.surface%, transparent);
+  }
+
+  .renderit-ticker-mask-right {
+    right: 0;
+    background: linear-gradient(to left, %design.colors.surface%, transparent);
   }
 </style>
 
 <script>
 (function() {
   const containerId = 'renderit-logo-ticker-%id%';
-  const container = document.getElementById(containerId);
-  if (!container) return;
+  console.log('[LogoTicker] Script starting for ID:', containerId);
 
-  const track = container.querySelector('.js-ticker-track');
-  const list = container.querySelector('.renderit-logo-ticker-list');
-  
-  if (list) {
-    // Clone the list once for the infinite scroll effect
-    const clone = list.cloneNode(true);
-    track.appendChild(clone);
-  }
+  const init = () => {
+    let el = document.getElementById(containerId);
+    
+    // Fallback to class if ID fails (safe in showcase/isolated preview)
+    if (!el) {
+      el = document.querySelector('.renderit-logo-ticker-container');
+    }
+
+    if (!el) {
+      console.warn('[LogoTicker] Container not found, will retry...');
+      return setTimeout(init, 100);
+    }
+
+    if (typeof Swiper === 'undefined') {
+      console.error('[LogoTicker] Swiper not found in global scope!');
+      return;
+    }
+
+    let speedRaw = '%speed%';
+    let speedVal = parseInt(speedRaw) || 3000;
+    
+    if (speedRaw.endsWith('s')) {
+      speedVal = parseInt(speedRaw) * 1000;
+    }
+
+    const isDraggable = '%draggable%' === 'true';
+    console.log('[LogoTicker] Data received -> Speed:', speedVal, 'Draggable:', isDraggable);
+    
+    try {
+      new Swiper(el, {
+        loop: true,
+        speed: speedVal,
+        autoplay: {
+          delay: 0,
+          disableOnInteraction: false,
+        },
+        slidesPerView: 'auto',
+        freeMode: {
+          enabled: isDraggable,
+          momentum: false,
+        },
+        grabCursor: isDraggable,
+        allowTouchMove: isDraggable,
+      });
+      
+      if (!isDraggable) el.style.cursor = 'default';
+
+      console.log('[LogoTicker] Swiper status: active');
+    } catch (e) {
+      console.error('[LogoTicker] Swiper initialization failed:', e);
+    }
+  };
+
+  init();
 })();
 </script>

@@ -13,6 +13,10 @@
   <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+  <!-- Swiper.js -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
   <!-- Google Fonts: Inter & JetBrains Mono -->
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Bebas+Neue&family=Montserrat:wght@400;700&display=swap"
@@ -287,6 +291,20 @@
           { 'icon': '<i class="fa-solid fa-rotate-left"></i>', 'text': 'Devolução gratuita em 30 dias', 'link': '' }
         ]
       },
+      'logo-ticker': {
+        'speed': 3000,
+        'draggable': true,
+        'items': [
+          { 'logo_url': 'https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/google.svg', 'alt_text': 'Google' },
+          { 'logo_url': 'https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/netflix.svg', 'alt_text': 'Netflix' },
+          { 'logo_url': 'https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/spotify.svg', 'alt_text': 'Spotify' },
+          { 'logo_url': 'https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/airbnb.svg', 'alt_text': 'Airbnb' },
+          { 'logo_url': 'https://cdn.jsdelivr.net/npm/simple-icons@pure-css/icons/slack.svg', 'alt_text': 'Slack' },
+          { 'logo_url': 'https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/stripe.svg', 'alt_text': 'Stripe' },
+          { 'logo_url': 'https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/notion.svg', 'alt_text': 'Notion' },
+          { 'logo_url': 'https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/figma.svg', 'alt_text': 'Figma' }
+        ]
+      },
       'gallery': {
         'title': 'Nossas Criações',
         'settings': { 'columns': '3', 'gap': '16px' },
@@ -417,13 +435,14 @@
       // Simple regex to prefix rules, excluding media queries and @keyframes
       return css.replace(/([^\s{}][^{}]*)\{/g, (match, selector) => {
         const trimmedSelector = selector.trim();
-        if (trimmedSelector.startsWith('@')) return match;
+        // Skip @rules and keyframe stages (digits or percentages)
+        if (trimmedSelector.startsWith('@') || /^\d/.test(trimmedSelector)) return match;
         
         // Handle comma separated selectors
         const scopedSelector = selector.split(',').map(s => {
           const part = s.trim();
           if (!part) return '';
-          if (part === ':root') return scope; // Map :root variables to the preview root itself
+          if (part === ':root') return scope; 
           return `${scope} ${part}`;
         }).join(', ');
         
@@ -518,6 +537,7 @@
         const response = await fetch(`addons/${currentAddon}.html`);
         let html = await response.text();
         const data = JSON.parse(document.getElementById('json-editor').value);
+        console.log('[Showcase] Data from Editor:', data);
 
         // Context with dynamic ID
         const context = {
@@ -530,13 +550,17 @@
         const resolve = (path, obj) => path.split('.').reduce((acc, part) => acc && acc[part], obj);
 
         // Render Logic
+        html = html.replace(/%id%/g, context.id); // Priority for ID
+
         html = html.replace(/%FOREACH\s+([^%]+)%([\s\S]*?)%ENDFOREACH%/g, (match, path, inner) => {
           const items = resolve(path, context);
+          console.log(`[Showcase] Resolving FOREACH ${path}:`, items ? items.length : 'null');
           if (!Array.isArray(items)) return '';
           return items.map((item, idx) => {
             const itemContext = { ...context, ...item, INDEX: idx };
             return inner.replace(/%([^%]+)%/g, (m, p) => {
-              const val = resolve(p, itemContext) ?? resolve(p, context) ?? m;
+              const val = resolve(p, itemContext) ?? resolve(p, context);
+              if (val === undefined) return m;
               return typeof val === 'object' ? JSON.stringify(val) : val;
             });
           }).join('');
@@ -544,9 +568,10 @@
 
         // Resolve IFs recursively with ELSE support
         let prevHtml;
+        let pass = 0;
         do {
           prevHtml = html;
-          // Note: we use [\s\S] instead of . to match newlines
+          pass++;
           html = html.replace(/%IF\s+([^%]+)%((?:(?!%IF)[\s\S])*?)%ENDIF%/g, (match, path, inner) => {
             const val = resolve(path, context);
             if (inner.includes('%ELSE%')) {
@@ -555,9 +580,16 @@
             }
             return val ? inner : '';
           });
+          if (pass > 10) break; // Safety
         } while (html !== prevHtml);
+
         html = html.replace(/%([^%]+)%/g, (m, p) => {
-          const val = resolve(p, context) ?? m;
+          const val = resolve(p, context);
+          if (val === undefined) {
+            console.warn(`[Showcase] Could not resolve token: %${p}%`);
+            return m;
+          }
+          console.log(`[Showcase] Resolved %${p}% ->`, val);
           return typeof val === 'object' ? JSON.stringify(val) : val;
         });
 
