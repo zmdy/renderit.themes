@@ -1,5 +1,5 @@
 <!-- Addon: cookie-banner -->
-<div id="renderit-cookie-banner-%id%" class="renderit-cookie-banner-wrap" style="display: none;">
+<div id="renderit-cookie-banner-%id%" class="renderit-cookie-banner-wrap">
   <div class="renderit-cookie-banner-content">
     <div class="renderit-cookie-banner-text">
       %cookie_banner.message%
@@ -40,14 +40,17 @@
     border-radius: var(--cb-radius);
     box-shadow: %design.elevation.xl%;
     border: 1px solid rgba(0,0,0,0.05);
-    transform: translateY(100px);
+    /* Hidden by default via transform and opacity instead of display:none */
+    transform: translateY(150%);
     opacity: 0;
+    pointer-events: none;
     transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.6s ease;
   }
 
   .renderit-cookie-banner-wrap.is-visible {
     transform: translateY(0);
     opacity: 1;
+    pointer-events: auto;
   }
 
   .renderit-cookie-banner-content {
@@ -131,7 +134,10 @@
 (function() {
   const bannerId = 'renderit-cookie-banner-%id%';
   const banner = document.getElementById(bannerId);
-  if (!banner) return;
+  if (!banner) {
+    console.warn('[CookieBanner] Element not found:', bannerId);
+    return;
+  }
 
   const storageKey = 'renderit_cookies_accepted';
   const acceptBtn = banner.querySelector('.js-cookie-accept');
@@ -140,22 +146,22 @@
   // Check if already answered (bypass if in showcase)
   const isShowcase = !!document.getElementById('preview-root');
   if (localStorage.getItem(storageKey) && !isShowcase) {
+    banner.remove(); // Remove from DOM if already accepted in production
     return;
   }
 
   // Show banner with animation
-  banner.style.display = 'block';
-  setTimeout(() => banner.classList.add('is-visible'), 100);
+  setTimeout(() => {
+    banner.classList.add('is-visible');
+  }, 300);
 
   function closeBanner(accepted) {
     banner.classList.remove('is-visible');
     localStorage.setItem(storageKey, accepted ? 'true' : 'false');
-    setTimeout(() => banner.style.display = 'none', 600);
+    setTimeout(() => banner.remove(), 600);
   }
 
-  acceptBtn.addEventListener('click', () => closeBanner(true));
-  if (declineBtn) {
-    declineBtn.addEventListener('click', () => closeBanner(false));
-  }
+  if (acceptBtn) acceptBtn.addEventListener('click', () => closeBanner(true));
+  if (declineBtn) declineBtn.addEventListener('click', () => closeBanner(false));
 })();
 </script>
