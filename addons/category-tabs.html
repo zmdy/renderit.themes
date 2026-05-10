@@ -5,15 +5,15 @@
   <div class="renderit-cat-tabs-header">
     <div class="renderit-cat-tabs-list" role="tablist">
       
-      %IF settings.show_all == "true"%
+      %IF settings.show_all%
       <button class="renderit-cat-tab-btn is-active" data-filter="all" role="tab">
         %settings.show_all_label%
       </button>
       %ENDIF%
 
       %FOREACH categories%
-      <button class="renderit-cat-tab-btn %IF ../settings.show_all != "true" && FIRST == "true"%is-active%ENDIF%" 
-              data-filter="cat-%FOREACH_INDEX%" 
+      <button class="renderit-cat-tab-btn renderit-cat-filter-btn" 
+              data-filter="%INDEX%" 
               role="tab">
         %title%
       </button>
@@ -25,10 +25,9 @@
   <!-- Cards Grid -->
   <div class="renderit-cat-cards-grid">
     %FOREACH categories%
-      %SET cat_index = FOREACH_INDEX%
+    <div class="renderit-cat-group" data-category="%INDEX%">
       %FOREACH cards%
-      <div class="renderit-cat-card %IF ../../settings.show_all == "true"%is-visible%ELSE%%IF ../FIRST == "true"%is-visible%ENDIF%%ENDIF%" 
-           data-category="cat-%cat_index%">
+      <div class="renderit-cat-card">
         
         <div class="renderit-cat-card-media">
           <img src="%image%" alt="%title%">
@@ -59,6 +58,7 @@
         
       </div>
       %ENDFOREACH%
+    </div>
     %ENDFOREACH%
   </div>
 
@@ -76,7 +76,7 @@
   }
 
   .renderit-cat-tabs-container {
-    width: 100%;
+    width: 100%; /* % */
     display: flex;
     flex-direction: column;
     gap: 30px;
@@ -128,7 +128,11 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 24px;
-    width: 100%;
+    width: 100%; /* % */
+  }
+
+  .renderit-cat-group {
+    display: contents;
   }
 
   .renderit-cat-card {
@@ -153,14 +157,14 @@
 
   .renderit-cat-card-media {
     position: relative;
-    width: 100%;
+    width: 100%; /* % */
     aspect-ratio: 4/3;
     overflow: hidden;
   }
 
   .renderit-cat-card-media img {
-    width: 100%;
-    height: 100%;
+    width: 100%; /* % */
+    height: 100%; /* % */
     object-fit: cover;
     transition: transform 0.5s ease;
   }
@@ -234,8 +238,8 @@
   }
 
   @keyframes renderitCatFadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
+    0% /* % */ { opacity: 0; transform: scale(0.95); }
+    100% /* % */ { opacity: 1; transform: scale(1); }
   }
 
   @media (max-width: 768px) {
@@ -262,28 +266,45 @@
 
   const buttons = container.querySelectorAll('.renderit-cat-tab-btn');
   const cards = container.querySelectorAll('.renderit-cat-card');
+  const groups = container.querySelectorAll('.renderit-cat-group');
 
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      // Remove active class from all buttons
-      buttons.forEach(b => b.classList.remove('is-active'));
-      // Add active class to clicked button
-      btn.classList.add('is-active');
+  // Initialize visibility based on whether "Show All" exists
+  const showAllBtn = container.querySelector('[data-filter="all"]');
+  let activeFilter = 'all';
 
-      const filter = btn.getAttribute('data-filter');
+  if (!showAllBtn && buttons.length > 0) {
+    // If no show all button, set the first tab as active
+    const firstTab = buttons[0];
+    firstTab.classList.add('is-active');
+    activeFilter = firstTab.getAttribute('data-filter');
+  } else if (showAllBtn) {
+    showAllBtn.classList.add('is-active');
+  }
 
-      // Filter cards
-      cards.forEach(card => {
-        // Reset animation by removing and re-adding class
+  function filterCards(filter) {
+    groups.forEach(group => {
+      const groupCat = group.getAttribute('data-category');
+      const groupCards = group.querySelectorAll('.renderit-cat-card');
+      
+      groupCards.forEach(card => {
         card.classList.remove('is-visible');
-        
-        if (filter === 'all' || card.getAttribute('data-category') === filter) {
-          // Small delay to allow display:none to apply before adding class back to trigger animation
+        if (filter === 'all' || groupCat === filter) {
           setTimeout(() => {
             card.classList.add('is-visible');
           }, 10);
         }
       });
+    });
+  }
+
+  // Initial filtering
+  filterCards(activeFilter);
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      filterCards(btn.getAttribute('data-filter'));
     });
   });
 })();

@@ -662,7 +662,7 @@
       statusEl.textContent = 'rendering...';
 
       try {
-        const response = await fetch(`addons/${currentAddon}.html`);
+        const response = await fetch(`addons/${currentAddon}.html?t=${Date.now()}`);
         let html = await response.text();
         const data = JSON.parse(document.getElementById('json-editor').value);
         console.log('[Showcase] Data from Editor:', data);
