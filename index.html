@@ -354,9 +354,37 @@
         ]
       },
       'pricing': {
-        'items': [
-          { 'title': 'Básico', 'price': '19', 'currency': 'R$', 'period': '/mês', 'features': ['1 Burger', '1 Refri'], 'button_text': 'Pedir', 'highlight': 'false' },
-          { 'title': 'Família', 'price': '59', 'currency': 'R$', 'period': '/mês', 'features': ['4 Burgers', '1 Batata G'], 'button_text': 'Pedir', 'highlight': 'true' }
+        'currency': 'R$',
+        'plans': [
+          { 
+            'title': 'Básico', 
+            'price': '29', 
+            'period': 'mês', 
+            'description': 'Ideal para quem está começando agora.', 
+            'highlighted': 'false',
+            'cta_label': 'Começar Agora',
+            'cta_url': '#basic',
+            'features': [
+              { 'feature': '1 Site' },
+              { 'feature': 'Hospedagem Grátis' },
+              { 'feature': 'Suporte por E-mail' }
+            ]
+          },
+          { 
+            'title': 'Profissional', 
+            'price': '79', 
+            'period': 'mês', 
+            'description': 'A escolha perfeita para empresas em crescimento.', 
+            'highlighted': 'true',
+            'cta_label': 'Escolher Plano',
+            'cta_url': '#pro',
+            'features': [
+              { 'feature': 'Sites Ilimitados' },
+              { 'feature': 'Domínio Grátis' },
+              { 'feature': 'Suporte Prioritário' },
+              { 'feature': 'Backup Diário' }
+            ]
+          }
         ]
       },
       'whatsapp': {
@@ -616,22 +644,56 @@
 
         function renderTemplate(content, ctx) {
           let result = content;
-          let prevResult;
-          let pass = 0;
 
-          // 1. Resolve FOREACH (Recursive)
-          result = result.replace(/%FOREACH\s+([^%]+)%([\s\S]*?)%ENDFOREACH%/g, (match, path, inner) => {
+          // 1. Resolve FOREACH (Balanced Tag Matching)
+          while (result.includes('%FOREACH')) {
+            const startIdx = result.indexOf('%FOREACH');
+            const pathMatch = result.substring(startIdx).match(/%FOREACH\s+([^%]+)%/);
+            if (!pathMatch) break;
+
+            const path = pathMatch[1].trim();
+            const afterStart = startIdx + pathMatch[0].length;
+            
+            // Find matching %ENDFOREACH%
+            let depth = 1;
+            let currentPos = afterStart;
+            let endIdx = -1;
+
+            while (depth > 0 && currentPos < result.length) {
+              const nextOpen = result.indexOf('%FOREACH', currentPos);
+              const nextClose = result.indexOf('%ENDFOREACH%', currentPos);
+
+              if (nextClose === -1) break;
+
+              if (nextOpen !== -1 && nextOpen < nextClose) {
+                depth++;
+                currentPos = nextOpen + 8;
+              } else {
+                depth--;
+                endIdx = nextClose;
+                currentPos = nextClose + 12;
+              }
+            }
+
+            if (endIdx === -1) break;
+
+            const innerContent = result.substring(afterStart, endIdx);
             const items = resolve(path, ctx);
-            if (!Array.isArray(items)) return '';
-            return items.map((item, idx) => {
-              const itemCtx = { ...ctx, ...item, INDEX: idx, FOREACH_INDEX: idx, FIRST: idx === 0 ? "true" : "false", LAST: idx === items.length - 1 ? "true" : "false" };
-              return renderTemplate(inner, itemCtx);
-            }).join('');
-          });
+            
+            let renderedItems = '';
+            if (Array.isArray(items)) {
+              renderedItems = items.map((item, idx) => {
+                const itemCtx = { ...ctx, ...item, INDEX: idx, FIRST: idx === 0 ? "true" : "false", LAST: idx === items.length - 1 ? "true" : "false" };
+                return renderTemplate(innerContent, itemCtx);
+              }).join('');
+            }
+
+            result = result.substring(0, startIdx) + renderedItems + result.substring(endIdx + 12);
+          }
 
           // 2. Resolve IFs (Recursive)
-          prevResult = undefined;
-          pass = 0;
+          let prevResult;
+          let pass = 0;
           do {
             prevResult = result;
             result = result.replace(/%IF\s+([^%]+)%((?:(?!%IF)[\s\S])*?)%ENDIF%/g, (match, path, inner) => {
