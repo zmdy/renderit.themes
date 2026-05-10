@@ -76,6 +76,7 @@ renderit.builder automatically resolves the tag, injects the addon HTML, and map
 | Pricing Table | `pricing.html` | Pricing plan cards with featured highlight |
 | Countdown | `countdown.html` | Countdown timer to a configurable date |
 | Tabs | `tabs.html` | Tab navigation with independent content per tab |
+| Category Tabs | `category-tabs.html` | Filterable tabs with dynamic cards grid |
 | Video Embed | `video.html` | Responsive YouTube/Vimeo embed |
 | Newsletter | `newsletter.html` | Email capture form |
 | Stats | `stats.html` | Animated counters with labels |

@@ -464,6 +464,44 @@
           { 'title': 'Suporte', 'icon': '<i class="fa-solid fa-headset"></i>', 'content': 'Documentação completa e suporte técnico especializado disponível 24 horas por dia, 7 dias por semana.' }
         ]
       },
+      'category-tabs': {
+        'settings': {
+          'show_all': 'true',
+          'show_all_label': 'Todos'
+        },
+        'categories': [
+          {
+            'title': 'Pizzas',
+            'cards': [
+              {
+                'image': 'https://picsum.photos/400/300?random=20',
+                'badge': 'Mais Vendido',
+                'title': 'Pizza de Calabresa',
+                'subtitle': 'Massa fina com borda recheada',
+                'price': 'R$ 49,90',
+                'rating': '4.9'
+              },
+              {
+                'image': 'https://picsum.photos/400/300?random=21',
+                'title': 'Pizza Margherita',
+                'subtitle': 'Tomate, manjericão e muito queijo',
+                'price': 'R$ 45,00'
+              }
+            ]
+          },
+          {
+            'title': 'Bebidas',
+            'cards': [
+              {
+                'image': 'https://picsum.photos/400/300?random=22',
+                'badge': 'Gelada',
+                'title': 'Refrigerante 2L',
+                'price': 'R$ 12,00'
+              }
+            ]
+          }
+        ]
+      },
       'team': {
         'members': [
           { 'name': 'Ana Silva', 'role': 'CEO & Founder', 'photo': 'https://i.pravatar.cc/300?u=ana', 'bio': 'Especialista em estratégia digital com mais de 15 anos de experiência no mercado tecnológico.', 'social_linkedin': '#', 'social_instagram': '#' },
@@ -582,7 +620,7 @@
         'cookie-banner', 'countdown', 'countdown-event', 'counter', 'flipbox',
         'form', 'gallery', 'icon-list', 'logo-ticker', 'map', 'newsletter',
         'popup', 'pricing', 'slider', 'social-feed', 'stats', 'sticky-cta',
-        'tabs', 'team', 'testimonials', 'timeline', 'video', 'whatsapp'
+        'tabs', 'category-tabs', 'team', 'testimonials', 'timeline', 'video', 'whatsapp'
       ];
 
       const listContainer = document.getElementById('addon-list');
