@@ -1,10 +1,10 @@
 <!-- Addon: category-tabs -->
 <div id="renderit-category-tabs-%id%" class="renderit-cat-tabs-container">
-  
+
   <!-- Tabs Header -->
   <div class="renderit-cat-tabs-header">
     <div class="renderit-cat-tabs-list" role="tablist">
-      
+
       %IF settings.show_all%
       <button class="renderit-cat-tab-btn is-active" data-filter="all" role="tab">
         %settings.show_all_label%
@@ -12,9 +12,7 @@
       %ENDIF%
 
       %FOREACH categories%
-      <button class="renderit-cat-tab-btn renderit-cat-filter-btn" 
-              data-filter="%INDEX%" 
-              role="tab">
+      <button class="renderit-cat-tab-btn renderit-cat-filter-btn" data-filter="%INDEX%" role="tab">
         %title%
       </button>
       %ENDFOREACH%
@@ -28,7 +26,7 @@
     <div class="renderit-cat-group" data-category="%INDEX%">
       %FOREACH cards%
       <div class="renderit-cat-card">
-        
+
         <div class="renderit-cat-card-media">
           <img src="%image%" alt="%title%">
           %IF badge%
@@ -50,12 +48,20 @@
 
           %IF rating%
           <div class="renderit-cat-card-rating">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
             <span>%rating%</span>
           </div>
           %ENDIF%
+
+          %IF cta_link%
+          <div class="renderit-cat-card-link">
+            <a href="%cta_link%" class="renderit-cat-card-cta">%cta_label%</a>
+          </div>
+          %ENDIF%
         </div>
-        
+
       </div>
       %ENDFOREACH%
     </div>
@@ -70,13 +76,14 @@
     --cat-tabs-bg: %design.colors.surface%;
     --cat-tabs-card-bg: %design.colors.surface%;
     --cat-tabs-text: %design.colors.on-surface%;
-    --cat-tabs-muted: rgba(0,0,0,0.5);
-    --cat-tabs-border: rgba(0,0,0,0.1);
+    --cat-tabs-muted: rgba(0, 0, 0, 0.5);
+    --cat-tabs-border: rgba(0, 0, 0, 0.1);
     --cat-tabs-radius: %design.rounded.md%;
   }
 
   .renderit-cat-tabs-container {
-    width: 100%; /* % */
+    width: 100%;
+    /* % */
     display: flex;
     flex-direction: column;
     gap: 30px;
@@ -94,7 +101,7 @@
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
-    background: rgba(0,0,0,0.03);
+    background: rgba(0, 0, 0, 0.03);
     padding: 8px;
     border-radius: 50px;
   }
@@ -120,7 +127,7 @@
     background: var(--cat-tabs-primary);
     color: #ffffff;
     opacity: 1;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
 
   /* Cards Grid */
@@ -128,7 +135,8 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 24px;
-    width: 100%; /* % */
+    width: 100%;
+    /* % */
   }
 
   .renderit-cat-group {
@@ -152,19 +160,22 @@
 
   .renderit-cat-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
   }
 
   .renderit-cat-card-media {
     position: relative;
-    width: 100%; /* % */
+    width: 100%;
+    /* % */
     aspect-ratio: 4/3;
     overflow: hidden;
   }
 
   .renderit-cat-card-media img {
-    width: 100%; /* % */
-    height: 100%; /* % */
+    width: 100%;
+    /* % */
+    height: 100%;
+    /* % */
     object-fit: cover;
     transition: transform 0.5s ease;
   }
@@ -230,7 +241,8 @@
     margin-top: auto;
     font-size: 14px;
     font-weight: 600;
-    color: #f59e0b; /* Golden Yellow for star */
+    color: #f59e0b;
+    /* Golden Yellow for star */
   }
 
   .renderit-cat-card-rating span {
@@ -238,19 +250,34 @@
   }
 
   @keyframes renderitCatFadeIn {
-    0% /* % */ { opacity: 0; transform: scale(0.95); }
-    100% /* % */ { opacity: 1; transform: scale(1); }
+    0%
+
+    /* % */
+      {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+
+    100%
+
+    /* % */
+      {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 
   @media (max-width: 768px) {
     .renderit-cat-cards-grid {
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     }
+
     .renderit-cat-tabs-list {
       flex-direction: row;
       border-radius: 12px;
       padding: 5px;
     }
+
     .renderit-cat-tab-btn {
       border-radius: 8px;
       padding: 8px 16px;
@@ -259,53 +286,53 @@
 </style>
 
 <script>
-(function() {
-  const containerId = 'renderit-category-tabs-%id%';
-  const container = document.getElementById(containerId);
-  if (!container) return;
+  (function () {
+    const containerId = 'renderit-category-tabs-%id%';
+    const container = document.getElementById(containerId);
+    if (!container) return;
 
-  const buttons = container.querySelectorAll('.renderit-cat-tab-btn');
-  const cards = container.querySelectorAll('.renderit-cat-card');
-  const groups = container.querySelectorAll('.renderit-cat-group');
+    const buttons = container.querySelectorAll('.renderit-cat-tab-btn');
+    const cards = container.querySelectorAll('.renderit-cat-card');
+    const groups = container.querySelectorAll('.renderit-cat-group');
 
-  // Initialize visibility based on whether "Show All" exists
-  const showAllBtn = container.querySelector('[data-filter="all"]');
-  let activeFilter = 'all';
+    // Initialize visibility based on whether "Show All" exists
+    const showAllBtn = container.querySelector('[data-filter="all"]');
+    let activeFilter = 'all';
 
-  if (!showAllBtn && buttons.length > 0) {
-    // If no show all button, set the first tab as active
-    const firstTab = buttons[0];
-    firstTab.classList.add('is-active');
-    activeFilter = firstTab.getAttribute('data-filter');
-  } else if (showAllBtn) {
-    showAllBtn.classList.add('is-active');
-  }
+    if (!showAllBtn && buttons.length > 0) {
+      // If no show all button, set the first tab as active
+      const firstTab = buttons[0];
+      firstTab.classList.add('is-active');
+      activeFilter = firstTab.getAttribute('data-filter');
+    } else if (showAllBtn) {
+      showAllBtn.classList.add('is-active');
+    }
 
-  function filterCards(filter) {
-    groups.forEach(group => {
-      const groupCat = group.getAttribute('data-category');
-      const groupCards = group.querySelectorAll('.renderit-cat-card');
-      
-      groupCards.forEach(card => {
-        card.classList.remove('is-visible');
-        if (filter === 'all' || groupCat === filter) {
-          setTimeout(() => {
-            card.classList.add('is-visible');
-          }, 10);
-        }
+    function filterCards(filter) {
+      groups.forEach(group => {
+        const groupCat = group.getAttribute('data-category');
+        const groupCards = group.querySelectorAll('.renderit-cat-card');
+
+        groupCards.forEach(card => {
+          card.classList.remove('is-visible');
+          if (filter === 'all' || groupCat === filter) {
+            setTimeout(() => {
+              card.classList.add('is-visible');
+            }, 10);
+          }
+        });
+      });
+    }
+
+    // Initial filtering
+    filterCards(activeFilter);
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        filterCards(btn.getAttribute('data-filter'));
       });
     });
-  }
-
-  // Initial filtering
-  filterCards(activeFilter);
-
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      buttons.forEach(b => b.classList.remove('is-active'));
-      btn.classList.add('is-active');
-      filterCards(btn.getAttribute('data-filter'));
-    });
-  });
-})();
+  })();
 </script>
