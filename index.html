@@ -386,6 +386,18 @@
           { 'icon': '<i class="fa-solid fa-star"></i>', 'prefix': '', 'value': '4.9', 'suffix': '', 'label': 'Avaliação Média' }
         ]
       },
+      'slider': {
+        'settings': { 
+          'autoplay': 'true', 
+          'interval': '5000', 
+          'transition': 'fade',
+          'kenburns': 'in' 
+        },
+        'items': [
+          { 'image': 'https://picsum.photos/id/10/1200/600', 'title': 'Design Inovador', 'subtitle': 'Sua presença digital com o que há de mais moderno.', 'cta_label': 'Saiba Mais', 'cta_url': '#design' },
+          { 'image': 'https://picsum.photos/id/20/1200/600', 'title': 'Alta Performance', 'subtitle': 'Sites extremamente rápidos e otimizados para SEO.', 'cta_label': 'Ver Planos', 'cta_url': '#perf' }
+        ]
+      },
       'map': {
         'title': 'Onde Estamos',
         'provider': 'google',
@@ -597,51 +609,50 @@
           id: `pv-${Math.random().toString(36).substring(2, 6)}`
         };
 
-        const resolve = (path, obj) => path.split('.').reduce((acc, part) => acc && acc[part], obj);
+        const resolve = (path, obj) => {
+          if (!path || !obj) return undefined;
+          return path.trim().split('.').reduce((acc, part) => acc && acc[part], obj);
+        };
 
-        // Render Logic
-        html = html.replace(/%id%/g, context.id); // Priority for ID
+        function renderTemplate(content, ctx) {
+          let result = content;
+          let prevResult;
+          let pass = 0;
 
-        html = html.replace(/%FOREACH\s+([^%]+)%([\s\S]*?)%ENDFOREACH%/g, (match, path, inner) => {
-          const items = resolve(path, context);
-          console.log(`[Showcase] Resolving FOREACH ${path}:`, items ? items.length : 'null');
-          if (!Array.isArray(items)) return '';
-          return items.map((item, idx) => {
-            const itemContext = { ...context, ...item, INDEX: idx };
-            return inner.replace(/%([^%]+)%/g, (m, p) => {
-              const val = resolve(p, itemContext) ?? resolve(p, context);
-              if (val === undefined) return m;
-              return typeof val === 'object' ? JSON.stringify(val) : val;
-            });
-          }).join('');
-        });
-
-        // Resolve IFs recursively with ELSE support
-        let prevHtml;
-        let pass = 0;
-        do {
-          prevHtml = html;
-          pass++;
-          html = html.replace(/%IF\s+([^%]+)%((?:(?!%IF)[\s\S])*?)%ENDIF%/g, (match, path, inner) => {
-            const val = resolve(path, context);
-            if (inner.includes('%ELSE%')) {
-              const parts = inner.split('%ELSE%');
-              return val ? parts[0] : parts[1];
-            }
-            return val ? inner : '';
+          // 1. Resolve FOREACH (Recursive)
+          result = result.replace(/%FOREACH\s+([^%]+)%([\s\S]*?)%ENDFOREACH%/g, (match, path, inner) => {
+            const items = resolve(path, ctx);
+            if (!Array.isArray(items)) return '';
+            return items.map((item, idx) => {
+              const itemCtx = { ...ctx, ...item, INDEX: idx, FOREACH_INDEX: idx, FIRST: idx === 0 ? "true" : "false", LAST: idx === items.length - 1 ? "true" : "false" };
+              return renderTemplate(inner, itemCtx);
+            }).join('');
           });
-          if (pass > 10) break; // Safety
-        } while (html !== prevHtml);
 
-        html = html.replace(/%([^%]+)%/g, (m, p) => {
-          const val = resolve(p, context);
-          if (val === undefined) {
-            console.warn(`[Showcase] Could not resolve token: %${p}%`);
-            return m;
-          }
-          console.log(`[Showcase] Resolved %${p}% ->`, val);
-          return typeof val === 'object' ? JSON.stringify(val) : val;
-        });
+          // 2. Resolve IFs (Recursive)
+          prevResult = undefined;
+          pass = 0;
+          do {
+            prevResult = result;
+            result = result.replace(/%IF\s+([^%]+)%((?:(?!%IF)[\s\S])*?)%ENDIF%/g, (match, path, inner) => {
+              const val = resolve(path, ctx);
+              if (inner.includes('%ELSE%')) {
+                const parts = inner.split('%ELSE%');
+                return (val && val !== "false" && val !== "undefined") ? parts[0] : parts[1];
+              }
+              return (val && val !== "false" && val !== "undefined") ? inner : '';
+            });
+          } while (result !== prevResult && pass++ < 10);
+
+          // 3. Resolve Variables
+          return result.replace(/%((?!IF |ENDIF|ELSE|FOREACH|ENDFOREACH)[^%]+)%/g, (m, p) => {
+            const val = resolve(p, ctx);
+            if (val === undefined) return m;
+            return typeof val === 'object' ? JSON.stringify(val) : val;
+          });
+        }
+
+        html = renderTemplate(html, context);
 
         // INJECTION LOGIC (NO IFRAME)
         const root = document.getElementById('preview-root');
