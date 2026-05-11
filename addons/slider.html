@@ -1,8 +1,8 @@
 <!-- Addon: slider -->
-<div class="renderit-slider renderit-slider-%slider.settings.transition% kb-%slider.settings.kenburns%" id="slider-%id%">
+<div class="renderit-slider renderit-slider-%settings.transition% kb-%settings.kenburns%" id="slider-%id%">
   <div class="renderit-slider-viewport">
     <div class="renderit-slider-track">
-      %FOREACH slider.items%
+      %FOREACH items%
       <div class="renderit-slider-slide">
         <div class="renderit-slider-image-box">
           <img src="%image%" alt="%title%" class="renderit-slider-bg">
@@ -34,14 +34,14 @@
 </div>
 
 <style>
-  :root {
+  #slider-%id% {
     --slider-primary: %design.colors.primary%;
     --slider-on-primary: %design.colors.surface%;
     --slider-font: %design.fonts.primary%;
     --slider-radius: %design.rounded.lg%;
   }
 
-  .renderit-slider {
+  #slider-%id%.renderit-slider {
     position: relative;
     width: 100%;
     height: 500px;
@@ -51,12 +51,12 @@
     border-radius: var(--slider-radius);
   }
 
-  .renderit-slider-viewport {
+  #slider-%id% .renderit-slider-viewport {
     width: 100%;
     height: 100%;
   }
 
-  .renderit-slider-track {
+  #slider-%id% .renderit-slider-track {
     display: flex;
     width: 100%;
     height: 100%;
@@ -64,11 +64,11 @@
   }
 
   /* Fade Transition */
-  .renderit-slider-fade .renderit-slider-track {
+  #slider-%id%.renderit-slider-fade .renderit-slider-track {
     display: block;
     transform: none !important;
   }
-  .renderit-slider-fade .renderit-slider-slide {
+  #slider-%id%.renderit-slider-fade .renderit-slider-slide {
     position: absolute;
     top: 0;
     left: 0;
@@ -78,12 +78,12 @@
     transition: opacity 1s ease-in-out;
     z-index: 1;
   }
-  .renderit-slider-fade .renderit-slider-slide.active {
+  #slider-%id%.renderit-slider-fade .renderit-slider-slide.active {
     opacity: 1;
     z-index: 2;
   }
 
-  .renderit-slider-slide {
+  #slider-%id% .renderit-slider-slide {
     flex: 0 0 100%;
     width: 100%;
     height: 100%;
@@ -94,7 +94,7 @@
     text-align: center;
   }
 
-  .renderit-slider-image-box {
+  #slider-%id% .renderit-slider-image-box {
     position: absolute;
     top: 0;
     left: 0;
@@ -104,7 +104,7 @@
     overflow: hidden;
   }
 
-  .renderit-slider-bg {
+  #slider-%id% .renderit-slider-bg {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -113,23 +113,23 @@
   }
 
   /* Ken Burns Effects */
-  .renderit-slider.kb-in .renderit-slider-slide.active .renderit-slider-bg {
-    animation: renderit-kb-in %slider.settings.interval%ms linear forwards;
+  #slider-%id%.renderit-slider.kb-in .renderit-slider-slide.active .renderit-slider-bg {
+    animation: renderit-kb-in-%id% %settings.interval%ms linear forwards;
   }
-  .renderit-slider.kb-out .renderit-slider-slide.active .renderit-slider-bg {
-    animation: renderit-kb-out %slider.settings.interval%ms linear forwards;
+  #slider-%id%.renderit-slider.kb-out .renderit-slider-slide.active .renderit-slider-bg {
+    animation: renderit-kb-out-%id% %settings.interval%ms linear forwards;
   }
 
-  @keyframes renderit-kb-in {
+  @keyframes renderit-kb-in-%id% {
     from { transform: scale(1); }
     to { transform: scale(1.2); }
   }
-  @keyframes renderit-kb-out {
+  @keyframes renderit-kb-out-%id% {
     from { transform: scale(1.2); }
     to { transform: scale(1); }
   }
 
-  .renderit-slider-content {
+  #slider-%id% .renderit-slider-content {
     position: relative;
     z-index: 2;
     padding: 2rem;
@@ -137,7 +137,7 @@
     color: white;
   }
 
-  .renderit-slider-title {
+  #slider-%id% .renderit-slider-title {
     font-size: 3.5rem;
     font-weight: 800;
     margin-bottom: 1rem;
@@ -147,7 +147,7 @@
     transition: all 0.6s ease 0.3s;
   }
 
-  .renderit-slider-subtitle {
+  #slider-%id% .renderit-slider-subtitle {
     font-size: 1.25rem;
     margin-bottom: 2rem;
     opacity: 0;
@@ -155,13 +155,13 @@
     transition: all 0.6s ease 0.5s;
   }
 
-  .renderit-slider-slide.active .renderit-slider-title,
-  .renderit-slider-slide.active .renderit-slider-subtitle {
+  #slider-%id% .renderit-slider-slide.active .renderit-slider-title,
+  #slider-%id% .renderit-slider-slide.active .renderit-slider-subtitle {
     transform: translateY(0);
     opacity: 1;
   }
 
-  .renderit-slider-cta {
+  #slider-%id% .renderit-slider-cta {
     display: inline-block;
     padding: 1rem 2.5rem;
     background: var(--slider-primary);
@@ -172,12 +172,12 @@
     transition: transform 0.3s ease, filter 0.3s ease;
   }
 
-  .renderit-slider-cta:hover {
+  #slider-%id% .renderit-slider-cta:hover {
     transform: scale(1.05);
     filter: brightness(1.1);
   }
 
-  .renderit-slider-prev, .renderit-slider-next {
+  #slider-%id% .renderit-slider-prev, #slider-%id% .renderit-slider-next {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -196,20 +196,20 @@
     transition: background 0.3s ease;
   }
 
-  .renderit-slider-prev:hover, .renderit-slider-next:hover {
+  #slider-%id% .renderit-slider-prev:hover, #slider-%id% .renderit-slider-next:hover {
     background: rgba(255, 255, 255, 0.2);
   }
 
-  .renderit-slider-prev { left: 20px; }
-  .renderit-slider-next { right: 20px; }
+  #slider-%id% .renderit-slider-prev { left: 20px; }
+  #slider-%id% .renderit-slider-next { right: 20px; }
 
-  .renderit-slider-prev svg, .renderit-slider-next svg {
+  #slider-%id% .renderit-slider-prev svg, #slider-%id% .renderit-slider-next svg {
     width: 24px;
     height: 24px;
     fill: currentColor;
   }
 
-  .renderit-slider-dots {
+  #slider-%id% .renderit-slider-dots {
     position: absolute;
     bottom: 20px;
     left: 50%;
@@ -219,7 +219,7 @@
     z-index: 10;
   }
 
-  .renderit-slider-dot {
+  #slider-%id% .renderit-slider-dot {
     width: 12px;
     height: 12px;
     border-radius: 50%;
@@ -228,109 +228,106 @@
     transition: all 0.3s ease;
   }
 
-  .renderit-slider-dot.active {
+  #slider-%id% .renderit-slider-dot.active {
     background: white;
     transform: scale(1.2);
   }
 
   @media (max-width: 768px) {
-    .renderit-slider { height: 400px; }
-    .renderit-slider-title { font-size: 2.2rem; }
-    .renderit-slider-prev, .renderit-slider-next { display: none; }
+    #slider-%id%.renderit-slider { height: 400px; }
+    #slider-%id% .renderit-slider-title { font-size: 2.2rem; }
+    #slider-%id% .renderit-slider-prev, #slider-%id% .renderit-slider-next { display: none; }
   }
 </style>
 
 <script>
 (function() {
-  const sliders = document.querySelectorAll('.renderit-slider');
+  const slider = document.getElementById('slider-%id%');
+  if (!slider) return;
+
+  const track = slider.querySelector('.renderit-slider-track');
+  const slides = Array.from(slider.querySelectorAll('.renderit-slider-slide'));
+  const prevBtn = slider.querySelector('.renderit-slider-prev');
+  const nextBtn = slider.querySelector('.renderit-slider-next');
+  const dotsContainer = slider.querySelector('.renderit-slider-dots');
   
-  sliders.forEach(slider => {
-    const track = slider.querySelector('.renderit-slider-track');
-    const slides = Array.from(slider.querySelectorAll('.renderit-slider-slide'));
-    const prevBtn = slider.querySelector('.renderit-slider-prev');
-    const nextBtn = slider.querySelector('.renderit-slider-next');
-    const dotsContainer = slider.querySelector('.renderit-slider-dots');
-    
-    let currentIndex = 0;
-    const totalSlides = slides.length;
-    
-    // Configurações dinâmicas
-    const autoplay = "%slider.settings.autoplay%" === "true";
-    const interval = parseInt("%slider.settings.interval%") || 5000;
-    const transitionType = "%slider.settings.transition%" || "slide";
-    const kenBurns = "%slider.settings.kenburns%" || "none";
+  let currentIndex = 0;
+  const totalSlides = slides.length;
+  
+  // Configurações dinâmicas
+  const autoplay = "%settings.autoplay%" === "true";
+  const interval = parseInt("%settings.interval%") || 5000;
+  const transitionType = "%settings.transition%" || "slide";
+  const kenBurns = "%settings.kenburns%" || "none";
 
-    console.log('[Slider] Init:', { autoplay, interval, transitionType, kenBurns });
-
-    // Limpar e criar dots
-    dotsContainer.innerHTML = '';
-    slides.forEach((_, i) => {
-      const dot = document.createElement('div');
-      dot.className = `renderit-slider-dot ${i === 0 ? 'active' : ''}`;
-      dot.addEventListener('click', () => goToSlide(i));
-      dotsContainer.appendChild(dot);
-    });
-
-    const dots = Array.from(slider.querySelectorAll('.renderit-slider-dot'));
-
-    function updateSlider() {
-      if (transitionType === 'slide') {
-        track.style.transform = `translateX(-${currentIndex * 100}%)`;
-      }
-      
-      slides.forEach((s, i) => {
-        s.classList.toggle('active', i === currentIndex);
-      });
-      
-      dots.forEach((d, i) => {
-        d.classList.toggle('active', i === currentIndex);
-      });
-    }
-
-    function goToSlide(index) {
-      currentIndex = (index + totalSlides) % totalSlides;
-      updateSlider();
-      resetAutoplay();
-    }
-
-    function nextSlide() {
-      goToSlide(currentIndex + 1);
-    }
-
-    function prevSlide() {
-      goToSlide(currentIndex - 1);
-    }
-
-    prevBtn?.addEventListener('click', prevSlide);
-    nextBtn?.addEventListener('click', nextSlide);
-
-    // Touch support
-    let touchStartX = 0;
-    slider.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
-    slider.addEventListener('touchend', e => {
-      const touchEndX = e.changedTouches[0].clientX;
-      if (touchStartX - touchEndX > 50) nextSlide();
-      if (touchStartX - touchEndX < -50) prevSlide();
-    });
-
-    // Autoplay
-    let autoplayTimer;
-    function startAutoplay() {
-      if (autoplay) {
-        autoplayTimer = setInterval(nextSlide, interval);
-      }
-    }
-
-    function resetAutoplay() {
-      if (autoplayTimer) {
-        clearInterval(autoplayTimer);
-        startAutoplay();
-      }
-    }
-
-    // Inicialização
-    updateSlider();
-    startAutoplay();
+  // Limpar e criar dots
+  dotsContainer.innerHTML = '';
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = `renderit-slider-dot ${i === 0 ? 'active' : ''}`;
+    dot.addEventListener('click', () => goToSlide(i));
+    dotsContainer.appendChild(dot);
   });
+
+  const dots = Array.from(slider.querySelectorAll('.renderit-slider-dot'));
+
+  function updateSlider() {
+    if (transitionType === 'slide') {
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+    
+    slides.forEach((s, i) => {
+      s.classList.toggle('active', i === currentIndex);
+    });
+    
+    dots.forEach((d, i) => {
+      d.classList.toggle('active', i === currentIndex);
+    });
+  }
+
+  function goToSlide(index) {
+    currentIndex = (index + totalSlides) % totalSlides;
+    updateSlider();
+    resetAutoplay();
+  }
+
+  function nextSlide() {
+    goToSlide(currentIndex + 1);
+  }
+
+  function prevSlide() {
+    goToSlide(currentIndex - 1);
+  }
+
+  prevBtn?.addEventListener('click', prevSlide);
+  nextBtn?.addEventListener('click', nextSlide);
+
+  // Touch support
+  let touchStartX = 0;
+  slider.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+  slider.addEventListener('touchend', e => {
+    const touchEndX = e.changedTouches[0].clientX;
+    if (touchStartX - touchEndX > 50) nextSlide();
+    if (touchStartX - touchEndX < -50) prevSlide();
+  });
+
+  // Autoplay
+  let autoplayTimer;
+  function startAutoplay() {
+    if (autoplay) {
+      autoplayTimer = setInterval(nextSlide, interval);
+    }
+  }
+
+  function resetAutoplay() {
+    if (autoplayTimer) {
+      clearInterval(autoplayTimer);
+      startAutoplay();
+    }
+  }
+
+  // Inicialização
+  updateSlider();
+  startAutoplay();
 })();
 </script>

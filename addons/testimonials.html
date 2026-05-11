@@ -1,7 +1,7 @@
 <!-- Addon: testimonials -->
 <section id="renderit-testimonials-%id%" class="renderit-testimonials-section">
   <div class="renderit-testimonials-grid">
-    %FOREACH testimonials.items%
+    %FOREACH items%
     <div class="renderit-testimonial-card">
       <div class="renderit-testimonial-quote-icon">
         <svg viewBox="0 0 24 24" fill="currentColor">
@@ -36,7 +36,7 @@
 </section>
 
 <style>
-  :root {
+  #renderit-testimonials-%id% {
     --testi-bg: %design.colors.surface%;
     --testi-text: %design.colors.on-surface%;
     --testi-primary: %design.colors.primary%;
@@ -44,18 +44,18 @@
     --testi-radius: %design.rounded.lg%;
   }
 
-  .renderit-testimonials-section {
+  #renderit-testimonials-%id%.renderit-testimonials-section {
     padding: 60px 0;
   }
 
-  .renderit-testimonials-grid {
+  #renderit-testimonials-%id% .renderit-testimonials-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
     padding: 20px;
   }
 
-  .renderit-testimonial-card {
+  #renderit-testimonials-%id% .renderit-testimonial-card {
     background: var(--testi-bg);
     color: var(--testi-text);
     padding: 40px;
@@ -67,12 +67,12 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  .renderit-testimonial-card:hover {
+  #renderit-testimonials-%id% .renderit-testimonial-card:hover {
     transform: translateY(-10px);
     box-shadow: %design.elevation.lg%;
   }
 
-  .renderit-testimonial-quote-icon {
+  #renderit-testimonials-%id% .renderit-testimonial-quote-icon {
     color: var(--testi-primary);
     width: 40px;
     height: 40px;
@@ -80,7 +80,7 @@
     margin-bottom: 20px;
   }
 
-  .renderit-testimonial-content {
+  #renderit-testimonials-%id% .renderit-testimonial-content {
     font-size: 18px;
     line-height: 1.6;
     font-style: italic;
@@ -88,13 +88,13 @@
     flex-grow: 1;
   }
 
-  .renderit-testimonial-footer {
+  #renderit-testimonials-%id% .renderit-testimonial-footer {
     display: flex;
     align-items: center;
     gap: 15px;
   }
 
-  .renderit-testimonial-avatar {
+  #renderit-testimonials-%id% .renderit-testimonial-avatar {
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -102,37 +102,37 @@
     border: 2px solid var(--testi-primary);
   }
 
-  .renderit-testimonial-avatar img {
+  #renderit-testimonials-%id% .renderit-testimonial-avatar img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
-  .renderit-testimonial-info {
+  #renderit-testimonials-%id% .renderit-testimonial-info {
     display: flex;
     flex-direction: column;
   }
 
-  .renderit-testimonial-name {
+  #renderit-testimonials-%id% .renderit-testimonial-name {
     margin: 0;
     font-family: %design.fonts.primary%;
     font-size: 16px;
     font-weight: 700;
   }
 
-  .renderit-testimonial-role {
+  #renderit-testimonials-%id% .renderit-testimonial-role {
     font-size: 14px;
     opacity: 0.7;
   }
 
-  .renderit-testimonial-stars {
+  #renderit-testimonials-%id% .renderit-testimonial-stars {
     margin-top: 15px;
     display: flex;
     gap: 2px;
     color: #ffc107;
   }
 
-  .renderit-testimonial-star {
+  #renderit-testimonials-%id% .renderit-testimonial-star {
     width: 16px;
     height: 16px;
   }
@@ -140,8 +140,7 @@
 
 <script>
 (function() {
-  const sectionId = 'renderit-testimonials-%id%';
-  const section = document.getElementById(sectionId);
+  const section = document.getElementById('renderit-testimonials-%id%');
   if (!section) return;
 
   const starContainers = section.querySelectorAll('.renderit-testimonial-stars');
