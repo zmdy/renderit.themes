@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>%site.title%</title>
+  <meta name="description" content="%site.description%">
+  <link rel="shortcut icon" href="%site.favicon%" type="image/x-icon">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: %design.colors.primary%;
+      --secondary: %design.colors.secondary%;
+      --surface: %design.colors.surface%;
+      --on-surface: %design.colors.on-surface%;
+      --accent: %design.colors.accent%;
+      --font-main: %design.fonts.primary%;
+      --font-heading: %design.fonts.secondary%;
+      --radius-md: %design.rounded.md%;
+      --radius-lg: %design.rounded.lg%;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-main);
+      color: var(--on-surface);
+      background-color: var(--surface);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    .heading {
+      font-family: var(--font-heading);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    section {
+      padding: 80px 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* TOPBAR */
+    .topbar {
+      background-color: var(--secondary);
+      color: white;
+      padding: 8px 0;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      position: relative;
+      z-index: 1001;
+    }
+
+    /* HEADER */
+    .main-header {
+      position: fixed;
+      top: 36px;
+      /* Below topbar */
+      left: 0;
+      width: 100%;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000;
+      padding: 0 40px;
+    }
+
+    .main-header.is-scrolled {
+      top: 0;
+      background-color: var(--primary);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      height: 70px;
+    }
+
+    .header-container {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-link img {
+      height: 50px;
+      width: auto;
+      transition: transform 0.3s ease;
+    }
+
+    .main-header.is-scrolled .logo-link img {
+      height: 40px;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+    }
+
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: opacity 0.3s ease;
+    }
+
+    .nav-link:hover {
+      opacity: 0.8;
+    }
+
+    /* HERO */
+    #hero {
+      padding: 0;
+      margin-top: 0;
+    }
+
+    /* SECTIONS HELPERS */
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-title h2 {
+      font-size: 48px;
+      color: var(--secondary);
+      margin-bottom: 10px;
+    }
+
+    .section-title p {
+      color: #666;
+      font-size: 18px;
+    }
+
+    /* FOOTER */
+    footer {
+      background-color: var(--secondary);
+      color: white;
+      padding: 60px 0 30px;
+      text-align: center;
+    }
+
+    .footer-logo {
+      height: 60px;
+      margin-bottom: 30px;
+    }
+
+    .copyright {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 12px;
+      opacity: 0.6;
+    }
+
+    @media (max-width: 768px) {
+      .main-header {
+        padding: 0 20px;
+        top: 36px;
+      }
+
+      .nav-menu {
+        display: none;
+      }
+
+      .section-title h2 {
+        font-size: 36px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="container flex justify-between items-center">
+        <span>%topbar.text%</span>
+        <span class="ml-4"><i class="fa-solid fa-phone mr-1"></i> %topbar.phone%</span>
+      </div>
+    </div>
+
+    <!-- STICKY HEADER -->
+    <header class="main-header">
+      <div class="header-container">
+        <a href="#" class="logo-link">
+          <img src="%design.logos.light_logo%" alt="Logo" class="header-logo">
+        </a>
+
+        <nav class="nav-menu">
+          <a href="#menu" class="nav-link">Cardápio</a>
+          <a href="#testimonials" class="nav-link">Depoimentos</a>
+          <a href="#gallery" class="nav-link">Fotos</a>
+          <a href="#location" class="nav-link">Onde Estamos</a>
+        </nav>
+
+        <a href="#menu" class="btn-cta-header hidden md:block"
+          style="background: white; color: var(--primary); padding: 10px 20px; border-radius: 50px; text-decoration: none; font-weight: 800; font-size: 12px; text-transform: uppercase;">
+          Peça Agora
+        </a>
+      </div>
+    </header>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section id="hero">
+      %ADDON slider src="hero"%
+    </section>
+
+    <!-- MENU (LIVE MODE HYDRATION) -->
+    <section id="menu" data-renderit-zone="menu" data-renderit-src="data.json">
+      <div class="container">
+        <div class="section-title">
+          <h2>Nosso Cardápio Digital</h2>
+          <p>Preços e disponibilidade atualizados em tempo real</p>
+        </div>
+        <!-- O conteúdo abaixo será hidratado via Live Mode pelo Builder -->
+        %ADDON category-tabs%
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonials" style="background-color: var(--accent);">
+      <div class="container">
+        <div class="section-title">
+          <h2>Quem provou, amou!</h2>
+          <p>Veja o que nossos clientes dizem sobre o Bruto</p>
+        </div>
+        %ADDON testimonials src="testimonials"%
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery">
+      <div class="container">
+        <div class="section-title">
+          <h2>Por dentro do Brutus</h2>
+          <p>Um pouco do nosso dia a dia e preparo</p>
+        </div>
+        %ADDON gallery src="gallery"%
+      </div>
+    </section>
+
+    <!-- LOCATION -->
+    <section id="location">
+      <div class="container">
+        <div class="section-title">
+          <h2>Localização</h2>
+          <p>Venha nos visitar ou peça sua entrega</p>
+        </div>
+        <div style="border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+          %ADDON map src="location"%
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <!-- WHATSAPP BUTTON -->
+  %ADDON whatsapp src="whatsapp"%
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <img src="%design.logos.light_logo%" alt="Footer Logo" class="footer-logo">
+      <p style="max-width: 600px; margin: 0 auto; opacity: 0.8;">
+        O melhor burger artesanal da região. Ingredientes frescos, blend secreto e muito amor em cada mordida.
+      </p>
+
+      <div class="social-links"
+        style="margin-top: 30px; display: flex; justify-content: center; gap: 20px; font-size: 24px;">
+        <a href="#" style="color: white;"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" style="color: white;"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#" style="color: white;"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+
+      <div class="copyright">
+        &copy; 2026 %site.title%. Todos os direitos reservados.
+        <br>Desenvolvido com <strong>Renderit.builder</strong>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Header Scroll Logic
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('.main-header');
+      const logo = document.querySelector('.header-logo');
+      const topbar = document.querySelector('.topbar');
+
+      if (window.scrollY > 50) {
+        header.classList.add('is-scrolled');
+        logo.src = '%design.logos.default_logo%';
+        header.style.top = '0';
+      } else {
+        header.classList.remove('is-scrolled');
+        logo.src = '%design.logos.light_logo%';
+        header.style.top = topbar.offsetHeight + 'px';
+      }
+    });
+
+    // Mobile Menu & Anchors
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          const headerHeight = document.querySelector('.main-header').offsetHeight;
+          window.scrollTo({
+            top: target.offsetTop - headerHeight,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Initialize header position on load
+    window.dispatchEvent(new Event('scroll'));
+  </script>
+</body>
+
+</html>
