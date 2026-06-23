@@ -4,10 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Renderit Themes Showcase</title>
+  <title>Renderit.Themes — Showcase de Temas e Addons</title>
+  <meta name="description" content="Biblioteca oficial de temas e addons do ecossistema Renderit — explore e visualize ao vivo, sem capturas de tela estáticas.">
   <link rel="shortcut icon" href="./assets/images/favicon_themes.ico" type="image/x-icon">
 
-  <!-- Core Libraries -->
+  <!-- Core Libraries (used by the addon live-preview engine) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 
   <!-- FontAwesome -->
@@ -19,7 +20,7 @@
 
   <!-- Google Fonts: Inter & JetBrains Mono -->
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Bebas+Neue&family=Montserrat:wght@400;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
     rel="stylesheet">
 
   <!-- Tailwind CSS via CDN -->
@@ -53,42 +54,71 @@
       color: #E2E8F0;
     }
 
-    .glass {
-      background: rgba(22, 25, 30, 0.7);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
     .scrollbar-hide::-webkit-scrollbar {
       display: none;
     }
 
-    .addon-item.active {
-      background: rgba(59, 130, 246, 0.1);
-      border-color: rgba(59, 130, 246, 0.3);
-      color: #3B82F6;
+    .glow-blob {
+      filter: blur(110px);
+      pointer-events: none;
     }
 
-    /* PREVIEW SCOPING & ISOLATION */
-    #preview-area {
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+    }
+
+    .theme-card:hover .theme-thumb-overlay {
+      opacity: 1;
+    }
+
+    .theme-thumb-iframe {
+      transform-origin: top left;
+      transform: scale(0.25);
+    }
+
+    .filter-chip {
+      transition: all .15s ease;
+    }
+
+    .filter-chip.active {
+      background: #3B82F6;
+      color: #fff;
+      border-color: #3B82F6;
+    }
+
+    .modal-open {
+      overflow: hidden;
+    }
+
+    #theme-modal,
+    #addon-modal {
+      display: none;
+    }
+
+    #theme-modal.open,
+    #addon-modal.open {
+      display: flex;
+    }
+
+    /* PREVIEW SCOPING & ISOLATION (no-iframe addon engine) */
+    #addon-preview-area {
       background: #f8fafc;
       min-height: 400px;
       position: relative;
       color: #1f2937;
-      /* Default light theme text */
       text-align: left;
     }
 
-    /* Reset styles inside preview to prevent leakage from showcase */
     .renderit-preview-scope {
       display: block;
       position: relative;
       padding: 40px;
       box-sizing: border-box;
       width: 100%;
-      height: 100%;
-      overflow-y: auto;
-      /* Soft reset: allow global fonts and variables but isolate layout */
+      min-height: 100%;
       color: #1f2937;
       line-height: 1.5;
       font-size: 16px;
@@ -98,130 +128,212 @@
       box-sizing: border-box;
     }
 
-    /* Re-enable important things */
     .renderit-preview-scope script,
     .renderit-preview-scope style {
       display: none;
     }
 
-    /* Prevent fixed/floating addons from escaping the preview wrapper in showcase mode */
-    #preview-root [style*="position: fixed"],
-    #preview-root .pos-fixed,
-    #preview-root .renderit-cookie-banner-wrap,
-    #preview-root .renderit-whatsapp-container,
-    #preview-root [class*="pos-bottom-"],
-    #preview-root [class*="pos-top-"] {
+    /* Prevent fixed/floating addons from escaping the preview wrapper */
+    #addon-preview-root [style*="position: fixed"],
+    #addon-preview-root .pos-fixed,
+    #addon-preview-root .renderit-cookie-banner-wrap,
+    #addon-preview-root .renderit-whatsapp-container,
+    #addon-preview-root [class*="pos-bottom-"],
+    #addon-preview-root [class*="pos-top-"] {
       position: absolute !important;
     }
   </style>
 </head>
 
-<body class="h-screen flex flex-col overflow-hidden antialiased">
+<body class="antialiased">
 
-  <!-- Header -->
-  <header class="h-16 shrink-0 border-b border-border flex items-center justify-between px-6 glass z-50">
-    <div class="flex items-center gap-3">
-      <h1 class="text-lg font-bold tracking-tight">
-        <img src="./assets/images/logo-renderit-themes.svg" alt="" class="w-64">
-      </h1>
-      <span
-        class="text-[10px] uppercase tracking-widest bg-white/5 px-2 py-0.5 rounded font-medium text-text-dim">Direct
-        Rendering</span>
-    </div>
+  <!-- Decorative background -->
+  <div class="fixed inset-0 -z-10 overflow-hidden">
+    <div class="glow-blob absolute -top-32 -left-32 w-[560px] h-[560px] rounded-full bg-accent/15"></div>
+    <div class="glow-blob absolute top-1/3 -right-40 w-[480px] h-[480px] rounded-full bg-purple-500/10"></div>
+  </div>
 
-    <div class="flex items-center gap-4">
-      <div class="text-[10px] text-text-dim flex items-center gap-2 mr-4">
-        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-        No-Iframe Engine v2.0
+  <!-- Top Navigation -->
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-bg/80 border-b border-border">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <img src="./assets/images/logo-renderit-themes.svg" alt="Renderit.Themes" class="h-7">
+      <nav class="hidden md:flex items-center gap-8 text-sm text-text-dim">
+        <a href="#temas" class="hover:text-white transition-colors">Temas</a>
+        <a href="#addons" class="hover:text-white transition-colors">Addons</a>
+      </nav>
+      <div class="flex items-center gap-2 text-[11px] text-text-dim">
+        <span class="px-2.5 py-1 rounded-full bg-panel border border-border"><span id="chip-themes-count">5</span>
+          Temas</span>
+        <span class="px-2.5 py-1 rounded-full bg-panel border border-border"><span
+            id="chip-addons-count">28</span> Addons</span>
       </div>
     </div>
   </header>
 
-  <div class="flex-1 flex overflow-hidden">
-    <!-- Sidebar: Addon List -->
-    <aside class="w-72 shrink-0 border-r border-border flex flex-col bg-surface/50">
-      <div class="p-4 border-b border-border/50">
-        <div class="relative">
-          <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-text-dim text-xs"></i>
-          <input type="text" id="search-addons" placeholder="Search components..."
-            class="w-full bg-panel border border-border rounded-md py-2 pl-9 pr-3 text-xs focus:outline-none focus:ring-1 focus:ring-accent transition-all">
-        </div>
+  <!-- Hero -->
+  <section class="max-w-5xl mx-auto px-6 pt-20 pb-14 text-center">
+    <span
+      class="inline-flex items-center gap-2 text-[11px] uppercase tracking-widest text-accent bg-accent-dim px-3 py-1 rounded-full border border-accent/20 mb-6">
+      <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span> Renderit Ecosystem
+    </span>
+    <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-5 leading-tight">
+      Temas e Addons<br><span class="text-accent">prontos para usar</span>
+    </h1>
+    <p class="text-text-dim text-base md:text-lg max-w-2xl mx-auto mb-10">
+      A biblioteca oficial de componentes e templates do renderit.builder — cada card aqui é renderizado ao vivo,
+      sem capturas de tela estáticas.
+    </p>
+    <div class="flex items-center justify-center gap-4 mb-14">
+      <a href="#temas"
+        class="bg-accent hover:bg-blue-600 px-6 py-3 rounded-lg text-sm font-bold transition-all">Ver Temas</a>
+      <a href="#addons"
+        class="bg-panel hover:bg-panel/70 border border-border px-6 py-3 rounded-lg text-sm font-bold transition-all">Explorar
+        Addons</a>
+    </div>
+    <div class="grid grid-cols-3 max-w-md mx-auto gap-6">
+      <div>
+        <div class="text-2xl font-bold" id="stat-themes">5</div>
+        <div class="text-[11px] text-text-dim uppercase tracking-wide">Temas</div>
       </div>
-
-      <nav id="addon-list" class="flex-1 overflow-y-auto p-2 space-y-1 scrollbar-hide">
-        <!-- Addons will be injected here -->
-      </nav>
-
-      <div class="p-4 border-t border-border">
-        <button id="btn-refresh"
-          class="w-full bg-panel hover:bg-panel/80 border border-border rounded-md py-2 text-xs flex items-center justify-center gap-2 transition-all">
-          <i class="fa-solid fa-rotate text-[10px]"></i> Re-Run Scripts
-        </button>
+      <div>
+        <div class="text-2xl font-bold" id="stat-addons">28</div>
+        <div class="text-[11px] text-text-dim uppercase tracking-wide">Addons</div>
       </div>
-    </aside>
+      <div>
+        <div class="text-2xl font-bold">3</div>
+        <div class="text-[11px] text-text-dim uppercase tracking-wide">Modos de Build</div>
+      </div>
+    </div>
+  </section>
 
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col overflow-hidden bg-bg">
+  <!-- Themes Section -->
+  <section id="temas" class="max-w-7xl mx-auto px-6 py-16">
+    <div class="flex items-end justify-between mb-8 flex-wrap gap-4">
+      <div>
+        <h2 class="text-2xl font-bold mb-1">Temas</h2>
+        <p class="text-text-dim text-sm">Templates completos, renderizados ao vivo com dados de exemplo.</p>
+      </div>
+    </div>
+    <div id="themes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </section>
 
-      <!-- Toolbar -->
-      <div class="h-12 border-b border-border flex items-center justify-between px-6 bg-surface/30">
-        <div class="flex items-center gap-4">
-          <h2 id="current-addon-name" class="font-semibold text-sm">Select an Addon</h2>
-          <div id="addon-badge"
-            class="hidden text-[10px] px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/20">Active
-          </div>
+  <!-- Addons Section -->
+  <section id="addons" class="max-w-7xl mx-auto px-6 py-16">
+    <div class="flex items-end justify-between mb-6 flex-wrap gap-4">
+      <div>
+        <h2 class="text-2xl font-bold mb-1">Addons</h2>
+        <p class="text-text-dim text-sm">Componentes plug-and-play — clique em um card para visualizar e editar os
+          dados em tempo real.</p>
+      </div>
+      <div class="relative">
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-text-dim text-xs"></i>
+        <input type="text" id="search-addons" placeholder="Buscar addon..."
+          class="bg-panel border border-border rounded-md py-2 pl-9 pr-3 text-sm w-60 focus:outline-none focus:ring-1 focus:ring-accent transition-all">
+      </div>
+    </div>
+    <div id="addon-filters" class="flex flex-wrap gap-2 mb-8"></div>
+    <div id="addons-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-border">
+    <div
+      class="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-text-dim text-xs">
+      <span>renderit.themes — parte do ecossistema Renderit</span>
+      <div class="flex items-center gap-6">
+        <span>renderit.editor</span>
+        <span>renderit.builder</span>
+        <span>renderit.manager</span>
+        <span>GPLv3</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ THEME PREVIEW MODAL ============ -->
+  <div id="theme-modal" class="fixed inset-0 z-[90] items-center justify-center p-3 md:p-8 bg-black/70 backdrop-blur-sm">
+    <div
+      class="bg-surface border border-border rounded-2xl w-full max-w-6xl h-full md:h-[85vh] flex flex-col overflow-hidden shadow-2xl">
+      <div class="h-14 shrink-0 border-b border-border flex items-center justify-between px-4 md:px-5 gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <h3 id="theme-modal-title" class="font-bold text-sm truncate"></h3>
+          <span id="theme-modal-badge"
+            class="text-[10px] px-2 py-0.5 rounded-full border shrink-0 hidden sm:inline-block"></span>
         </div>
-
-        <div class="flex items-center gap-2">
-          <button id="view-desktop" class="p-2 rounded hover:bg-panel text-accent transition-colors"
-            title="Desktop View">
+        <div class="flex items-center gap-1.5 shrink-0">
+          <div id="theme-modal-pages" class="hidden md:flex items-center gap-1 mr-2"></div>
+          <button id="theme-modal-desktop" class="p-2 rounded hover:bg-panel text-accent" title="Desktop">
             <i class="fa-solid fa-desktop"></i>
           </button>
-          <button id="view-mobile" class="p-2 rounded hover:bg-panel text-text-dim hover:text-white transition-colors"
-            title="Mobile View">
+          <button id="theme-modal-mobile" class="p-2 rounded hover:bg-panel text-text-dim" title="Mobile">
             <i class="fa-solid fa-mobile-screen"></i>
+          </button>
+          <button id="theme-modal-close" class="p-2 rounded hover:bg-panel text-text-dim" title="Fechar">
+            <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
       </div>
-
-      <!-- Content Split -->
-      <div class="flex-1 flex overflow-hidden">
-
-        <!-- Left: Live Preview -->
-        <div class="flex-1 flex flex-col p-6 overflow-hidden bg-bg">
-          <div
-            class="text-[11px] font-bold text-text-dim uppercase tracking-wider mb-3 flex items-center justify-between">
-            <span>Direct Component Preview</span>
-            <span class="font-mono lowercase font-normal opacity-50" id="preview-status">idle</span>
-          </div>
-          <div id="preview-wrapper"
-            class="flex-1 relative bg-white rounded-xl shadow-2xl overflow-hidden transition-all duration-300">
-            <div id="preview-area" class="w-full h-full overflow-y-auto">
-              <div id="preview-root" class="renderit-preview-scope"></div>
-            </div>
-          </div>
+      <div id="theme-modal-pages-mobile" class="md:hidden flex items-center gap-1 px-4 py-2 border-b border-border overflow-x-auto scrollbar-hide"></div>
+      <div class="flex-1 overflow-auto bg-[#0b0d10] flex justify-center p-0 md:p-6">
+        <div id="theme-modal-frame-wrap"
+          class="bg-white w-full h-full md:rounded-lg overflow-hidden shadow-2xl transition-all duration-300">
+          <iframe id="theme-modal-iframe" class="w-full h-full border-0" title="Theme preview"></iframe>
         </div>
+      </div>
+    </div>
+  </div>
 
-        <!-- Right: Config Editor -->
-        <div class="w-96 shrink-0 border-l border-border flex flex-col glass overflow-hidden">
-          <div class="h-12 border-b border-border flex items-center px-4 gap-2">
-            <i class="fa-solid fa-code text-accent text-xs"></i>
-            <span class="text-xs font-bold uppercase tracking-widest">Mock Data (JSON)</span>
+  <!-- ============ ADDON PREVIEW MODAL ============ -->
+  <div id="addon-modal" class="fixed inset-0 z-[90] items-center justify-center p-3 md:p-8 bg-black/70 backdrop-blur-sm">
+    <div
+      class="bg-surface border border-border rounded-2xl w-full max-w-6xl h-full md:h-[85vh] flex flex-col md:flex-row overflow-hidden shadow-2xl">
+      <div class="flex-1 flex flex-col overflow-hidden min-w-0">
+        <div class="h-14 shrink-0 border-b border-border flex items-center justify-between px-4 md:px-5">
+          <div class="flex items-center gap-3 min-w-0">
+            <h3 id="addon-modal-title" class="font-bold text-sm truncate"></h3>
+            <span
+              class="text-[10px] px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/20 hidden sm:inline-block">Live
+              Preview</span>
           </div>
-          <div class="flex-1 overflow-hidden relative">
-            <textarea id="json-editor"
-              class="w-full h-full bg-transparent p-4 font-mono text-xs text-text-dim focus:text-white focus:outline-none resize-none scrollbar-hide"></textarea>
-          </div>
-          <div class="p-4 bg-surface/50 border-t border-border">
-            <button id="btn-update-preview"
-              class="w-full bg-accent hover:bg-blue-600 text-white font-bold py-3 rounded-lg text-xs shadow-lg shadow-accent/20 transition-all flex items-center justify-center gap-2">
-              <i class="fa-solid fa-play"></i> Apply & Execute
+          <div class="flex items-center gap-1.5 shrink-0">
+            <button id="addon-modal-desktop" class="p-2 rounded hover:bg-panel text-accent" title="Desktop">
+              <i class="fa-solid fa-desktop"></i>
+            </button>
+            <button id="addon-modal-mobile" class="p-2 rounded hover:bg-panel text-text-dim" title="Mobile">
+              <i class="fa-solid fa-mobile-screen"></i>
+            </button>
+            <button id="addon-modal-close" class="p-2 rounded hover:bg-panel text-text-dim md:hidden" title="Fechar">
+              <i class="fa-solid fa-xmark"></i>
             </button>
           </div>
         </div>
-
+        <div class="flex-1 overflow-y-auto bg-white" id="addon-preview-area">
+          <div id="addon-preview-wrapper" class="mx-auto h-full transition-all duration-300">
+            <div id="addon-preview-root" class="renderit-preview-scope"></div>
+          </div>
+        </div>
       </div>
-    </main>
+      <div class="w-full md:w-96 shrink-0 border-l border-border flex flex-col max-h-[40vh] md:max-h-none">
+        <div class="h-14 shrink-0 border-b border-border flex items-center justify-between px-4">
+          <span class="text-xs font-bold uppercase tracking-widest text-text-dim">
+            <i class="fa-solid fa-code text-accent mr-2"></i>Mock Data (JSON)
+          </span>
+          <button id="addon-modal-close-2" class="p-2 rounded hover:bg-panel text-text-dim hidden md:block"
+            title="Fechar">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="flex-1 overflow-hidden relative">
+          <textarea id="addon-json-editor"
+            class="w-full h-full bg-transparent p-4 font-mono text-xs text-text-dim focus:text-white focus:outline-none resize-none scrollbar-hide"></textarea>
+        </div>
+        <div class="p-4 bg-surface/50 border-t border-border">
+          <button id="addon-modal-apply"
+            class="w-full bg-accent hover:bg-blue-600 text-white font-bold py-3 rounded-lg text-xs shadow-lg shadow-accent/20 transition-all flex items-center justify-center gap-2">
+            <i class="fa-solid fa-play"></i> Apply &amp; Execute
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Notification Toast -->
@@ -230,12 +342,52 @@
     <div id="toast-icon" class="w-8 h-8 rounded-full flex items-center justify-center bg-blue-500/10 text-accent">
       <i class="fa-solid fa-check"></i>
     </div>
-    <div id="toast-message" class="text-xs font-medium">Addon updated!</div>
+    <div id="toast-message" class="text-xs font-medium">Renderizado com sucesso!</div>
   </div>
 
-  <!-- Scripts -->
+  <!-- ============ APPLICATION SCRIPT ============ -->
   <script type="module">
-    // Mock Data for all addons
+    /* =========================================================
+     * DESIGN SYSTEM — shared token builder
+     * ========================================================= */
+    function buildDesign(overrides = {}) {
+      return {
+        colors: {
+          primary: '#3B82F6', 'on-primary': '#FFFFFF', secondary: '#F3F4F6', accent: '#3B82F6',
+          tertiary: '#F59E0B',
+          surface: '#FFFFFF', 'on-surface': '#1F2937', neutral: '#9CA3AF',
+          error: '#EF4444', success: '#10B981',
+          ...overrides.colors
+        },
+        typography: {
+          'body-md': { fontSize: '16px', fontWeight: '400' },
+          'body-lg': { fontSize: '18px' },
+          'headline-md': { fontSize: '32px' },
+          'h2': { fontSize: '24px', fontWeight: 'bold' },
+          ...overrides.typography
+        },
+        fonts: { primary: 'Inter, system-ui, sans-serif', secondary: 'Inter, system-ui, sans-serif', ...overrides.fonts },
+        rounded: { sm: '4px', md: '8px', lg: '12px', full: '9999px', ...overrides.rounded },
+        elevation: {
+          sm: '0 1px 3px rgba(0,0,0,.1)', md: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+          lg: '0 10px 15px -3px rgb(0 0 0 / 0.1)', xl: '0 20px 25px rgba(0,0,0,.1)',
+          ...overrides.elevation
+        },
+        logos: {
+          default_logo: 'https://placehold.co/180x56/111827/ffffff?text=Logo',
+          light_logo: 'https://placehold.co/180x56/ffffff/111827?text=Logo',
+          ...overrides.logos
+        }
+      };
+    }
+
+    // Default palette used by the standalone Addon catalog preview
+    const catalogDesign = buildDesign();
+
+    /* =========================================================
+     * MOCK DATA — one entry per addon (used both by the standalone
+     * Addon catalog preview AND when an addon is embedded in a Theme)
+     * ========================================================= */
     const addonMocks = {
       'stats': {
         'items': [
@@ -324,7 +476,7 @@
         'subtitle': 'Preencha o formulário abaixo e retornaremos em breve.',
         'button_label': 'Enviar Mensagem',
         'success_message': 'Mensagem enviada com sucesso! Obrigado pelo contato.',
-        'endpoint': '', 
+        'endpoint': '',
         'method': 'POST',
         'fields': [
           { 'label': 'Nome Completo', 'name': 'name', 'type': 'text', 'placeholder': 'Seu nome...', 'required': true },
@@ -342,9 +494,15 @@
         ]
       },
       'slider': {
-        'slides': [
-          { 'image': 'https://picsum.photos/1200/600?random=4', 'title': 'Bem-vindo ao Brutus', 'subtitle': 'O sabor da brasa' },
-          { 'image': 'https://picsum.photos/1200/600?random=5', 'title': 'Happy Hour', 'subtitle': 'Cerveja gelada todo dia' }
+        'settings': {
+          'autoplay': 'true',
+          'interval': '5000',
+          'transition': 'fade',
+          'kenburns': 'in'
+        },
+        'items': [
+          { 'image': 'https://picsum.photos/id/10/1200/600', 'title': 'Design Inovador', 'subtitle': 'Sua presença digital com o que há de mais moderno.', 'cta_label': 'Saiba Mais', 'cta_url': '#design' },
+          { 'image': 'https://picsum.photos/id/20/1200/600', 'title': 'Alta Performance', 'subtitle': 'Sites extremamente rápidos e otimizados para SEO.', 'cta_label': 'Ver Planos', 'cta_url': '#perf' }
         ]
       },
       'timeline': {
@@ -356,11 +514,11 @@
       'pricing': {
         'currency': 'R$',
         'plans': [
-          { 
-            'title': 'Básico', 
-            'price': '29', 
-            'period': 'mês', 
-            'description': 'Ideal para quem está começando agora.', 
+          {
+            'title': 'Básico',
+            'price': '29',
+            'period': 'mês',
+            'description': 'Ideal para quem está começando agora.',
             'highlighted': 'false',
             'cta_label': 'Começar Agora',
             'cta_url': '#basic',
@@ -370,11 +528,11 @@
               { 'feature': 'Suporte por E-mail' }
             ]
           },
-          { 
-            'title': 'Profissional', 
-            'price': '79', 
-            'period': 'mês', 
-            'description': 'A escolha perfeita para empresas em crescimento.', 
+          {
+            'title': 'Profissional',
+            'price': '79',
+            'period': 'mês',
+            'description': 'A escolha perfeita para empresas em crescimento.',
             'highlighted': 'true',
             'cta_label': 'Escolher Plano',
             'cta_url': '#pro',
@@ -391,12 +549,12 @@
         'number': '5531999999999',
         'message': 'Olá! Gostaria de fazer um pedido.',
         'label_text': 'WhatsApp',
-        'settings': { 
-          'position': 'bottom-right', 
+        'settings': {
+          'position': 'bottom-right',
           'show_label': 'true',
           'bg_color': '#25D366',
           'icon_class': 'fa-brands fa-whatsapp',
-          'image': '' 
+          'image': ''
         }
       },
       'social-feed': {
@@ -412,18 +570,6 @@
           { 'icon': '<i class="fa-solid fa-mug-hot"></i>', 'prefix': '', 'value': '500', 'suffix': '+', 'label': 'Cafés Servidos' },
           { 'icon': '<i class="fa-solid fa-face-smile"></i>', 'prefix': '', 'value': '1200', 'suffix': '', 'label': 'Clientes Felizes' },
           { 'icon': '<i class="fa-solid fa-star"></i>', 'prefix': '', 'value': '4.9', 'suffix': '', 'label': 'Avaliação Média' }
-        ]
-      },
-      'slider': {
-        'settings': { 
-          'autoplay': 'true', 
-          'interval': '5000', 
-          'transition': 'fade',
-          'kenburns': 'in' 
-        },
-        'items': [
-          { 'image': 'https://picsum.photos/id/10/1200/600', 'title': 'Design Inovador', 'subtitle': 'Sua presença digital com o que há de mais moderno.', 'cta_label': 'Saiba Mais', 'cta_url': '#design' },
-          { 'image': 'https://picsum.photos/id/20/1200/600', 'title': 'Alta Performance', 'subtitle': 'Sites extremamente rápidos e otimizados para SEO.', 'cta_label': 'Ver Planos', 'cta_url': '#perf' }
         ]
       },
       'map': {
@@ -515,7 +661,8 @@
         'poster': 'https://picsum.photos/id/1/1000/600',
         'title': 'Conheça o Futuro do Desenvolvimento Web'
       },
-      'countdown': {        'title': 'OFERTA TERMINA EM:',
+      'countdown': {
+        'title': 'OFERTA TERMINA EM:',
         'end_date': '2026-12-31T23:59:59',
         'label_days': 'Dias',
         'label_hours': 'Horas',
@@ -524,7 +671,7 @@
         'expired_message': 'Oferta Encerrada!'
       },
       'countdown-event': {
-        'date': '2026-06-01T20:00:00',
+        'date': '2026-08-01T20:00:00',
         'title': 'GRANDE INAUGURAÇÃO',
         'label_days': 'Dias',
         'label_hours': 'Horas',
@@ -534,51 +681,289 @@
       }
     };
 
-    const designContext = {
-      colors: {
-        primary: '#3B82F6',
-        surface: '#FFFFFF',
-        'on-surface': '#1F2937',
-        secondary: '#F3F4F6',
-        neutral: '#9CA3AF'
-      },
-      typography: {
-        'body-lg': { fontSize: '18px' },
-        'headline-md': { fontSize: '32px' },
-        'h2': { fontSize: '24px', fontWeight: 'bold' }
-      },
-      fonts: {
-        primary: 'Inter',
-        secondary: 'Inter'
-      },
-      rounded: { lg: '12px', md: '8px' },
-      elevation: { md: '0 4px 6px -1px rgb(0 0 0 / 0.1)', lg: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }
-    };
+    /* =========================================================
+     * ADDON CATALOG METADATA — icon, category and description
+     * used to render the showcase cards (and missing-from-README
+     * addons are now documented here too)
+     * ========================================================= */
+    const addonCatalog = [
+      { name: 'accordion', icon: 'fa-solid fa-list', category: 'Conteúdo', description: 'Lista de perguntas e respostas expansível, ideal para seções de FAQ.' },
+      { name: 'animated-text-scramble', icon: 'fa-solid fa-wand-magic-sparkles', category: 'Texto & Animação', description: 'Texto com efeito de embaralhamento de caracteres ao entrar em tela.' },
+      { name: 'animated-text-split', icon: 'fa-solid fa-text-height', category: 'Texto & Animação', description: 'Anima cada caractere ou palavra do texto na entrada.' },
+      { name: 'category-tabs', icon: 'fa-solid fa-table-cells-large', category: 'Conteúdo', description: 'Abas com grade de cards filtrável por categoria — ótimo para cardápios e catálogos.' },
+      { name: 'comparison', icon: 'fa-solid fa-arrows-left-right', category: 'Mídia', description: 'Comparador de imagens antes/depois com slider de arraste.' },
+      { name: 'cookie-banner', icon: 'fa-solid fa-cookie-bite', category: 'Utilidade', description: 'Banner de consentimento de cookies compatível com LGPD/GDPR.' },
+      { name: 'countdown', icon: 'fa-solid fa-hourglass-half', category: 'Conversão', description: 'Cronômetro de contagem regressiva até uma data configurável.' },
+      { name: 'countdown-event', icon: 'fa-solid fa-calendar-days', category: 'Conversão', description: 'Contagem regressiva para o lançamento de um evento ou inauguração.' },
+      { name: 'counter', icon: 'fa-solid fa-arrow-trend-up', category: 'Texto & Animação', description: 'Números animados que sobem ao entrar na tela.' },
+      { name: 'flipbox', icon: 'fa-solid fa-clone', category: 'Conteúdo', description: 'Card com efeito de virar (flip) ao passar o mouse.' },
+      { name: 'form', icon: 'fa-solid fa-pen-to-square', category: 'Conversão', description: 'Formulário de contato configurável com validação por campo.' },
+      { name: 'gallery', icon: 'fa-solid fa-images', category: 'Mídia', description: 'Grade de imagens com lightbox nativo.' },
+      { name: 'icon-list', icon: 'fa-solid fa-list-check', category: 'Conteúdo', description: 'Lista de benefícios ou diferenciais com ícones.' },
+      { name: 'logo-ticker', icon: 'fa-solid fa-infinity', category: 'Mídia', description: 'Esteira contínua de logos de clientes ou parceiros.' },
+      { name: 'map', icon: 'fa-solid fa-map-location-dot', category: 'Utilidade', description: 'Mapa interativo via Leaflet com endereço configurável.' },
+      { name: 'newsletter', icon: 'fa-solid fa-envelope-open-text', category: 'Conversão', description: 'Formulário de captura de e-mail para newsletter.' },
+      { name: 'popup', icon: 'fa-solid fa-window-restore', category: 'Conversão', description: 'Modal promocional com gatilho por tempo ou scroll.' },
+      { name: 'pricing', icon: 'fa-solid fa-tags', category: 'Conversão', description: 'Tabela de planos e preços com destaque para o plano recomendado.' },
+      { name: 'slider', icon: 'fa-solid fa-panorama', category: 'Mídia', description: 'Carrossel de imagens com autoplay, dots e efeito Ken Burns.' },
+      { name: 'social-feed', icon: 'fa-solid fa-share-nodes', category: 'Mídia', description: 'Grade de posts no estilo feed social.' },
+      { name: 'stats', icon: 'fa-solid fa-chart-line', category: 'Texto & Animação', description: 'Contadores animados com ícone e rótulo.' },
+      { name: 'sticky-cta', icon: 'fa-solid fa-thumbtack', category: 'Conversão', description: 'Barra fixa de chamada para ação no topo ou rodapé.' },
+      { name: 'tabs', icon: 'fa-solid fa-folder-open', category: 'Conteúdo', description: 'Navegação por abas com conteúdo independente em cada uma.' },
+      { name: 'team', icon: 'fa-solid fa-people-group', category: 'Conteúdo', description: 'Grade de cards da equipe com foto, cargo e redes sociais.' },
+      { name: 'testimonials', icon: 'fa-solid fa-quote-left', category: 'Conteúdo', description: 'Carrossel de depoimentos de clientes com nota e foto.' },
+      { name: 'timeline', icon: 'fa-solid fa-timeline', category: 'Conteúdo', description: 'Linha do tempo vertical com datas e descrições.' },
+      { name: 'video', icon: 'fa-solid fa-circle-play', category: 'Mídia', description: 'Embed responsivo de vídeos do YouTube ou Vimeo.' },
+      { name: 'whatsapp', icon: 'fa-brands fa-whatsapp', category: 'Conversão', description: 'Botão flutuante do WhatsApp com mensagem pré-definida.' }
+    ];
 
-    let currentAddon = null;
+    /* =========================================================
+     * THEMES METADATA — drives the Theme gallery and its live
+     * iframe rendering (own flat mock data + design palette)
+     * ========================================================= */
+    const themes = [
+      {
+        slug: 'sample-single-page-landing',
+        name: 'SaaSFlow Landing',
+        type: 'single',
+        typeLabel: 'Single Page',
+        description: 'Landing page de produto SaaS com preços, FAQ e prova social — ideal para lançamento de produtos digitais.',
+        pages: [{ label: 'Home', file: 'sample-single-page-landing.html' }],
+        addons: ['accordion', 'cookie-banner', 'pricing', 'sticky-cta', 'testimonials'],
+        design: buildDesign({ colors: { primary: '#6366F1', 'on-primary': '#FFFFFF', surface: '#FFFFFF', 'on-surface': '#0F172A', neutral: '#F8FAFC', secondary: '#EEF2FF', accent: '#6366F1' } }),
+        mock: {
+          site_name: 'SaaSFlow — Gestão Inteligente',
+          site_description: 'Plataforma completa de gestão para empresas que querem escalar com inteligência de dados.',
+          hero: {
+            title: 'Escale sua operação com inteligência real',
+            subtitle: 'Gestão Inteligente',
+            description: 'Centralize finanças, equipe e clientes em um único painel — sem planilhas, sem retrabalho.'
+          },
+          footer: { address: 'Av. Paulista, 1100 — São Paulo, SP' }
+        }
+      },
+      {
+        slug: 'sample-single-page-portfolio',
+        name: 'Portfólio Profissional',
+        type: 'single',
+        typeLabel: 'Single Page',
+        description: 'Página única para freelancers e consultores, com números de impacto, trajetória e contato.',
+        pages: [{ label: 'Home', file: 'sample-single-page-portfolio.html' }],
+        addons: ['stats', 'timeline', 'testimonials', 'form'],
+        design: buildDesign({ colors: { primary: '#D97706', 'on-primary': '#FFFFFF', surface: '#FFFFFF', 'on-surface': '#18181B', neutral: '#F4F4F5', secondary: '#FFF7ED', accent: '#D97706' }, fonts: { primary: 'Georgia, serif', secondary: 'system-ui, sans-serif' } }),
+        mock: {
+          site_name: 'Marina Duarte — Design & Estratégia',
+          site_description: 'Portfólio de consultoria em design de produto e estratégia digital.',
+          hero: {
+            title: 'Design que resolve negócios',
+            subtitle: 'Consultora de Produto',
+            description: 'Mais de 60 projetos entregues para startups e empresas que precisavam transformar ideias em produtos reais.'
+          },
+          footer: { address: 'Rua dos Pinheiros, 500 — São Paulo, SP' }
+        }
+      },
+      {
+        slug: 'sample-single-page-restaurant',
+        name: 'Sabor & Brasa',
+        type: 'single',
+        typeLabel: 'Single Page',
+        description: 'One-page para restaurantes: texto animado, galeria de pratos, localização e pedido via WhatsApp.',
+        pages: [{ label: 'Home', file: 'sample-single-page-restaurant.html' }],
+        addons: ['animated-text-scramble', 'gallery', 'testimonials', 'form', 'map', 'whatsapp'],
+        design: buildDesign({ colors: { primary: '#B91C1C', 'on-primary': '#FFFFFF', surface: '#FFFFFF', 'on-surface': '#1C1917', neutral: '#FAFAF9', secondary: '#1C1917', accent: '#B91C1C' }, fonts: { primary: 'Georgia, serif', secondary: 'system-ui, sans-serif' } }),
+        mock: {
+          site_name: 'Sabor & Brasa',
+          site_description: 'Restaurante de cozinha contemporânea com toque brasileiro.',
+          hero: { title: 'Sabor & Brasa', subtitle: 'Cozinha de Fogo e Fumaça' },
+          footer: { address: 'Rua da Bahia, 800 — Belo Horizonte, MG' }
+        }
+      },
+      {
+        slug: 'sample-multi-page-business',
+        name: 'Veltrix Consultoria',
+        type: 'multi',
+        typeLabel: 'Multi-página',
+        description: 'Site institucional com Início, Sobre e Contato compartilhando header/footer via partials.',
+        pages: [
+          { label: 'Início', file: 'index.html' },
+          { label: 'Sobre', file: 'sobre.html' },
+          { label: 'Contato', file: 'contato.html' }
+        ],
+        addons: ['timeline', 'team', 'form', 'map'],
+        design: buildDesign({ colors: { primary: '#1D4ED8', 'on-primary': '#FFFFFF', surface: '#FFFFFF', 'on-surface': '#0F172A', neutral: '#F1F5F9', secondary: '#1D4ED8', accent: '#1D4ED8' } }),
+        mock: {
+          site_name: 'Veltrix Consultoria',
+          hero: {
+            title: 'Soluções corporativas que evoluem com você',
+            subtitle: 'Consultoria & Tecnologia',
+            description: 'Há 10 anos ajudando empresas a integrar estratégia e execução técnica.'
+          },
+          footer: { address: 'Av. Brigadeiro Faria Lima, 2000 — São Paulo, SP' }
+        }
+      },
+      {
+        slug: 'minifood',
+        name: 'Minifood (Live Mode)',
+        type: 'live',
+        typeLabel: 'Live Mode',
+        description: 'Cardápio digital com hidratação em tempo real — pensado para hamburguerias e delivery.',
+        pages: [{ label: 'Cardápio', file: 'minifood_menu.html' }],
+        addons: ['slider', 'category-tabs', 'testimonials', 'gallery', 'map', 'whatsapp'],
+        design: buildDesign({ colors: { primary: '#DC2626', 'on-primary': '#FFFFFF', surface: '#FFFFFF', 'on-surface': '#1F2937', neutral: '#FAFAFA', secondary: '#1F2937', accent: '#FEF3C7' }, fonts: { primary: "'Inter', sans-serif", secondary: "'Bebas Neue', sans-serif" }, logos: { default_logo: 'https://placehold.co/180x56/111827/ffffff?text=BRUTUS', light_logo: 'https://placehold.co/180x56/ffffff/111827?text=BRUTUS' } }),
+        mock: {
+          site: {
+            title: 'Brutus Burger — Hamburgueria Artesanal',
+            description: 'O melhor burger artesanal da região, com ingredientes frescos e blend secreto.',
+            favicon: './assets/images/favicon_themes.ico'
+          },
+          topbar: { text: 'Entrega grátis em pedidos acima de R$ 60', phone: '(31) 99999-9999' }
+        }
+      }
+    ];
 
-    // Helper: Scope CSS to the preview root
+    /* =========================================================
+     * TEMPLATE ENGINE — resolve(), renderTemplate() are shared by
+     * both the standalone Addon preview and the Theme renderer.
+     * ========================================================= */
+    function resolve(path, obj) {
+      if (!path || !obj) return undefined;
+      return path.trim().split('.').reduce((acc, part) => acc && acc[part], obj);
+    }
+
+    // Evaluates a %IF <condition>% expression. Supports plain truthy lookups
+    // ("highlighted"), equality/inequality against a literal ("provider ==
+    // \"osm\""), and a simple modulo check on the left-hand side ("INDEX % 2
+    // != 0") — the small set of expressions actually used by the addons.
+    function evalOperand(token, ctx) {
+      token = token.trim();
+      const strMatch = token.match(/^["'](.*)["']$/);
+      if (strMatch) return strMatch[1];
+      const modMatch = token.match(/^([A-Za-z_][A-Za-z0-9_.-]*)\s*%\s*(\d+)$/);
+      if (modMatch) {
+        const base = Number(resolve(modMatch[1], ctx));
+        return base % Number(modMatch[2]);
+      }
+      if (/^-?\d+(\.\d+)?$/.test(token)) return Number(token);
+      if (token === 'true') return true;
+      if (token === 'false') return false;
+      return resolve(token, ctx);
+    }
+
+    function evalCondition(condition, ctx) {
+      const cmpMatch = condition.match(/^(.+?)\s*(==|!=)\s*(.+)$/);
+      if (cmpMatch) {
+        const left = evalOperand(cmpMatch[1], ctx);
+        const right = evalOperand(cmpMatch[3], ctx);
+        return cmpMatch[2] === '==' ? (String(left) === String(right)) : (String(left) !== String(right));
+      }
+      const val = resolve(condition, ctx);
+      return !!(val && val !== 'false' && val !== 'undefined');
+    }
+
+    function renderTemplate(content, ctx) {
+      let result = content;
+
+      // 1. Resolve FOREACH (Balanced Tag Matching)
+      while (result.includes('%FOREACH')) {
+        const startIdx = result.indexOf('%FOREACH');
+        const pathMatch = result.substring(startIdx).match(/%FOREACH\s+([A-Za-z_][A-Za-z0-9_.-]*)%/);
+        if (!pathMatch) break;
+
+        const path = pathMatch[1].trim();
+        const afterStart = startIdx + pathMatch[0].length;
+
+        let depth = 1;
+        let currentPos = afterStart;
+        let endIdx = -1;
+
+        while (depth > 0 && currentPos < result.length) {
+          const nextOpen = result.indexOf('%FOREACH', currentPos);
+          const nextClose = result.indexOf('%ENDFOREACH%', currentPos);
+
+          if (nextClose === -1) break;
+
+          if (nextOpen !== -1 && nextOpen < nextClose) {
+            depth++;
+            currentPos = nextOpen + 8;
+          } else {
+            depth--;
+            endIdx = nextClose;
+            currentPos = nextClose + 12;
+          }
+        }
+
+        if (endIdx === -1) break;
+
+        const innerContent = result.substring(afterStart, endIdx);
+        const items = resolve(path, ctx);
+
+        let renderedItems = '';
+        if (Array.isArray(items)) {
+          renderedItems = items.map((item, idx) => {
+            // Some addons name the loop index %INDEX%, others %FOREACH_INDEX% —
+            // expose both so either convention resolves correctly.
+            const itemCtx = { ...ctx, ...item, INDEX: idx, FOREACH_INDEX: idx, FIRST: idx === 0 ? "true" : "false", LAST: idx === items.length - 1 ? "true" : "false" };
+            return renderTemplate(innerContent, itemCtx);
+          }).join('');
+        }
+
+        result = result.substring(0, startIdx) + renderedItems + result.substring(endIdx + 12);
+      }
+
+      // 2. Resolve IFs (Recursive)
+      // Condition capture allows an embedded '%' (e.g. "INDEX % 2 != 0") as
+      // long as it's surrounded by whitespace — a real closing delimiter
+      // never has a space right before it, so this disambiguates a literal
+      // modulo operator from the tag's own closing '%'.
+      let prevResult;
+      let pass = 0;
+      do {
+        prevResult = result;
+        result = result.replace(/%IF\s+((?:[^%]|%(?=\s))*?)%((?:(?!%IF)[\s\S])*?)%ENDIF%/g, (match, condition, inner) => {
+          const truthy = evalCondition(condition.trim(), ctx);
+          if (inner.includes('%ELSE%')) {
+            const parts = inner.split('%ELSE%');
+            return truthy ? parts[0] : parts[1];
+          }
+          return truthy ? inner : '';
+        });
+      } while (result !== prevResult && pass++ < 10);
+
+      // 3. Resolve Variables
+      // NOTE: the captured path is restricted to identifier-like characters
+      // (must start with a letter/underscore) so that literal '%' chars used
+      // elsewhere in CSS/inline styles (e.g. "width: 100%;") are never
+      // mistaken for one half of a %var% delimiter pair — that mismatch was
+      // shifting the pairing of every subsequent real tag in the file.
+      // Word-boundary exclusions (not bare prefixes) so a legitimate variable
+      // like FOREACH_INDEX isn't blocked just because it starts with the
+      // substring "FOREACH" used by the control-tag keyword.
+      return result.replace(/%((?!IF\b|ENDIF\b|ELSE\b|FOREACH\b|ENDFOREACH\b|ADDON\b|PARTIAL\b)[A-Za-z_][A-Za-z0-9_.-]*)%/g, (m, p) => {
+        const val = resolve(p, ctx);
+        if (val === undefined) return m;
+        return typeof val === 'object' ? JSON.stringify(val) : val;
+      });
+    }
+
+    // Helper: Scope CSS to the preview root (used only by the no-iframe addon engine)
     function scopeCSS(css, scope) {
       if (!css) return '';
-      // Simple regex to prefix rules, excluding media queries and @keyframes
       return css.replace(/([^\s{}][^{}]*)\{/g, (match, selector) => {
         const trimmedSelector = selector.trim();
-        // Skip @rules and keyframe stages (digits or percentages)
         if (trimmedSelector.startsWith('@') || /^\d/.test(trimmedSelector)) return match;
-        
-        // Handle comma separated selectors
+
         const scopedSelector = selector.split(',').map(s => {
           const part = s.trim();
           if (!part) return '';
-          if (part === ':root') return scope; 
+          if (part === ':root') return scope;
           return `${scope} ${part}`;
         }).join(', ');
-        
+
         return `${scopedSelector} {`;
       });
     }
 
-    // Track injected scripts for cleanup
+    // Track injected scripts for cleanup (no-iframe addon engine)
     let _injectedScripts = [];
 
     function cleanupPreviousScripts() {
@@ -586,14 +971,12 @@
       _injectedScripts = [];
     }
 
-    // Helper: Execute Scripts safely
     function executeScripts(container) {
       const scripts = container.querySelectorAll('script');
       scripts.forEach(oldScript => {
-        oldScript.remove(); // Always remove from DOM first
+        oldScript.remove();
 
         if (oldScript.src) {
-          // External script: only inject if not already in head
           if (!document.querySelector(`script[src="${oldScript.src}"]`)) {
             const newScript = document.createElement('script');
             newScript.src = oldScript.src;
@@ -602,8 +985,6 @@
             _injectedScripts.push(newScript);
           }
         } else {
-          // Inline script: execute via new Function for isolation
-          // This prevents ghost re-executions and scope pollution
           try {
             const fn = new Function(oldScript.innerHTML);
             fn();
@@ -614,208 +995,393 @@
       });
     }
 
-    async function loadAddons() {
-      const addons = [
-        'accordion', 'animated-text-scramble', 'animated-text-split', 'comparison',
-        'cookie-banner', 'countdown', 'countdown-event', 'counter', 'flipbox',
-        'form', 'gallery', 'icon-list', 'logo-ticker', 'map', 'newsletter',
-        'popup', 'pricing', 'slider', 'social-feed', 'stats', 'sticky-cta',
-        'tabs', 'category-tabs', 'team', 'testimonials', 'timeline', 'video', 'whatsapp'
-      ];
+    function uid(prefix) {
+      return `${prefix}-${Math.random().toString(36).substring(2, 7)}`;
+    }
 
-      const listContainer = document.getElementById('addon-list');
-      listContainer.innerHTML = '';
+    /* =========================================================
+     * THEME RENDERER — resolves %PARTIAL%, %ADDON% and variables,
+     * producing a complete standalone HTML document for an <iframe>
+     * ========================================================= */
+    async function fetchText(path) {
+      const res = await fetch(`${path}?t=${Date.now()}`);
+      if (!res.ok) throw new Error(`Failed to fetch ${path}`);
+      return res.text();
+    }
 
-      addons.forEach(name => {
-        const div = document.createElement('div');
-        div.className = 'addon-item group flex items-center justify-between px-3 py-2 rounded-md border border-transparent hover:bg-panel cursor-pointer transition-all';
-        div.dataset.name = name;
-        div.innerHTML = `
-          <div class="flex items-center gap-3">
-            <i class="fa-solid fa-cube text-text-dim group-hover:text-accent text-[10px]"></i>
-            <span class="text-[12px] font-medium capitalize">${name.replace(/-/g, ' ')}</span>
+    async function resolvePartials(html, basePath) {
+      const re = /%PARTIAL\s+([A-Za-z0-9_.\/-]+)%/;
+      let match;
+      while ((match = re.exec(html))) {
+        const partialPath = match[1].trim();
+        const partialHtml = await fetchText(`${basePath}${partialPath}`);
+        html = html.replace(match[0], partialHtml);
+      }
+      return html;
+    }
+
+    async function resolveThemeAddons(html, themeDesign) {
+      const re = /%ADDON\s+([a-z0-9-]+)(?:\s+src="[^"]*")?\s*%/;
+      let match;
+      while ((match = re.exec(html))) {
+        const addonName = match[1];
+        let resolvedAddon = '';
+        try {
+          const addonHtmlRaw = await fetchText(`addons/${addonName}.html`);
+          const mock = addonMocks[addonName] || {};
+          const ctx = { ...mock, [addonName.replace(/-/g, '_')]: mock, design: themeDesign, id: uid('t') };
+          resolvedAddon = renderTemplate(addonHtmlRaw, ctx);
+        } catch (e) {
+          console.error(`[Showcase] Failed to resolve addon "${addonName}" in theme`, e);
+        }
+        html = html.replace(match[0], resolvedAddon);
+      }
+      return html;
+    }
+
+    async function renderThemePage(slug, pageFile) {
+      const theme = themes.find(t => t.slug === slug);
+      const basePath = `themes/${slug}/`;
+      let html = await fetchText(`${basePath}${pageFile}`);
+      html = await resolvePartials(html, basePath);
+      html = await resolveThemeAddons(html, theme.design);
+      const ctx = { ...theme.mock, design: theme.design, YEAR: new Date().getFullYear() };
+      html = renderTemplate(html, ctx);
+      return html;
+    }
+
+    /* =========================================================
+     * THEMES GALLERY UI
+     * ========================================================= */
+    const TYPE_BADGE = {
+      single: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+      multi: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
+      live: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+    };
+
+    function fitThumb(wrap) {
+      const iframe = wrap.querySelector('.theme-thumb-iframe');
+      if (!iframe) return;
+      const scale = wrap.clientWidth / 1440;
+      iframe.style.transform = `scale(${scale})`;
+    }
+
+    function fitAllThumbs() {
+      document.querySelectorAll('.theme-thumb-wrap').forEach(fitThumb);
+    }
+
+    function renderThemesGrid() {
+      const grid = document.getElementById('themes-grid');
+      grid.innerHTML = '';
+
+      themes.forEach(theme => {
+        const card = document.createElement('div');
+        card.className = 'theme-card group bg-surface border border-border rounded-xl overflow-hidden hover:border-accent/40 transition-all cursor-pointer';
+        card.innerHTML = `
+          <div class="theme-thumb-wrap relative bg-white overflow-hidden" style="aspect-ratio:1440/1000;">
+            <iframe class="theme-thumb-iframe absolute top-0 left-0 pointer-events-none" style="width:1440px;height:1000px;border:0;" loading="lazy" title="${theme.name} preview"></iframe>
+            <div class="theme-thumb-overlay absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 transition-opacity flex items-end p-4">
+              <span class="text-white text-xs font-bold flex items-center gap-2"><i class="fa-solid fa-expand"></i> Visualizar ao vivo</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <h3 class="font-bold text-sm">${theme.name}</h3>
+              <span class="text-[10px] px-2 py-0.5 rounded-full border shrink-0 ${TYPE_BADGE[theme.type]}">${theme.typeLabel}</span>
+            </div>
+            <p class="text-text-dim text-xs leading-relaxed mb-4 line-clamp-2">${theme.description}</p>
+            <div class="flex items-center justify-between text-[11px] text-text-dim">
+              <span><i class="fa-solid fa-file-lines mr-1"></i>${theme.pages.length} página${theme.pages.length > 1 ? 's' : ''}</span>
+              <span><i class="fa-solid fa-cubes mr-1"></i>${theme.addons.length} addons</span>
+            </div>
           </div>
         `;
-        div.onclick = () => selectAddon(name);
-        listContainer.appendChild(div);
+        card.onclick = () => openThemeModal(theme.slug);
+        grid.appendChild(card);
+
+        const wrap = card.querySelector('.theme-thumb-wrap');
+        const iframe = card.querySelector('.theme-thumb-iframe');
+        renderThemePage(theme.slug, theme.pages[0].file)
+          .then(html => {
+            iframe.srcdoc = html;
+            requestAnimationFrame(() => fitThumb(wrap));
+          })
+          .catch(e => console.error(`[Showcase] Thumb render failed for ${theme.slug}`, e));
       });
+
+      requestAnimationFrame(fitAllThumbs);
     }
 
-    async function selectAddon(name) {
-      currentAddon = name;
-      document.querySelectorAll('.addon-item').forEach(el => el.classList.remove('active'));
-      const activeItem = document.querySelector(`[data-name="${name}"]`);
-      if (activeItem) activeItem.classList.add('active');
+    let activeTheme = null;
 
-      document.getElementById('current-addon-name').textContent = name.replace(/-/g, ' ').toUpperCase();
-      document.getElementById('addon-badge').classList.remove('hidden');
+    async function openThemeModal(slug) {
+      const theme = themes.find(t => t.slug === slug);
+      if (!theme) return;
+      activeTheme = theme;
 
-      const mock = addonMocks[name] || { items: [] };
-      document.getElementById('json-editor').value = JSON.stringify(mock, null, 2);
+      document.getElementById('theme-modal-title').textContent = theme.name;
+      const badge = document.getElementById('theme-modal-badge');
+      badge.textContent = theme.typeLabel;
+      badge.className = `text-[10px] px-2 py-0.5 rounded-full border shrink-0 hidden sm:inline-block ${TYPE_BADGE[theme.type]}`;
 
-      renderCurrentAddon();
-    }
-
-    async function renderCurrentAddon() {
-      if (!currentAddon) return;
-      const statusEl = document.getElementById('preview-status');
-      statusEl.textContent = 'rendering...';
-
-      try {
-        const response = await fetch(`addons/${currentAddon}.html?t=${Date.now()}`);
-        let html = await response.text();
-        const data = JSON.parse(document.getElementById('json-editor').value);
-        console.log('[Showcase] Data from Editor:', data);
-
-        // Context with dynamic ID
-        const context = {
-          ...data,
-          [currentAddon.replace(/-/g, '_')]: data,
-          design: designContext,
-          id: `pv-${Math.random().toString(36).substring(2, 6)}`
-        };
-
-        const resolve = (path, obj) => {
-          if (!path || !obj) return undefined;
-          return path.trim().split('.').reduce((acc, part) => acc && acc[part], obj);
-        };
-
-        function renderTemplate(content, ctx) {
-          let result = content;
-
-          // 1. Resolve FOREACH (Balanced Tag Matching)
-          while (result.includes('%FOREACH')) {
-            const startIdx = result.indexOf('%FOREACH');
-            const pathMatch = result.substring(startIdx).match(/%FOREACH\s+([^%]+)%/);
-            if (!pathMatch) break;
-
-            const path = pathMatch[1].trim();
-            const afterStart = startIdx + pathMatch[0].length;
-            
-            // Find matching %ENDFOREACH%
-            let depth = 1;
-            let currentPos = afterStart;
-            let endIdx = -1;
-
-            while (depth > 0 && currentPos < result.length) {
-              const nextOpen = result.indexOf('%FOREACH', currentPos);
-              const nextClose = result.indexOf('%ENDFOREACH%', currentPos);
-
-              if (nextClose === -1) break;
-
-              if (nextOpen !== -1 && nextOpen < nextClose) {
-                depth++;
-                currentPos = nextOpen + 8;
-              } else {
-                depth--;
-                endIdx = nextClose;
-                currentPos = nextClose + 12;
-              }
-            }
-
-            if (endIdx === -1) break;
-
-            const innerContent = result.substring(afterStart, endIdx);
-            const items = resolve(path, ctx);
-            
-            let renderedItems = '';
-            if (Array.isArray(items)) {
-              renderedItems = items.map((item, idx) => {
-                const itemCtx = { ...ctx, ...item, INDEX: idx, FIRST: idx === 0 ? "true" : "false", LAST: idx === items.length - 1 ? "true" : "false" };
-                return renderTemplate(innerContent, itemCtx);
-              }).join('');
-            }
-
-            result = result.substring(0, startIdx) + renderedItems + result.substring(endIdx + 12);
-          }
-
-          // 2. Resolve IFs (Recursive)
-          let prevResult;
-          let pass = 0;
-          do {
-            prevResult = result;
-            result = result.replace(/%IF\s+([^%]+)%((?:(?!%IF)[\s\S])*?)%ENDIF%/g, (match, path, inner) => {
-              const val = resolve(path, ctx);
-              if (inner.includes('%ELSE%')) {
-                const parts = inner.split('%ELSE%');
-                return (val && val !== "false" && val !== "undefined") ? parts[0] : parts[1];
-              }
-              return (val && val !== "false" && val !== "undefined") ? inner : '';
-            });
-          } while (result !== prevResult && pass++ < 10);
-
-          // 3. Resolve Variables
-          return result.replace(/%((?!IF |ENDIF|ELSE|FOREACH|ENDFOREACH)[^%]+)%/g, (m, p) => {
-            const val = resolve(p, ctx);
-            if (val === undefined) return m;
-            return typeof val === 'object' ? JSON.stringify(val) : val;
-          });
-        }
-
-        html = renderTemplate(html, context);
-
-        // INJECTION LOGIC (NO IFRAME)
-        const root = document.getElementById('preview-root');
-
-        // Clean up previous runs (DOM + injected scripts)
-        cleanupPreviousScripts();
-        root.innerHTML = '';
-
-        // Create a temporary container to parse the HTML
-        const temp = document.createElement('div');
-        temp.innerHTML = html;
-
-        // Scope styles
-        const styles = temp.querySelectorAll('style');
-        styles.forEach(s => {
-          s.innerHTML = scopeCSS(s.innerHTML, '#preview-root');
+      const buildTabs = (container, extraClasses) => {
+        container.innerHTML = '';
+        if (theme.pages.length <= 1) return;
+        theme.pages.forEach((page, idx) => {
+          const btn = document.createElement('button');
+          btn.className = `theme-page-tab text-[11px] px-2.5 py-1 rounded-md border transition-all ${extraClasses} ${idx === 0 ? 'bg-accent text-white border-accent' : 'bg-panel text-text-dim border-border hover:text-white'}`;
+          btn.textContent = page.label;
+          btn.onclick = () => switchThemePage(theme.slug, page.file, btn);
+          container.appendChild(btn);
         });
+      };
+      buildTabs(document.getElementById('theme-modal-pages'), '');
+      buildTabs(document.getElementById('theme-modal-pages-mobile'), 'shrink-0');
 
-        // Move to root
-        root.appendChild(temp);
+      setThemeDevice('desktop');
+      const modal = document.getElementById('theme-modal');
+      modal.classList.add('open');
+      document.body.classList.add('modal-open');
 
-        // Execute scripts
-        executeScripts(root);
-
-        statusEl.textContent = 'ready';
-        showToast('Renderizado com sucesso!');
+      const iframe = document.getElementById('theme-modal-iframe');
+      iframe.srcdoc = '<body style="background:#fff"></body>';
+      try {
+        iframe.srcdoc = await renderThemePage(theme.slug, theme.pages[0].file);
       } catch (e) {
-        console.error('Render failed', e);
-        statusEl.textContent = 'error';
+        console.error('[Showcase] Theme modal render failed', e);
+        showToast('Erro ao renderizar o tema', true);
       }
     }
 
-    function showToast(msg) {
+    async function switchThemePage(slug, pageFile, btnEl) {
+      document.querySelectorAll('.theme-page-tab').forEach(b => {
+        b.classList.remove('bg-accent', 'text-white', 'border-accent');
+        b.classList.add('bg-panel', 'text-text-dim', 'border-border');
+      });
+      document.querySelectorAll('.theme-page-tab').forEach(b => {
+        if (b.textContent === btnEl.textContent) {
+          b.classList.add('bg-accent', 'text-white', 'border-accent');
+          b.classList.remove('bg-panel', 'text-text-dim', 'border-border');
+        }
+      });
+      const iframe = document.getElementById('theme-modal-iframe');
+      try {
+        iframe.srcdoc = await renderThemePage(slug, pageFile);
+      } catch (e) {
+        console.error('[Showcase] Theme page switch failed', e);
+      }
+    }
+
+    function setThemeDevice(mode) {
+      const wrap = document.getElementById('theme-modal-frame-wrap');
+      const desktopBtn = document.getElementById('theme-modal-desktop');
+      const mobileBtn = document.getElementById('theme-modal-mobile');
+      if (mode === 'mobile') {
+        wrap.style.width = '375px';
+        wrap.style.margin = '0 auto';
+        mobileBtn.classList.add('text-accent');
+        mobileBtn.classList.remove('text-text-dim');
+        desktopBtn.classList.remove('text-accent');
+        desktopBtn.classList.add('text-text-dim');
+      } else {
+        wrap.style.width = '100%';
+        wrap.style.margin = '0';
+        desktopBtn.classList.add('text-accent');
+        desktopBtn.classList.remove('text-text-dim');
+        mobileBtn.classList.remove('text-accent');
+        mobileBtn.classList.add('text-text-dim');
+      }
+    }
+
+    function closeThemeModal() {
+      document.getElementById('theme-modal').classList.remove('open');
+      document.body.classList.remove('modal-open');
+      document.getElementById('theme-modal-iframe').srcdoc = '';
+      activeTheme = null;
+    }
+
+    /* =========================================================
+     * ADDONS CATALOG UI
+     * ========================================================= */
+    let currentAddon = null;
+    let activeCategory = 'Todos';
+
+    function renderAddonFilters() {
+      const categories = ['Todos', ...new Set(addonCatalog.map(a => a.category))];
+      const container = document.getElementById('addon-filters');
+      container.innerHTML = '';
+      categories.forEach(cat => {
+        const chip = document.createElement('button');
+        chip.className = `filter-chip text-xs px-3 py-1.5 rounded-full border border-border bg-panel text-text-dim ${cat === 'Todos' ? 'active' : ''}`;
+        chip.textContent = cat;
+        chip.onclick = () => {
+          activeCategory = cat;
+          document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          applyAddonFilters();
+        };
+        container.appendChild(chip);
+      });
+    }
+
+    function renderAddonsGrid() {
+      const grid = document.getElementById('addons-grid');
+      grid.innerHTML = '';
+      addonCatalog.forEach(addon => {
+        const card = document.createElement('div');
+        card.className = 'addon-card group bg-surface border border-border rounded-xl p-4 hover:border-accent/40 hover:-translate-y-0.5 transition-all cursor-pointer';
+        card.dataset.name = addon.name;
+        card.dataset.category = addon.category;
+        card.innerHTML = `
+          <div class="w-10 h-10 rounded-lg bg-accent-dim text-accent flex items-center justify-center mb-3 group-hover:bg-accent group-hover:text-white transition-all">
+            <i class="${addon.icon}"></i>
+          </div>
+          <h4 class="font-semibold text-sm mb-1 capitalize">${addon.name.replace(/-/g, ' ')}</h4>
+          <p class="text-text-dim text-[11px] leading-relaxed line-clamp-2">${addon.description}</p>
+        `;
+        card.onclick = () => openAddonModal(addon.name);
+        grid.appendChild(card);
+      });
+    }
+
+    function applyAddonFilters() {
+      const q = document.getElementById('search-addons').value.toLowerCase();
+      document.querySelectorAll('.addon-card').forEach(card => {
+        const matchesQuery = card.dataset.name.toLowerCase().includes(q);
+        const matchesCategory = activeCategory === 'Todos' || card.dataset.category === activeCategory;
+        card.style.display = (matchesQuery && matchesCategory) ? '' : 'none';
+      });
+    }
+
+    function openAddonModal(name) {
+      currentAddon = name;
+      document.getElementById('addon-modal-title').textContent = name.replace(/-/g, ' ').toUpperCase();
+      const mock = addonMocks[name] || { items: [] };
+      document.getElementById('addon-json-editor').value = JSON.stringify(mock, null, 2);
+
+      setAddonDevice('desktop');
+      document.getElementById('addon-modal').classList.add('open');
+      document.body.classList.add('modal-open');
+      renderAddonPreview();
+    }
+
+    function closeAddonModal() {
+      document.getElementById('addon-modal').classList.remove('open');
+      document.body.classList.remove('modal-open');
+      cleanupPreviousScripts();
+      document.getElementById('addon-preview-root').innerHTML = '';
+      currentAddon = null;
+    }
+
+    function setAddonDevice(mode) {
+      const wrap = document.getElementById('addon-preview-wrapper');
+      const desktopBtn = document.getElementById('addon-modal-desktop');
+      const mobileBtn = document.getElementById('addon-modal-mobile');
+      if (mode === 'mobile') {
+        wrap.style.width = '375px';
+        desktopBtn.classList.remove('text-accent');
+        desktopBtn.classList.add('text-text-dim');
+        mobileBtn.classList.add('text-accent');
+        mobileBtn.classList.remove('text-text-dim');
+      } else {
+        wrap.style.width = '100%';
+        desktopBtn.classList.add('text-accent');
+        desktopBtn.classList.remove('text-text-dim');
+        mobileBtn.classList.remove('text-accent');
+        mobileBtn.classList.add('text-text-dim');
+      }
+    }
+
+    async function renderAddonPreview() {
+      if (!currentAddon) return;
+      try {
+        const html0 = await fetchText(`addons/${currentAddon}.html`);
+        const data = JSON.parse(document.getElementById('addon-json-editor').value);
+
+        const context = {
+          ...data,
+          [currentAddon.replace(/-/g, '_')]: data,
+          design: catalogDesign,
+          id: uid('pv')
+        };
+
+        const html = renderTemplate(html0, context);
+
+        const root = document.getElementById('addon-preview-root');
+        cleanupPreviousScripts();
+        root.innerHTML = '';
+
+        const temp = document.createElement('div');
+        temp.innerHTML = html;
+
+        temp.querySelectorAll('style').forEach(s => {
+          s.innerHTML = scopeCSS(s.innerHTML, '#addon-preview-root');
+        });
+
+        root.appendChild(temp);
+        executeScripts(root);
+
+        showToast('Renderizado com sucesso!');
+      } catch (e) {
+        console.error('[Showcase] Addon render failed', e);
+        showToast('Erro ao renderizar addon', true);
+      }
+    }
+
+    /* =========================================================
+     * TOAST
+     * ========================================================= */
+    function showToast(msg, isError = false) {
       const toast = document.getElementById('toast');
+      const icon = document.getElementById('toast-icon');
       document.getElementById('toast-message').textContent = msg;
+      icon.className = `w-8 h-8 rounded-full flex items-center justify-center ${isError ? 'bg-red-500/10 text-red-400' : 'bg-blue-500/10 text-accent'}`;
+      icon.innerHTML = `<i class="fa-solid ${isError ? 'fa-triangle-exclamation' : 'fa-check'}"></i>`;
       toast.classList.remove('translate-y-20', 'opacity-0');
       setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
     }
 
-    document.getElementById('btn-update-preview').onclick = renderCurrentAddon;
-    document.getElementById('btn-refresh').onclick = renderCurrentAddon;
+    /* =========================================================
+     * EVENT WIRING & INIT
+     * ========================================================= */
+    document.getElementById('theme-modal-close').onclick = closeThemeModal;
+    document.getElementById('theme-modal-desktop').onclick = () => setThemeDevice('desktop');
+    document.getElementById('theme-modal-mobile').onclick = () => setThemeDevice('mobile');
+    document.getElementById('theme-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'theme-modal') closeThemeModal();
+    });
 
-    document.getElementById('view-desktop').onclick = () => {
-      document.getElementById('preview-wrapper').style.width = '100%';
-      document.getElementById('view-desktop').classList.add('text-accent');
-      document.getElementById('view-mobile').classList.remove('text-accent');
-    };
+    document.getElementById('addon-modal-close').onclick = closeAddonModal;
+    document.getElementById('addon-modal-close-2').onclick = closeAddonModal;
+    document.getElementById('addon-modal-desktop').onclick = () => setAddonDevice('desktop');
+    document.getElementById('addon-modal-mobile').onclick = () => setAddonDevice('mobile');
+    document.getElementById('addon-modal-apply').onclick = renderAddonPreview;
+    document.getElementById('addon-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'addon-modal') closeAddonModal();
+    });
 
-    document.getElementById('view-mobile').onclick = () => {
-      document.getElementById('preview-wrapper').style.width = '375px';
-      document.getElementById('preview-wrapper').classList.add('mx-auto');
-      document.getElementById('view-mobile').classList.add('text-accent');
-      document.getElementById('view-desktop').classList.remove('text-accent');
-    };
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      if (document.getElementById('theme-modal').classList.contains('open')) closeThemeModal();
+      if (document.getElementById('addon-modal').classList.contains('open')) closeAddonModal();
+    });
 
-    document.getElementById('search-addons').oninput = (e) => {
-      const q = e.target.value.toLowerCase();
-      document.querySelectorAll('.addon-item').forEach(el => {
-        el.style.display = el.dataset.name.toLowerCase().includes(q) ? 'flex' : 'none';
-      });
-    };
+    document.getElementById('search-addons').oninput = applyAddonFilters;
 
-    loadAddons().then(() => selectAddon('stats'));
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(fitAllThumbs, 150);
+    });
+
+    document.getElementById('stat-themes').textContent = themes.length;
+    document.getElementById('stat-addons').textContent = addonCatalog.length;
+    document.getElementById('chip-themes-count').textContent = themes.length;
+    document.getElementById('chip-addons-count').textContent = addonCatalog.length;
+
+    renderThemesGrid();
+    renderAddonFilters();
+    renderAddonsGrid();
   </script>
 </body>
 
