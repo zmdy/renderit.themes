@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>%site_name%</title>
+<meta name="description" content="%site_description%">
+<link rel="shortcut icon" type="image/png" href="%site_favicon%">
+
+<!-- Fontes (mesma família tipográfica do template de referência: Urbanist + Galada) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&family=Galada&display=swap" rel="stylesheet">
+
+<!-- Font Awesome (icones) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<!-- anime.js — requerido pelos addons animated-text-split / animated-text-scramble -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" defer></script>
+
+<!-- Swiper — requerido pelo addon logo-ticker (sem fallback de retry, precisa estar disponível de forma síncrona) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
+
+<style>
+  /* ===================================================================
+     DESIGN SYSTEM — Renderit Design Tokens
+     =================================================================== */
+  :root{
+    --rdt-primary: %design.colors.primary%;
+    --rdt-on-primary: %design.colors.on-primary%;
+    --rdt-secondary: %design.colors.secondary%;
+    --rdt-surface: %design.colors.surface%;
+    --rdt-on-surface: %design.colors.on-surface%;
+    --rdt-neutral: %design.colors.neutral%;
+    --rdt-error: %design.colors.error%;
+    --rdt-success: %design.colors.success%;
+
+    --rdt-font-primary: %design.fonts.primary%;
+    --rdt-font-secondary: %design.fonts.secondary%;
+    --rdt-font-display: 'Galada', cursive;
+
+    --rdt-rounded-sm: %design.rounded.sm%;
+    --rdt-rounded-md: %design.rounded.md%;
+    --rdt-rounded-lg: %design.rounded.lg%;
+    --rdt-rounded-full: %design.rounded.full%;
+
+    --rdt-elevation-sm: %design.elevation.sm%;
+    --rdt-elevation-md: %design.elevation.md%;
+    --rdt-elevation-lg: %design.elevation.lg%;
+    --rdt-elevation-xl: %design.elevation.xl%;
+
+    --rdt-h1-size: %design.typography.h1.fontSize%;
+    --rdt-h1-weight: %design.typography.h1.fontWeight%;
+    --rdt-h2-size: %design.typography.h2.fontSize%;
+    --rdt-h2-weight: %design.typography.h2.fontWeight%;
+    --rdt-body-md: %design.typography.body-md.fontSize%;
+    --rdt-body-lg: %design.typography.body-lg.fontSize%;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family: var(--rdt-font-secondary), 'Urbanist', sans-serif;
+    color: var(--rdt-on-surface);
+    background: var(--rdt-surface);
+    overflow-x: hidden;
+    line-height: 1.65;
+  }
+  img{max-width:100%;display:block;}
+  a{text-decoration:none;color:inherit;}
+  ul{list-style:none;}
+  .mb-container{width:100%;max-width:1240px;margin:0 auto;padding:0 24px;}
+  section{position:relative;}
+
+  h1,h2,h3,h4,h5{
+    font-family: var(--rdt-font-primary), 'Urbanist', sans-serif;
+    color: var(--rdt-on-surface);
+    line-height: 1.15;
+    margin:0;
+  }
+
+  .mb-eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+    font-size:14px;color:var(--rdt-primary);margin-bottom:14px;
+  }
+  .mb-eyebrow .renderit-scramble-text-wrap{font-size:14px;padding:0;color:var(--rdt-primary);}
+  .mb-eyebrow::before{
+    content:"";width:8px;height:8px;border-radius:50%;
+    background:var(--rdt-secondary);flex:none;
+  }
+
+  .mb-section-title h2{
+    font-size: clamp(30px, 4vw, var(--rdt-h2-size));
+    font-weight: var(--rdt-h2-weight);
+    margin-bottom:18px;
+  }
+  .mb-section-title p{
+    font-size: var(--rdt-body-lg);
+    color: color-mix(in srgb, var(--rdt-on-surface) 65%, transparent);
+    max-width:560px;
+  }
+  .mb-section-title.is-center{text-align:center;margin-left:auto;margin-right:auto;}
+  .mb-section-title.is-center p{margin-left:auto;margin-right:auto;}
+
+  .mb-btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:16px 30px;border-radius:var(--rdt-rounded-full);
+    background:var(--rdt-primary);color:var(--rdt-on-primary);
+    font-weight:700;font-size:15px;border:none;cursor:pointer;
+    transition:transform .3s ease, box-shadow .3s ease, background .3s ease;
+    box-shadow: var(--rdt-elevation-md);
+  }
+  .mb-btn:hover{transform:translateY(-3px);box-shadow:var(--rdt-elevation-xl);}
+  .mb-btn i{transition:transform .3s ease;}
+  .mb-btn:hover i{transform:translateX(4px);}
+  .mb-btn.is-outline{
+    background:transparent;color:var(--rdt-on-surface);
+    border:1.5px solid color-mix(in srgb, var(--rdt-on-surface) 18%, transparent);
+    box-shadow:none;
+  }
+  .mb-btn.is-outline:hover{border-color:var(--rdt-primary);color:var(--rdt-primary);}
+  .mb-btn.is-light{background:var(--rdt-on-primary);color:var(--rdt-primary);}
+
+  /* Reveal genérico (substitui wow.js/animate.css do template original) */
+  .mb-reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease, transform .8s ease;}
+  .mb-reveal.is-visible{opacity:1;transform:translateY(0);}
+  .mb-reveal.d1{transition-delay:.1s;} .mb-reveal.d2{transition-delay:.2s;}
+  .mb-reveal.d3{transition-delay:.3s;} .mb-reveal.d4{transition-delay:.4s;}
+  .mb-reveal.d5{transition-delay:.5s;}
+
+  @keyframes mbFloat{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-18px) rotate(3deg);}}
+  @keyframes mbFloatSlow{0%,100%{transform:translateY(0);}50%{transform:translateY(14px);}}
+  @keyframes mbSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+  @keyframes mbPulse{0%{transform:scale(1);opacity:.55;}100%{transform:scale(1.7);opacity:0;}}
+  @keyframes mbMarquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  @keyframes mbGradientMove{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+
+  /* ===================================================================
+     NAV / HEADER
+     =================================================================== */
+  .mb-header{
+    position:fixed;top:0;left:0;width:100%;z-index:999;
+    padding:20px 0;transition:background .35s ease, box-shadow .35s ease, padding .35s ease;
+  }
+  .mb-header.is-scrolled{
+    background:var(--rdt-surface);box-shadow:var(--rdt-elevation-md);padding:12px 0;
+  }
+  .mb-header-wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;}
+  .mb-logo{display:flex;align-items:center;gap:10px;font-family:var(--rdt-font-primary);font-weight:800;font-size:22px;color:var(--rdt-on-surface);}
+  .mb-logo img{height:38px;width:auto;}
+  .mb-nav-menu{display:flex;align-items:center;gap:36px;}
+  .mb-nav-menu a{font-weight:600;font-size:15px;position:relative;padding:6px 0;}
+  .mb-nav-menu a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--rdt-primary);transition:width .3s ease;}
+  .mb-nav-menu a:hover::after{width:100%;}
+  .mb-header-actions{display:flex;align-items:center;gap:18px;}
+  .mb-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;}
+  .mb-burger span{width:26px;height:2px;background:var(--rdt-on-surface);border-radius:2px;}
+
+  @media (max-width: 991px){
+    .mb-nav-menu{
+      position:fixed;top:0;right:-100%;height:100vh;width:78%;max-width:340px;
+      background:var(--rdt-surface);flex-direction:column;justify-content:center;
+      align-items:flex-start;padding:40px;gap:26px;box-shadow:var(--rdt-elevation-xl);
+      transition:right .4s ease;z-index:1001;
+    }
+    .mb-nav-menu.is-open{right:0;}
+    .mb-burger{display:flex;}
+    .mb-header-actions a.mb-btn{display:none;}
+  }
+
+  /* ===================================================================
+     HERO — inspirado em chy-hero-2-area
+     =================================================================== */
+  .mb-hero{
+    padding:170px 0 110px;position:relative;overflow:hidden;
+    background-color: var(--rdt-neutral);
+    background-image: var(--mb-hero-bg, none);
+    background-size:cover;background-position:center;
+  }
+  .mb-hero::before{
+    content:"";position:absolute;inset:0;
+    background: radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--rdt-primary) 18%, transparent), transparent 60%);
+    pointer-events:none;
+  }
+  .mb-hero-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center;position:relative;z-index:2;}
+  .mb-hero-content .renderit-split-text-wrap{
+    text-align:left;padding:6px 0 16px;font-size:clamp(38px, 5.4vw, 70px);font-weight:800;
+  }
+  .mb-hero-content p.mb-hero-desc{
+    font-size:var(--rdt-body-lg);max-width:480px;margin-bottom:34px;
+    color:color-mix(in srgb, var(--rdt-on-surface) 62%, transparent);
+  }
+  .mb-hero-ctas{display:flex;gap:16px;flex-wrap:wrap;}
+  .mb-hero-img{position:relative;display:flex;justify-content:center;}
+  .mb-hero-img .main-img{position:relative;z-index:2;border-radius:var(--rdt-rounded-lg);overflow:hidden;box-shadow:var(--rdt-elevation-xl);max-width:420px;}
+  .mb-hero-img .main-img img{width:100%;height:520px;object-fit:cover;}
+  .mb-hero-img .il-frame{position:absolute;inset:-14px;z-index:3;pointer-events:none;border-radius:calc(var(--rdt-rounded-lg) + 14px);border:2px dashed color-mix(in srgb, var(--rdt-primary) 50%, transparent);}
+  .mb-hero-img .il-img-1{position:absolute;top:-30px;left:-40px;width:110px;z-index:4;animation:mbFloat 6s ease-in-out infinite;filter:drop-shadow(var(--rdt-elevation-lg));}
+  .mb-hero-img .il-img-2{position:absolute;bottom:30px;right:-50px;width:100px;z-index:4;animation:mbFloatSlow 5s ease-in-out infinite;filter:drop-shadow(var(--rdt-elevation-lg));}
+  .mb-hero-img .il-img-3{position:absolute;bottom:-30px;left:30px;width:90px;z-index:4;animation:mbFloat 7s ease-in-out infinite reverse;filter:drop-shadow(var(--rdt-elevation-lg));}
+  @media (max-width: 991px){
+    .mb-hero-wrap{grid-template-columns:1fr;text-align:center;}
+    .mb-hero-content .renderit-split-text-wrap{text-align:center;}
+    .mb-hero-content p.mb-hero-desc{margin-left:auto;margin-right:auto;}
+    .mb-hero-ctas{justify-content:center;}
+    .mb-hero-img{margin-top:40px;}
+  }
+
+  /* ===================================================================
+     TRUSTED STRIP — chy-trusted-2-area
+     =================================================================== */
+  .mb-trusted{padding:70px 0;}
+  .mb-trusted-wrap{display:grid;grid-template-columns:.85fr 1.15fr;gap:50px;align-items:center;}
+  .mb-trusted-team{display:flex;align-items:center;gap:16px;margin-top:18px;}
+  .mb-trusted-team img{height:46px;width:auto;}
+  .mb-trusted .renderit-icon-list-container{padding:0;}
+  .mb-trusted .renderit-icon-list-icon{font-size:22px;width:auto;height:auto;}
+
+  /* ===================================================================
+     ABOUT — chy-about-2-area
+     =================================================================== */
+  .mb-about{padding:90px 0;background:var(--rdt-neutral);}
+  .mb-about-wrap{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+  .mb-about-img{position:relative;}
+  .mb-about-img .main-img{border-radius:var(--rdt-rounded-lg);overflow:hidden;box-shadow:var(--rdt-elevation-xl);}
+  .mb-about-img .main-img img{width:100%;height:480px;object-fit:cover;}
+  .mb-about-img .il-img-1{position:absolute;top:-26px;right:30px;width:88px;animation:mbFloat 6s ease-in-out infinite;}
+  .mb-about-img .il-img-2{position:absolute;bottom:50px;left:-36px;width:78px;animation:mbFloatSlow 5.5s ease-in-out infinite;}
+  .mb-about-img .il-img-3{position:absolute;bottom:-24px;right:60px;width:70px;animation:mbFloat 6.5s ease-in-out infinite reverse;}
+  .mb-about-features{display:flex;gap:28px;flex-wrap:wrap;margin:26px 0 32px;}
+  .mb-about-features li{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;}
+  .mb-about-features li i{color:var(--rdt-primary);font-size:18px;}
+  .mb-about-logos{margin-top:42px;padding-top:32px;border-top:1px solid color-mix(in srgb, var(--rdt-on-surface) 10%, transparent);}
+  .mb-about-logos .renderit-logo-ticker-container{padding:0;background:transparent;}
+
+  /* ===================================================================
+     PORTFOLIO (LIVE-SECTION) — chy-portfolio-2-area
+     =================================================================== */
+  .mb-portfolio{padding:100px 0 60px;overflow:hidden;}
+  .mb-portfolio-grid{
+    display:grid;grid-template-columns:repeat(3, 1fr);gap:24px;
+    margin-top:50px;padding:0 24px;max-width:1240px;margin-left:auto;margin-right:auto;
+  }
+  .mb-portfolio-item{
+    position:relative;border-radius:var(--rdt-rounded-lg);overflow:hidden;
+    aspect-ratio:4/5;box-shadow:var(--rdt-elevation-md);
+    transition:transform .45s ease, box-shadow .45s ease;
+  }
+  .mb-portfolio-item:hover{transform:translateY(-8px);box-shadow:var(--rdt-elevation-xl);}
+  .mb-portfolio-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;}
+  .mb-portfolio-item:hover img{transform:scale(1.08);}
+  .mb-portfolio-item .content-wrap{
+    position:absolute;left:0;right:0;bottom:0;padding:22px;
+    display:flex;align-items:flex-end;justify-content:space-between;gap:10px;
+    background:linear-gradient(180deg, transparent, rgba(0,0,0,.78));
+  }
+  .mb-portfolio-item .content-wrap .subtitle{display:block;color:#fff;opacity:.75;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
+  .mb-portfolio-item .content-wrap .title{color:#fff;font-size:19px;font-weight:700;}
+  .mb-portfolio-item .p2-btn{
+    flex:none;width:42px;height:42px;border-radius:50%;background:var(--rdt-primary);
+    color:var(--rdt-on-primary);display:flex;align-items:center;justify-content:center;
+    transition:transform .3s ease;
+  }
+  .mb-portfolio-item:hover .p2-btn{transform:rotate(45deg);}
+  @media (max-width:991px){.mb-portfolio-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:600px){.mb-portfolio-grid{grid-template-columns:1fr;}}
+
+  /* ===================================================================
+     SERVICES (LIVE-SECTION) — chy-services-2-area
+     =================================================================== */
+  .mb-services{padding:100px 0 140px;background:var(--rdt-neutral);}
+  .mb-services-wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:center;}
+  .mb-services-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .mb-service-card{
+    background:var(--rdt-surface);border-radius:var(--rdt-rounded-lg);padding:32px 26px;
+    box-shadow:var(--rdt-elevation-sm);transition:transform .35s ease, box-shadow .35s ease;
+  }
+  .mb-service-card:hover{transform:translateY(-6px);box-shadow:var(--rdt-elevation-lg);}
+  .mb-service-card .icon{
+    width:56px;height:56px;border-radius:var(--rdt-rounded-md);background:color-mix(in srgb, var(--rdt-primary) 12%, transparent);
+    display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--rdt-primary);margin-bottom:20px;
+  }
+  .mb-service-card h5{font-size:18px;margin-bottom:10px;}
+  .mb-service-card p{font-size:14px;color:color-mix(in srgb, var(--rdt-on-surface) 60%, transparent);}
+  .mb-services-work{
+    display:flex;align-items:center;gap:18px;margin:36px 0;padding:22px 26px;
+    background:var(--rdt-surface);border-radius:var(--rdt-rounded-lg);box-shadow:var(--rdt-elevation-sm);
+  }
+  .mb-services-work i{font-size:26px;color:var(--rdt-secondary);}
+  .mb-services-work .renderit-counter-grid{padding:0;gap:24px;}
+  .mb-services-work .renderit-counter-icon{font-size:30px;width:auto;height:auto;margin-bottom:0;}
+
+  /* ===================================================================
+     SOLUTIONS — chy-solutions-2-area
+     =================================================================== */
+  .mb-solutions{
+    padding:110px 0;color:#fff;position:relative;overflow:hidden;
+    background-color: var(--rdt-on-surface);
+    background-image: var(--mb-solutions-bg, none);
+    background-size:cover;background-position:center;
+  }
+  .mb-solutions::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg, color-mix(in srgb, var(--rdt-on-surface) 92%, transparent), color-mix(in srgb, var(--rdt-primary) 55%, transparent));}
+  .mb-solutions-wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center;}
+  .mb-solutions .mb-section-title h2, .mb-solutions .mb-section-title p, .mb-solutions .mb-eyebrow{color:#fff;}
+  .mb-solutions .mb-eyebrow::before{background:#fff;}
+  .mb-solutions-list{margin:26px 0 32px;display:flex;flex-direction:column;gap:14px;}
+  .mb-solutions-list li{display:flex;align-items:center;gap:12px;font-weight:600;}
+  .mb-solutions-list li i{color:var(--rdt-secondary);font-size:18px;}
+  .mb-solutions-side{display:flex;flex-direction:column;gap:28px;}
+  .mb-solutions-side .renderit-stats-section{padding:0;}
+  .mb-solutions-side .renderit-stats-card{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12);}
+  .mb-solutions-side .renderit-stats-title, .mb-solutions-side .renderit-stats-number-group{color:#fff;}
+  .mb-solutions-side .renderit-stats-desc{color:rgba(255,255,255,.7);}
+  .mb-solutions-side .renderit-stats-icon{font-size:26px;width:auto;height:auto;background:transparent;}
+  .mb-solutions-video{
+    display:flex;align-items:center;gap:16px;color:#fff;font-weight:700;cursor:pointer;width:fit-content;
+  }
+  .mb-solutions-video .play-circle{
+    width:64px;height:64px;border-radius:50%;background:#fff;color:var(--rdt-primary);
+    display:flex;align-items:center;justify-content:center;font-size:20px;flex:none;position:relative;
+  }
+  .mb-solutions-video .play-circle::before{
+    content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #fff;
+    animation:mbPulse 2.2s ease-out infinite;
+  }
+  /* ===================================================================
+     PRICING — addon pricing
+     =================================================================== */
+  .mb-pricing{padding:120px 0;}
+  .mb-pricing .renderit-pricing-section{padding:50px 0 0;}
+
+  /* ===================================================================
+     TESTIMONIAL (LIVE-SECTION) — chy-testimonial-2-area
+     =================================================================== */
+  .mb-testimonial{
+    padding:110px 0 70px;position:relative;overflow:hidden;
+    background-color: var(--rdt-neutral);
+    background-image: var(--mb-testimonial-bg, none);
+    background-size:cover;background-position:center;
+  }
+  .mb-testimonial-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-bottom:60px;
+  }
+  .mb-testimonial-card{
+    background:var(--rdt-surface);border-radius:var(--rdt-rounded-lg);padding:34px 28px;
+    box-shadow:var(--rdt-elevation-md);position:relative;transition:transform .35s ease;
+  }
+  .mb-testimonial-card:hover{transform:translateY(-6px);}
+  .mb-testimonial-card .quote-icon{color:color-mix(in srgb, var(--rdt-primary) 30%, transparent);font-size:26px;margin-bottom:14px;}
+  .mb-testimonial-card .comment{font-size:15px;color:color-mix(in srgb, var(--rdt-on-surface) 72%, transparent);margin-bottom:22px;min-height:96px;}
+  .mb-testimonial-card .person-wrap{display:flex;align-items:center;gap:14px;}
+  .mb-testimonial-card .person-wrap img{width:52px;height:52px;border-radius:50%;object-fit:cover;}
+  .mb-testimonial-card .name{font-size:16px;font-weight:700;}
+  .mb-testimonial-card .role{font-size:13px;color:color-mix(in srgb, var(--rdt-on-surface) 55%, transparent);}
+  .mb-testimonial-logos{display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap;opacity:.55;}
+  .mb-testimonial-logos img{height:30px;width:auto;filter:grayscale(1);}
+  @media (max-width:991px){.mb-testimonial-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:600px){.mb-testimonial-grid{grid-template-columns:1fr;}}
+
+  /* ===================================================================
+     RESEARCH — chy-research-2-area
+     =================================================================== */
+  .mb-research{padding:110px 0;}
+  .mb-research-wrap{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+  .mb-research-img{position:relative;}
+  .mb-research-img .main-img{border-radius:var(--rdt-rounded-lg);overflow:hidden;box-shadow:var(--rdt-elevation-xl);}
+  .mb-research-img .main-img img{width:100%;height:440px;object-fit:cover;}
+  .mb-research-img .img-icon{position:absolute;top:-30px;right:-30px;width:84px;animation:mbFloat 6s ease-in-out infinite;}
+  .mb-research-list{margin:24px 0 32px;display:flex;flex-direction:column;gap:14px;}
+  .mb-research-list li{display:flex;align-items:center;gap:12px;font-weight:600;}
+  .mb-research-list li i{color:var(--rdt-primary);font-size:18px;}
+  .mb-research-progress{display:flex;gap:40px;margin-bottom:34px;}
+  .mb-knob{position:relative;width:110px;height:110px;}
+  .mb-knob svg{width:100%;height:100%;transform:rotate(-90deg);}
+  .mb-knob circle{fill:none;stroke-width:9;}
+  .mb-knob .track{stroke:color-mix(in srgb, var(--rdt-on-surface) 10%, transparent);}
+  .mb-knob .fill{stroke:var(--rdt-secondary);stroke-linecap:round;transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1);}
+  .mb-knob .pct{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:20px;color:var(--rdt-on-surface);
+  }
+  .mb-research-progress-item{text-align:center;}
+  .mb-research-progress-item h5{font-size:14px;font-weight:700;margin-top:12px;}
+
+  /* ===================================================================
+     MARQUEE — chy-marquee-text-2-area
+     =================================================================== */
+  .mb-marquee{padding:36px 0;background:var(--rdt-on-surface);overflow:hidden;}
+  .mb-marquee-track{display:flex;width:max-content;animation:mbMarquee 28s linear infinite;}
+  .mb-marquee-track span{
+    display:flex;align-items:center;gap:18px;
+    font-family:var(--rdt-font-primary);font-size:clamp(28px,4vw,46px);font-weight:800;
+    color:#fff;padding:0 36px;white-space:nowrap;
+  }
+  .mb-marquee-track span i{color:var(--rdt-secondary);font-size:.5em;}
+  .mb-marquee:hover .mb-marquee-track{animation-play-state:paused;}
+
+  /* ===================================================================
+     BLOG — chy-blog-2-area
+     =================================================================== */
+  .mb-blog{padding:120px 0 100px;}
+  .mb-blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:50px;}
+  .mb-blog-card{border-radius:var(--rdt-rounded-lg);overflow:hidden;background:var(--rdt-surface);box-shadow:var(--rdt-elevation-sm);transition:transform .35s ease, box-shadow .35s ease;}
+  .mb-blog-card:hover{transform:translateY(-6px);box-shadow:var(--rdt-elevation-lg);}
+  .mb-blog-card .main-img{aspect-ratio:4/3;overflow:hidden;}
+  .mb-blog-card .main-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+  .mb-blog-card:hover .main-img img{transform:scale(1.06);}
+  .mb-blog-card .body{padding:26px 24px;}
+  .mb-blog-card .categorie{display:inline-block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--rdt-primary);margin-bottom:12px;}
+  .mb-blog-card h3{font-size:19px;margin-bottom:16px;}
+  .mb-blog-card h3 a:hover{color:var(--rdt-primary);}
+  .mb-blog-card .meta{display:flex;gap:18px;font-size:13px;color:color-mix(in srgb, var(--rdt-on-surface) 55%, transparent);}
+  .mb-blog-card .meta i{margin-right:6px;color:var(--rdt-primary);}
+  @media (max-width:991px){.mb-blog-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:600px){.mb-blog-grid{grid-template-columns:1fr;}}
+
+  /* ===================================================================
+     FOOTER
+     =================================================================== */
+  .mb-footer{padding:100px 0 40px;background:var(--rdt-on-surface);color:#fff;}
+  .mb-footer-wrap{display:grid;grid-template-columns:1fr 2fr;gap:60px;}
+  .mb-footer h3.mb-footer-title{font-size:34px;margin-bottom:18px;color:#fff;}
+  .mb-footer h3.mb-footer-title span{font-family:var(--rdt-font-display);color:var(--rdt-secondary);font-weight:400;}
+  .mb-footer p{color:rgba(255,255,255,.65);margin-bottom:26px;max-width:380px;}
+  .mb-footer-social{display:flex;gap:12px;margin-bottom:30px;}
+  .mb-footer-social a{
+    width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.2);
+    display:flex;align-items:center;justify-content:center;transition:all .3s ease;
+  }
+  .mb-footer-social a:hover{background:var(--rdt-primary);border-color:var(--rdt-primary);}
+  .mb-footer-copyright{color:rgba(255,255,255,.45);font-size:13px;}
+  .mb-footer-widgets{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;}
+  .mb-footer-widgets h4{color:#fff;font-size:16px;margin-bottom:20px;}
+  .mb-footer-widgets ul{display:flex;flex-direction:column;gap:12px;}
+  .mb-footer-widgets ul a{color:rgba(255,255,255,.65);font-size:14px;transition:color .3s ease;}
+  .mb-footer-widgets ul a:hover{color:var(--rdt-secondary);}
+  .mb-footer .renderit-newsletter-container{padding:0;background:transparent;text-align:left;margin:0;max-width:none;}
+  .mb-footer .renderit-newsletter-field{background:rgba(255,255,255,.08);}
+  .mb-footer .renderit-newsletter-input{color:#fff;}
+  .mb-footer-team{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);padding-top:36px;margin-top:10px;}
+  .mb-footer-team h4{color:#fff;font-size:16px;margin-bottom:20px;}
+  .mb-footer .renderit-gallery-container{padding:0;max-width:none;}
+  .mb-footer .renderit-gallery-main-title{display:none;}
+
+  @media (max-width:991px){
+    .mb-hero-wrap, .mb-trusted-wrap, .mb-about-wrap, .mb-services-wrap, .mb-solutions-wrap,
+    .mb-research-wrap, .mb-footer-wrap{grid-template-columns:1fr !important;}
+    .mb-footer-widgets{grid-template-columns:repeat(2,1fr);}
+    .mb-services-grid{grid-template-columns:1fr;}
+  }
+
+  /* ===================================================================
+     LIVE MODE — placeholder de carregamento das live-sections
+     =================================================================== */
+  [data-renderit-zone]{display:block;min-height:120px;}
+  .renderit-loading{
+    width:100%;min-height:220px;display:flex;align-items:center;justify-content:center;
+  }
+  .renderit-loading::after{
+    content:"";width:38px;height:38px;border-radius:50%;
+    border:3px solid color-mix(in srgb, var(--rdt-primary) 25%, transparent);
+    border-top-color:var(--rdt-primary);animation:mbSpin .8s linear infinite;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER / NAV
+     ============================================================ -->
+<header class="mb-header" id="mbHeader">
+  <div class="mb-container mb-header-wrap">
+    <a href="#hero" class="mb-logo">
+      <img src="%site_logo%" alt="%site_name%">
+      <span>%site_name%</span>
+    </a>
+
+    <nav class="mb-nav-menu" id="mbNavMenu">
+      <a href="#sobre">Quem Somos</a>
+      <a href="#portfolio">Portfólio</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#planos">Planos</a>
+      <a href="#depoimentos">Depoimentos</a>
+      <a href="#blog">Blog</a>
+    </nav>
+
+    <div class="mb-header-actions">
+      <a href="%nav.cta_url%" class="mb-btn">%nav.cta_label% <i class="fa-solid fa-arrow-right"></i></a>
+      <button class="mb-burger" id="mbBurger" aria-label="Abrir menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============================================================
+     1. HERO — chy-hero-2-area
+     ============================================================ -->
+<section class="mb-hero" id="hero" style="--mb-hero-bg:url('assets/images/hero/h2-bg-img-1.png');">
+  <div class="mb-container mb-hero-wrap">
+    <div class="mb-hero-content">
+      <div class="mb-eyebrow">
+        %ADDON animated-text-scramble%
+      </div>
+
+      %ADDON animated-text-split%
+
+      <p class="mb-hero-desc mb-reveal d1">%hero.description%</p>
+
+      <div class="mb-hero-ctas mb-reveal d2">
+        <a href="%hero.cta_url%" class="mb-btn">%hero.cta_label% <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="%hero.secondary_cta_url%" class="mb-btn is-outline">%hero.secondary_cta_label%</a>
+      </div>
+    </div>
+
+    <div class="mb-hero-img mb-reveal d2">
+      <div class="il-frame"></div>
+      <img class="il-img-1" src="assets/images/hero/h2-il-1.png" alt="">
+      <img class="il-img-2" src="assets/images/hero/h2-il-2.png" alt="">
+      <img class="il-img-3" src="assets/images/hero/h2-il-3.png" alt="">
+      <div class="main-img">
+        <img src="%hero.image%" alt="%hero.title%">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     2. TRUSTED STRIP — chy-trusted-2-area
+     ============================================================ -->
+<section class="mb-trusted">
+  <div class="mb-container mb-trusted-wrap">
+    <div class="mb-reveal">
+      <div class="mb-eyebrow">%trusted.eyebrow%</div>
+      <div class="mb-section-title">
+        <h2>%trusted.title%</h2>
+        <p>%trusted.description%</p>
+      </div>
+      <div class="mb-trusted-team">
+        <img src="assets/images/trusted/t2-group-img-1.png" alt="%trusted.team_label%">
+        <span style="font-weight:700;font-size:14px;">%trusted.team_label%</span>
+      </div>
+    </div>
+
+    <div class="mb-reveal d2">
+      %ADDON icon-list%
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     3. ABOUT / QUEM SOMOS — chy-about-2-area
+     ============================================================ -->
+<section class="mb-about" id="sobre">
+  <div class="mb-container mb-about-wrap">
+    <div class="mb-about-img mb-reveal">
+      <img class="il-img-1" src="assets/images/about/a1-il-1.png" alt="">
+      <img class="il-img-2" src="assets/images/about/a1-il-2.png" alt="">
+      <img class="il-img-3" src="assets/images/about/a1-il-3.png" alt="">
+      <div class="main-img">
+        <img src="%about.image%" alt="%about.title%">
+      </div>
+    </div>
+
+    <div class="mb-reveal d2">
+      <div class="mb-eyebrow">%about.eyebrow%</div>
+      <div class="mb-section-title">
+        <h2>%about.title%</h2>
+      </div>
+      <p style="margin-top:18px;color:color-mix(in srgb, var(--rdt-on-surface) 65%, transparent);">%about.description%</p>
+
+      <ul class="mb-about-features">
+        <li><i class="fa-solid fa-circle-check"></i> %about.feature_1%</li>
+        <li><i class="fa-solid fa-circle-check"></i> %about.feature_2%</li>
+      </ul>
+
+      <div class="mb-about-logos">
+        %ADDON logo-ticker%
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     4. PORTFOLIO (LIVE-SECTION "portfolio") — chy-portfolio-2-area
+     ============================================================ -->
+<section class="mb-portfolio" id="portfolio">
+  <div class="mb-container">
+    <div class="mb-section-title is-center mb-reveal">
+      <div class="mb-eyebrow" style="justify-content:center;">
+        <img src="assets/images/icon/subtitle-icon.png" alt="" style="width:18px;height:18px;">
+        %portfolio.eyebrow%
+      </div>
+      <h2>%portfolio.title%</h2>
+      <p>%portfolio.description%</p>
+    </div>
+  </div>
+
+  <!-- Live-section: estrutura/conteúdo replicados do chy-portfolio-2-slider original,
+       trocando o Swiper por um grid responsivo (compatível com hidratação assíncrona do Live Mode) -->
+  <div class="mb-portfolio-grid"
+       data-renderit-zone="portfolio"
+       data-renderit-src="portfolio.json">
+    %FOREACH items%
+    <a href="%link%" class="mb-portfolio-item">
+      <img src="%image%" alt="%title%">
+      <span class="content-wrap">
+        <span>
+          <span class="subtitle">%subtitle%</span>
+          <span class="title">%title%</span>
+        </span>
+        <span class="p2-btn"><i class="fa-solid fa-arrow-up-right"></i></span>
+      </span>
+    </a>
+    %ENDFOREACH%
+  </div>
+</section>
+
+<!-- ============================================================
+     5. SERVICES (LIVE-SECTION "services_grid") — chy-services-2-area
+     ============================================================ -->
+<section class="mb-services" id="servicos">
+  <div class="mb-container mb-services-wrap">
+
+    <!-- Live-section: cards replicados do chy-services-2-item original -->
+    <div class="mb-services-grid mb-reveal"
+         data-renderit-zone="services_grid"
+         data-renderit-src="services_grid.json">
+      %FOREACH items%
+      <div class="mb-service-card">
+        <div class="icon"><i class="fa-solid %icon%"></i></div>
+        <h5>%title%</h5>
+        <p>%description%</p>
+      </div>
+      %ENDFOREACH%
+    </div>
+
+    <div class="mb-reveal d2">
+      <div class="mb-eyebrow">%services.eyebrow%</div>
+      <div class="mb-section-title">
+        <h2>%services.title%</h2>
+        <p>%services.description%</p>
+      </div>
+
+      <div class="mb-services-work">
+        <i class="fa-solid fa-chart-line"></i>
+        %ADDON counter%
+      </div>
+
+      <a href="%services.cta_url%" class="mb-btn">%services.cta_label% <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     6. SOLUTIONS / GROWTH — chy-solutions-2-area
+     ============================================================ -->
+<section class="mb-solutions" id="growth" style="--mb-solutions-bg:url('assets/images/solutions/s2-bg-img-1.png');">
+  <div class="mb-container mb-solutions-wrap">
+    <div class="mb-reveal">
+      <div class="mb-eyebrow">%solutions.eyebrow%</div>
+      <div class="mb-section-title">
+        <h2>%solutions.title%</h2>
+        <p>%solutions.description%</p>
+      </div>
+
+      <ul class="mb-solutions-list">
+        <li><i class="fa-solid fa-circle-check"></i> %solutions.feature_1%</li>
+        <li><i class="fa-solid fa-circle-check"></i> %solutions.feature_2%</li>
+        <li><i class="fa-solid fa-circle-check"></i> %solutions.feature_3%</li>
+        <li><i class="fa-solid fa-circle-check"></i> %solutions.feature_4%</li>
+      </ul>
+
+      <a href="%solutions.cta_url%" class="mb-btn is-light">%solutions.cta_label% <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+
+    <div class="mb-solutions-side mb-reveal d2">
+      %ADDON stats%
+
+      <a href="%solutions.video_url%" target="_blank" class="mb-solutions-video">
+        <span class="play-circle"><i class="fa-solid fa-play"></i></span>
+        %solutions.video_label%
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     7. PRICING / FIND YOUR RIGHT PLAN — addon pricing
+     ============================================================ -->
+<section class="mb-pricing" id="planos">
+  <div class="mb-container">
+    <div class="mb-section-title is-center mb-reveal">
+      <div class="mb-eyebrow" style="justify-content:center;">%pricing.eyebrow%</div>
+      <h2>%pricing.title%</h2>
+      <p>%pricing.description%</p>
+    </div>
+
+    %ADDON pricing%
+  </div>
+</section>
+
+<!-- ============================================================
+     8. TESTIMONIAL (LIVE-SECTION "testimonials") — chy-testimonial-2-area
+     ============================================================ -->
+<section class="mb-testimonial" id="depoimentos" style="--mb-testimonial-bg:url('assets/images/testimonial/t2-bg-img-1.png');">
+  <div class="mb-container">
+    <div class="mb-section-title is-center mb-reveal">
+      <div class="mb-eyebrow" style="justify-content:center;">%testimonial.eyebrow%</div>
+      <h2>%testimonial.title%</h2>
+      <p>%testimonial.description%</p>
+    </div>
+
+    <!-- Live-section: cards replicados do chy-testimonial-2-slider original -->
+    <div class="mb-testimonial-grid"
+         data-renderit-zone="testimonials"
+         data-renderit-src="testimonials.json">
+      %FOREACH items%
+      <div class="mb-testimonial-card">
+        <i class="fa-solid fa-quote-right quote-icon"></i>
+        <p class="comment">%comment%</p>
+        <div class="person-wrap">
+          <img src="%image%" alt="%name%">
+          <div>
+            <div class="name">%name%</div>
+            <div class="role">%role%</div>
+          </div>
+        </div>
+      </div>
+      %ENDFOREACH%
+    </div>
+
+    <div class="mb-testimonial-logos mb-reveal">
+      <img src="assets/images/testimonial/t2-logo-1.png" alt="">
+      <img src="assets/images/testimonial/t2-logo-2.png" alt="">
+      <img src="assets/images/testimonial/t2-logo-3.png" alt="">
+      <img src="assets/images/testimonial/t2-logo-4.png" alt="">
+      <img src="assets/images/testimonial/t2-logo-5.png" alt="">
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     9. RESEARCH — chy-research-2-area
+     ============================================================ -->
+<section class="mb-research">
+  <div class="mb-container mb-research-wrap">
+    <div class="mb-research-img mb-reveal">
+      <div class="main-img"><img src="%research.image%" alt="%research.title%"></div>
+      <img class="img-icon" src="assets/images/research/r2-img-icon.png" alt="">
+    </div>
+
+    <div class="mb-reveal d2">
+      <div class="mb-eyebrow">%research.eyebrow%</div>
+      <div class="mb-section-title">
+        <h2>%research.title%</h2>
+        <p>%research.description%</p>
+      </div>
+
+      <ul class="mb-research-list">
+        <li><i class="fa-solid fa-circle-check"></i> %research.feature_1%</li>
+        <li><i class="fa-solid fa-circle-check"></i> %research.feature_2%</li>
+      </ul>
+
+      <div class="mb-research-progress">
+        <div class="mb-research-progress-item">
+          <div class="mb-knob">
+            <svg viewBox="0 0 120 120">
+              <circle class="track" cx="60" cy="60" r="52"></circle>
+              <circle class="fill" cx="60" cy="60" r="52"
+                style="stroke-dasharray:326.7; stroke-dashoffset:calc(326.7 - (326.7 * %research.progress_1% / 100));"></circle>
+            </svg>
+            <span class="pct">%research.progress_1%%%</span>
+          </div>
+          <h5>%research.progress_1_label%</h5>
+        </div>
+
+        <div class="mb-research-progress-item">
+          <div class="mb-knob">
+            <svg viewBox="0 0 120 120">
+              <circle class="track" cx="60" cy="60" r="52"></circle>
+              <circle class="fill" cx="60" cy="60" r="52"
+                style="stroke-dasharray:326.7; stroke-dashoffset:calc(326.7 - (326.7 * %research.progress_2% / 100));"></circle>
+            </svg>
+            <span class="pct">%research.progress_2%%%</span>
+          </div>
+          <h5>%research.progress_2_label%</h5>
+        </div>
+      </div>
+
+      <a href="%research.cta_url%" class="mb-btn">%research.cta_label% <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     10. MARQUEE — chy-marquee-text-2-area
+     ============================================================ -->
+<section class="mb-marquee">
+  <div class="mb-marquee-track">
+    %FOREACH marquee.words%
+    <span>%text% <i class="fa-solid fa-arrow-right-long"></i></span>
+    %ENDFOREACH%
+    %FOREACH marquee.words%
+    <span>%text% <i class="fa-solid fa-arrow-right-long"></i></span>
+    %ENDFOREACH%
+  </div>
+</section>
+
+<!-- ============================================================
+     11. BLOG — chy-blog-2-area
+     ============================================================ -->
+<section class="mb-blog" id="blog">
+  <div class="mb-container">
+    <div class="mb-section-title is-center mb-reveal">
+      <div class="mb-eyebrow" style="justify-content:center;">%blog.eyebrow%</div>
+      <h2>%blog.title%</h2>
+      <p>%blog.description%</p>
+    </div>
+
+    <div class="mb-blog-grid">
+      %FOREACH blog.posts%
+      <article class="mb-blog-card mb-reveal">
+        <a href="%link%" class="main-img"><img src="%image%" alt="%title%"></a>
+        <div class="body">
+          <span class="categorie">%category%</span>
+          <h3><a href="%link%">%title%</a></h3>
+          <div class="meta">
+            <span><i class="fa-solid fa-user"></i>%author%</span>
+            <span><i class="fa-solid fa-calendar"></i>%date%</span>
+          </div>
+        </div>
+      </article>
+      %ENDFOREACH%
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER — chy-footer-2-area
+     ============================================================ -->
+<footer class="mb-footer">
+  <div class="mb-container">
+    <div class="mb-footer-wrap">
+      <div>
+        <h3 class="mb-footer-title">%footer.title_1% <span>%footer.title_2%</span></h3>
+        <p>%footer.description%</p>
+
+        <div class="mb-footer-social">
+          %FOREACH footer.social_links%
+          <a href="%url%" target="_blank" aria-label="%network%"><i class="fa-brands %icon_class%"></i></a>
+          %ENDFOREACH%
+        </div>
+
+        <p class="mb-footer-copyright">&copy; %YEAR% %site_name%. %footer.rights_label%</p>
+      </div>
+
+      <div class="mb-footer-widgets">
+        <div>
+          <h4>%footer.col_services_title%</h4>
+          <ul>
+            %FOREACH footer.services_links%
+            <li><a href="%url%">%text%</a></li>
+            %ENDFOREACH%
+          </ul>
+        </div>
+
+        <div>
+          <h4>%footer.col_company_title%</h4>
+          <ul>
+            %FOREACH footer.company_links%
+            <li><a href="%url%">%text%</a></li>
+            %ENDFOREACH%
+          </ul>
+        </div>
+
+        <div>
+          <h4>%footer.col_newsletter_title%</h4>
+          %ADDON newsletter%
+        </div>
+
+        <div class="mb-footer-team">
+          <h4>%footer.team_title%</h4>
+          %ADDON gallery%
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     ADDONS GLOBAIS FLUTUANTES
+     ============================================================ -->
+%ADDON sticky-cta%
+%ADDON cookie-banner%
+%ADDON whatsapp%
+%ADDON popup%
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Header com fundo sólido ao rolar
+  var header = document.getElementById('mbHeader');
+  var onScroll = function () {
+    if (window.scrollY > 40) header.classList.add('is-scrolled');
+    else header.classList.remove('is-scrolled');
+  };
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+
+  // Menu mobile (burger)
+  var burger = document.getElementById('mbBurger');
+  var navMenu = document.getElementById('mbNavMenu');
+  if (burger && navMenu) {
+    burger.addEventListener('click', function () { navMenu.classList.toggle('is-open'); });
+    navMenu.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () { navMenu.classList.remove('is-open'); });
+    });
+  }
+
+  // Reveal-on-scroll genérico (.mb-reveal)
+  var revealEls = document.querySelectorAll('.mb-reveal');
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    revealEls.forEach(function (el) { obs.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add('is-visible'); });
+  }
+
+  // Conhecimento de zonas Live Mode: elementos .mb-reveal DENTRO de zonas
+  // hidratadas dinamicamente podem chegar depois do IntersectionObserver inicial —
+  // observamos mutações para reativar o reveal nesses casos.
+  var zones = document.querySelectorAll('[data-renderit-zone]');
+  if (zones.length && 'MutationObserver' in window) {
+    var mo = new MutationObserver(function () {
+      document.querySelectorAll('.mb-reveal:not(.is-visible)').forEach(function (el) {
+        el.classList.add('is-visible');
+      });
+    });
+    zones.forEach(function (z) { mo.observe(z, { childList: true }); });
+  }
+});
+</script>
+
+</body>
+</html>
+
+

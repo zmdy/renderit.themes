@@ -1,0 +1,415 @@
+{
+  "site_name": "Órbita Business",
+  "site_description": "Agência de marketing e growth que transforma negócios em marcas memoráveis com estratégia, criatividade e dados.",
+  "site_logo": "assets/images/logo/logo-color.png",
+  "site_favicon": "assets/images/favicon.png",
+
+  "design": {
+    "colors": {
+      "primary": "#FF5C35",
+      "on-primary": "#FFFFFF",
+      "secondary": "#15171C",
+      "tertiary": "#FFB199",
+      "surface": "#FFFFFF",
+      "on-surface": "#15171C",
+      "neutral": "#F4F5F7",
+      "error": "#E5484D",
+      "success": "#1AAE6F"
+    },
+    "fonts": {
+      "primary": "'Urbanist', sans-serif",
+      "secondary": "'Urbanist', sans-serif"
+    },
+    "rounded": {
+      "sm": "8px",
+      "md": "16px",
+      "lg": "24px",
+      "full": "999px"
+    },
+    "elevation": {
+      "sm": "0 2px 8px rgba(21,23,28,0.06)",
+      "md": "0 8px 24px rgba(21,23,28,0.10)",
+      "lg": "0 16px 40px rgba(21,23,28,0.14)",
+      "xl": "0 24px 60px rgba(21,23,28,0.18)"
+    },
+    "typography": {
+      "h1": { "fontSize": "64px", "fontWeight": "800" },
+      "h2": { "fontSize": "42px", "fontWeight": "800" },
+      "body-md": { "fontSize": "16px" },
+      "body-lg": { "fontSize": "22px" }
+    }
+  },
+
+  "nav": {
+    "cta_label": "Fale Conosco",
+    "cta_url": "#planos"
+  },
+
+  "hero": {
+    "title": "Órbita Business",
+    "description": "Combinamos estratégia, criatividade e dados para acelerar marcas no digital — da primeira campanha ao próximo grande marco de crescimento.",
+    "cta_url": "#planos",
+    "cta_label": "Comece Agora",
+    "secondary_cta_url": "#portfolio",
+    "secondary_cta_label": "Ver Portfólio",
+    "image": "assets/images/hero/h2-img-1.png"
+  },
+
+  "trusted": {
+    "eyebrow": "Confiança",
+    "title": "Marcas que confiam na Órbita",
+    "description": "Já ajudamos dezenas de empresas a crescer com estratégias de marketing orientadas por dados e criatividade.",
+    "team_label": "+150 clientes atendidos"
+  },
+
+  "about": {
+    "image": "assets/images/about/a1-img-1.png",
+    "eyebrow": "Quem Somos",
+    "title": "Especialistas em growth que pensam como donos do seu negócio",
+    "description": "Somos uma equipe multidisciplinar de estrategistas, criativos e analistas de dados dedicada a transformar metas ambiciosas em resultados mensuráveis.",
+    "feature_1": "Estratégias personalizadas para cada etapa do funil",
+    "feature_2": "Times dedicados de performance, conteúdo e dados"
+  },
+
+  "portfolio": {
+    "eyebrow": "Portfólio",
+    "title": "Projetos que aceleraram resultados reais",
+    "description": "Conheça alguns cases de marcas que transformamos com estratégias de marketing orientadas por performance."
+  },
+
+  "services": {
+    "eyebrow": "Serviços",
+    "title": "Soluções completas para o crescimento da sua marca",
+    "description": "Da estratégia à execução, oferecemos tudo que sua empresa precisa para crescer no digital.",
+    "cta_url": "#planos",
+    "cta_label": "Ver Planos"
+  },
+
+  "solutions": {
+    "eyebrow": "Crescimento",
+    "title": "Uma abordagem de growth construída para escalar",
+    "description": "Unimos dados, criatividade e tecnologia em um processo único de crescimento contínuo.",
+    "feature_1": "Testes A/B contínuos em todos os canais",
+    "feature_2": "Dashboards de performance em tempo real",
+    "feature_3": "Otimização de orçamento baseada em dados",
+    "feature_4": "Squad dedicado à sua conta",
+    "cta_url": "#planos",
+    "cta_label": "Solicitar Proposta",
+    "video_url": "#growth",
+    "video_label": "Ver Vídeo"
+  },
+
+  "pricing": {
+    "eyebrow": "Planos",
+    "title": "Encontre o plano ideal para o seu crescimento",
+    "description": "Pacotes flexíveis para empresas em qualquer estágio de maturidade digital."
+  },
+
+  "testimonial": {
+    "eyebrow": "Depoimentos",
+    "title": "O que nossos clientes dizem sobre a Órbita",
+    "description": "Resultados reais contados por quem viveu a transformação."
+  },
+
+  "research": {
+    "image": "assets/images/research/r2-img-1.png",
+    "eyebrow": "Pesquisa & Dados",
+    "title": "Decisões orientadas por dados, não por achismo",
+    "description": "Monitoramos cada métrica que importa para garantir que sua estratégia evolua com base em evidências.",
+    "feature_1": "Relatórios mensais detalhados de performance",
+    "feature_2": "Pesquisa de mercado e benchmarking contínuo",
+    "progress_1": "92",
+    "progress_1_label": "Satisfação dos Clientes",
+    "progress_2": "87",
+    "progress_2_label": "Metas Atingidas",
+    "cta_url": "#planos",
+    "cta_label": "Saiba Mais"
+  },
+
+  "marquee": {
+    "words": [
+      { "text": "Marketing Digital" },
+      { "text": "Growth" },
+      { "text": "Performance" },
+      { "text": "Branding" },
+      { "text": "Dados" },
+      { "text": "Criatividade" }
+    ]
+  },
+
+  "blog": {
+    "eyebrow": "Blog",
+    "title": "Insights e novidades do mundo do marketing",
+    "description": "Conteúdo produzido pelo nosso time de especialistas para você crescer mais rápido.",
+    "posts": [
+      {
+        "link": "#",
+        "image": "assets/images/blog/b2-img-1.png",
+        "title": "5 estratégias de growth para 2026",
+        "category": "Growth",
+        "author": "Equipe Órbita",
+        "date": "12 Jun 2026"
+      },
+      {
+        "link": "#",
+        "image": "assets/images/blog/b2-img-2.png",
+        "title": "Como construir uma marca memorável no digital",
+        "category": "Branding",
+        "author": "Equipe Órbita",
+        "date": "28 Mai 2026"
+      },
+      {
+        "link": "#",
+        "image": "assets/images/blog/b2-img-3.png",
+        "title": "O que os dados revelam sobre o consumidor de 2026",
+        "category": "Dados",
+        "author": "Equipe Órbita",
+        "date": "05 Mai 2026"
+      }
+    ]
+  },
+
+  "footer": {
+    "title_1": "Vamos",
+    "title_2": "Crescer Juntos?",
+    "description": "Pronto para acelerar o crescimento da sua marca? Fale com nosso time e descubra o plano ideal para você.",
+    "rights_label": "Todos os direitos reservados.",
+    "col_services_title": "Serviços",
+    "col_company_title": "Empresa",
+    "col_newsletter_title": "Newsletter",
+    "team_title": "Nosso Time",
+    "social_links": [
+      { "url": "https://instagram.com", "network": "Instagram", "icon_class": "fa-instagram" },
+      { "url": "https://facebook.com", "network": "Facebook", "icon_class": "fa-facebook-f" },
+      { "url": "https://linkedin.com", "network": "LinkedIn", "icon_class": "fa-linkedin-in" },
+      { "url": "https://youtube.com", "network": "YouTube", "icon_class": "fa-youtube" }
+    ],
+    "services_links": [
+      { "url": "#servicos", "text": "Marketing de Performance" },
+      { "url": "#servicos", "text": "SEO & Conteúdo" },
+      { "url": "#servicos", "text": "Branding & Design" },
+      { "url": "#servicos", "text": "Análise de Dados" }
+    ],
+    "company_links": [
+      { "url": "#sobre", "text": "Quem Somos" },
+      { "url": "#portfolio", "text": "Portfólio" },
+      { "url": "#blog", "text": "Blog" },
+      { "url": "#planos", "text": "Planos" }
+    ]
+  },
+
+  "addons": {
+    "animated-text-scramble": {
+      "scramble_text": {
+        "chars": "!<>-_\\/[]{}—=+*^?#abcdefghijklmnopqrstuvwxyz0123456789",
+        "cursor": "_",
+        "duration": "1800",
+        "delay": "0",
+        "content": "Estratégia. Criatividade. Resultados."
+      }
+    },
+
+    "animated-text-split": {
+      "split_text": {
+        "effect": "chars",
+        "duration": "1000",
+        "delay": "30",
+        "easing": "easeOutExpo",
+        "content": "Transformamos negócios em marcas inesquecíveis"
+      }
+    },
+
+    "icon-list": {
+      "icon_list": {
+        "layout": "horizontal",
+        "items": [
+          { "icon": "⚡", "text": "Entrega Ágil" },
+          { "icon": "🤝", "text": "Suporte Dedicado" },
+          { "icon": "📊", "text": "Decisões por Dados" },
+          { "icon": "🏆", "text": "Resultados Comprovados" }
+        ]
+      }
+    },
+
+    "logo-ticker": {
+      "speed": "3000",
+      "draggable": true,
+      "logo_ticker": {
+        "items": [
+          { "logo_url": "assets/images/about/a1-logo-1.png", "alt_text": "Cliente Órbita 1" },
+          { "logo_url": "assets/images/about/a1-logo-2.png", "alt_text": "Cliente Órbita 2" },
+          { "logo_url": "assets/images/about/a1-logo-3.png", "alt_text": "Cliente Órbita 3" },
+          { "logo_url": "assets/images/about/a1-logo-4.png", "alt_text": "Cliente Órbita 4" }
+        ]
+      }
+    },
+
+    "counter": {
+      "counter": {
+        "items": [
+          { "icon": "📈", "prefix": "+", "value": "120", "suffix": "", "label": "Projetos Entregues" },
+          { "icon": "⭐", "prefix": "", "value": "98", "suffix": "%", "label": "Satisfação dos Clientes" }
+        ]
+      }
+    },
+
+    "stats": {
+      "stats": {
+        "items": [
+          { "icon": "📊", "prefix": "+", "value": "45", "suffix": "%", "title": "Aumento Médio de ROI", "description": "Resultado médio observado nos primeiros 6 meses de parceria." },
+          { "icon": "🎯", "prefix": "", "value": "92", "suffix": "%", "title": "Taxa de Retenção", "description": "Clientes que renovam contrato após o primeiro ciclo de growth." },
+          { "icon": "⚡", "prefix": "", "value": "30", "suffix": " dias", "title": "Implementação Rápida", "description": "Tempo médio para o primeiro resultado mensurável aparecer." }
+        ]
+      }
+    },
+
+    "pricing": {
+      "pricing": {
+        "currency": "R$",
+        "plans": [
+          {
+            "title": "Starter",
+            "highlighted": false,
+            "price": "1.490",
+            "period": "mês",
+            "description": "Ideal para marcas que estão começando a estruturar o marketing digital.",
+            "features": [
+              { "feature": "Gestão de 2 redes sociais" },
+              { "feature": "Relatório mensal de performance" },
+              { "feature": "1 campanha de mídia paga" },
+              { "feature": "Suporte por e-mail" }
+            ],
+            "cta_url": "#planos",
+            "cta_label": "Começar Agora"
+          },
+          {
+            "title": "Growth",
+            "highlighted": true,
+            "price": "3.290",
+            "period": "mês",
+            "description": "Para empresas que querem acelerar a aquisição de clientes.",
+            "features": [
+              { "feature": "Gestão de 4 redes sociais" },
+              { "feature": "Campanhas de mídia paga ilimitadas" },
+              { "feature": "SEO + produção de conteúdo" },
+              { "feature": "Dashboards em tempo real" },
+              { "feature": "Suporte prioritário via WhatsApp" }
+            ],
+            "cta_url": "#planos",
+            "cta_label": "Quero Crescer"
+          },
+          {
+            "title": "Scale",
+            "highlighted": false,
+            "price": "6.490",
+            "period": "mês",
+            "description": "Estrutura completa de growth para operações em expansão.",
+            "features": [
+              { "feature": "Squad dedicado de growth" },
+              { "feature": "Estratégia multicanal completa" },
+              { "feature": "Automação de marketing avançada" },
+              { "feature": "Consultoria estratégica mensal" },
+              { "feature": "Suporte dedicado 24/7" }
+            ],
+            "cta_url": "#planos",
+            "cta_label": "Falar com Especialista"
+          }
+        ]
+      }
+    },
+
+    "newsletter": {
+      "newsletter": {
+        "placeholder": "Seu melhor e-mail",
+        "button_label": "Inscrever",
+        "success_message": "Inscrição realizada com sucesso! Em breve você receberá nossas novidades.",
+        "error_message": "Não foi possível concluir sua inscrição. Tente novamente."
+      }
+    },
+
+    "gallery": {
+      "items": [
+        { "id": "1", "thumb": "assets/images/footer/f2-team-1.png", "image": "assets/images/footer/f2-team-1.png", "caption": "Marina Souza — Growth Lead" },
+        { "id": "2", "thumb": "assets/images/footer/f2-team-2.png", "image": "assets/images/footer/f2-team-2.png", "caption": "Rafael Andrade — Mídia Paga" },
+        { "id": "3", "thumb": "assets/images/footer/f2-team-3.png", "image": "assets/images/footer/f2-team-3.png", "caption": "Carolina Lima — Conteúdo & SEO" },
+        { "id": "4", "thumb": "assets/images/footer/f2-team-4.png", "image": "assets/images/footer/f2-team-4.png", "caption": "Eduardo Tavares — Dados & BI" }
+      ],
+      "settings": {
+        "columns": "2",
+        "gap": "12px"
+      }
+    },
+
+    "sticky-cta": {
+      "sticky_cta": {
+        "position": "right",
+        "url": "#planos",
+        "icon": "💬",
+        "label": "Fale com a gente"
+      }
+    },
+
+    "cookie-banner": {
+      "cookie_banner": {
+        "message": "Usamos cookies para personalizar sua experiência e analisar o tráfego do site. Ao continuar navegando, você concorda com nossa política de privacidade.",
+        "privacy_link": "#",
+        "privacy_label": "Política de Privacidade",
+        "button_decline": "Recusar",
+        "button_accept": "Aceitar Cookies"
+      }
+    },
+
+    "whatsapp": {
+      "number": "5511999999999",
+      "message": "Olá! Vim pelo site e gostaria de saber mais sobre os serviços da Órbita Business.",
+      "label_text": "Fale no WhatsApp",
+      "settings": {
+        "position": "bottom-right",
+        "show_label": true,
+        "icon_class": "fa-brands fa-whatsapp",
+        "bg_color": "#25D366"
+      }
+    },
+
+    "popup": {
+      "popup": {
+        "image": "assets/images/about/a1-img-1.png",
+        "title": "Receba um Diagnóstico Gratuito",
+        "content": "Agende uma sessão gratuita de 30 minutos com nosso time e descubra oportunidades de crescimento para a sua marca.",
+        "cta_label": "Quero Minha Análise",
+        "cta_url": "#planos",
+        "trigger_type": "delay",
+        "trigger_value": "8"
+      }
+    },
+
+    "portfolio": {
+      "items": [
+        { "link": "#", "image": "assets/images/portfolio/p2-img-1.png", "title": "Campanha Voo Livre", "subtitle": "Branding & Estratégia" },
+        { "link": "#", "image": "assets/images/portfolio/p2-img-2.png", "title": "Rebranding Nimbus", "subtitle": "Identidade Visual" },
+        { "link": "#", "image": "assets/images/portfolio/p2-img-3.png", "title": "Growth Orbital", "subtitle": "Performance & Mídia Paga" },
+        { "link": "#", "image": "assets/images/portfolio/p2-img-4.png", "title": "Loja Vértice", "subtitle": "E-commerce & CRO" }
+      ]
+    },
+
+    "services_grid": {
+      "items": [
+        { "icon": "fa-bullhorn", "title": "Marketing de Performance", "description": "Campanhas pagas otimizadas para gerar leads qualificados e maximizar o retorno sobre investimento." },
+        { "icon": "fa-magnifying-glass", "title": "SEO & Conteúdo", "description": "Estratégias de conteúdo e otimização para colocar sua marca no topo das buscas." },
+        { "icon": "fa-share-nodes", "title": "Gestão de Redes Sociais", "description": "Planejamento e produção de conteúdo para construir comunidades engajadas." },
+        { "icon": "fa-palette", "title": "Branding & Design", "description": "Identidades visuais marcantes que comunicam o propósito da sua marca." },
+        { "icon": "fa-envelope", "title": "Email Marketing & Automação", "description": "Fluxos automatizados que nutrem leads e aumentam a recorrência de compra." },
+        { "icon": "fa-chart-line", "title": "Análise de Dados & BI", "description": "Dashboards e relatórios que transformam dados em decisões estratégicas." }
+      ]
+    },
+
+    "testimonials": {
+      "items": [
+        { "comment": "A Órbita transformou completamente nossa presença digital. Em 6 meses dobramos o número de leads qualificados.", "image": "assets/images/footer/f2-team-1.png", "name": "Marina Souza", "role": "CEO, Nimbus Tech" },
+        { "comment": "Equipe extremamente atenta aos detalhes e orientada por dados. O retorno sobre investimento superou nossas expectativas.", "image": "assets/images/footer/f2-team-2.png", "name": "Rafael Andrade", "role": "Diretor de Marketing, Vértice" },
+        { "comment": "Profissionalismo do início ao fim. A comunicação é clara e os resultados aparecem rápido.", "image": "assets/images/footer/f2-team-3.png", "name": "Carolina Lima", "role": "Fundadora, Loja Aurora" },
+        { "comment": "Recomendo a Órbita para qualquer empresa que queira crescer com estratégia e consistência.", "image": "assets/images/footer/f2-team-4.png", "name": "Eduardo Tavares", "role": "COO, Orbital Labs" }
+      ]
+    }
+  }
+}
