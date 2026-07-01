@@ -1,0 +1,9 @@
+{
+  "split_text": {
+    "effect": "chars",
+    "duration": "700",
+    "delay": "20",
+    "easing": "easeOutExpo",
+    "content": "Nosso impacto, o sucesso deles"
+  }
+}

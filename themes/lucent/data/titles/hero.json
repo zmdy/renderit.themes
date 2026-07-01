@@ -1,0 +1,9 @@
+{
+  "split_text": {
+    "effect": "chars",
+    "duration": "900",
+    "delay": "16",
+    "easing": "easeOutExpo",
+    "content": "Soluções de TI inteligentes para um futuro mais claro"
+  }
+}

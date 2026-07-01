@@ -1,0 +1,9 @@
+{
+  "split_text": {
+    "effect": "words",
+    "duration": "800",
+    "delay": "55",
+    "easing": "easeOutExpo",
+    "content": "Fique por dentro com nossos posts mais recentes"
+  }
+}

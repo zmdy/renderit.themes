@@ -1,0 +1,10 @@
+<svg width="150" height="32" viewBox="0 0 150 32" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="lcLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0D43FE"/>
+      <stop offset="100%" stop-color="#BB29F2"/>
+    </linearGradient>
+  </defs>
+  <path d="M16 2 L20 12 L30 16 L20 20 L16 30 L12 20 L2 16 L12 12 Z" fill="url(#lcLogoGradient)"/>
+  <text x="38" y="22" font-family="'Sora','Inter',sans-serif" font-size="19" font-weight="800" fill="#0A0F2C">Lucent</text>
+</svg>

@@ -1,0 +1,9 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="lcFaviconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0D43FE"/>
+      <stop offset="100%" stop-color="#BB29F2"/>
+    </linearGradient>
+  </defs>
+  <path d="M16 1 L20.5 11.5 L31 16 L20.5 20.5 L16 31 L11.5 20.5 L1 16 L11.5 11.5 Z" fill="url(#lcFaviconGradient)"/>
+</svg>
