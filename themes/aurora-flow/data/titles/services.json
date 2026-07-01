@@ -1,0 +1,9 @@
+{
+  "split_text": {
+    "effect": "words",
+    "duration": "800",
+    "delay": "55",
+    "easing": "easeOutExpo",
+    "content": "Flexível, escalável e pronta para o seu ritmo"
+  }
+}

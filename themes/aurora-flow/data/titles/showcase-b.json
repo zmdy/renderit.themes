@@ -1,0 +1,9 @@
+{
+  "split_text": {
+    "effect": "words",
+    "duration": "800",
+    "delay": "60",
+    "easing": "easeOutExpo",
+    "content": "Tudo que você precisa para tirar ideias do papel"
+  }
+}

@@ -1,0 +1,291 @@
+{
+  "site_name": "Lucent",
+  "site_description": "Soluções de TI inteligentes que trazem clareza, segurança e agilidade para o seu negócio.",
+  "site_logo": "assets/images/logo.svg",
+  "site_favicon": "assets/images/favicon.svg",
+
+  "site": {
+    "contact": {
+      "email": "ola@lucent.tech",
+      "phone": "+55 11 4000-2020",
+      "whatsapp": "5511988887777"
+    }
+  },
+
+  "design": {
+    "colors": {
+      "primary": "#0D43FE",
+      "on-primary": "#FFFFFF",
+      "secondary": "#0A0F2C",
+      "tertiary": "#BB29F2",
+      "surface": "#FFFFFF",
+      "on-surface": "#0A0F2C",
+      "neutral": "#F3F6FF",
+      "error": "#EF4444",
+      "success": "#16A34A"
+    },
+    "fonts": {
+      "primary": "'Space Grotesk', sans-serif",
+      "secondary": "'Inter', sans-serif"
+    },
+    "rounded": {
+      "sm": "8px",
+      "md": "14px",
+      "lg": "22px",
+      "full": "999px"
+    },
+    "elevation": {
+      "sm": "0 2px 10px rgba(10,15,44,0.06)",
+      "md": "0 10px 26px rgba(10,15,44,0.10)",
+      "lg": "0 18px 42px rgba(10,15,44,0.14)",
+      "xl": "0 28px 60px rgba(10,15,44,0.18)"
+    },
+    "typography": {
+      "h1": { "fontSize": "68px", "fontWeight": "700" },
+      "h2": { "fontSize": "44px", "fontWeight": "700" },
+      "body-md": { "fontSize": "16px" },
+      "body-lg": { "fontSize": "19px" }
+    }
+  },
+
+  "nav": {
+    "cta_label": "Começar Agora",
+    "cta_url": "#contato"
+  },
+
+  "hero": {
+    "title": "Lucent",
+    "description": "Potencialize seu negócio com soluções de nuvem, segurança e dados desenhadas sob medida para o seu momento — clareza do primeiro clique ao resultado.",
+    "cta_url": "#contato",
+    "cta_label": "Explorar Soluções",
+    "secondary_cta_url": "#contato",
+    "secondary_cta_label": "Falar com Especialista",
+    "image": "https://picsum.photos/seed/lucent-hero-1/800/1000",
+    "image_2": "https://picsum.photos/seed/lucent-hero-2/600/700"
+  },
+
+  "trusted": {
+    "label": "Confiado por grandes empresas de tecnologia"
+  },
+
+  "about": {
+    "image": "https://picsum.photos/seed/lucent-about/1000/900",
+    "title": "Sobre a Lucent",
+    "eyebrow": "Sobre Nós",
+    "description": "Seja otimizando infraestrutura de TI, reforçando a cibersegurança ou conduzindo a transformação digital, estamos comprometidos em ajudar sua empresa a crescer com clareza.",
+    "cta_url": "#servicos",
+    "cta_label": "Saiba Mais"
+  },
+
+  "services": {
+    "eyebrow": "Nossos Serviços",
+    "description": "Da análise de dados à transformação digital completa — um time especialista para cada etapa da jornada."
+  },
+
+  "services_grid": {
+    "items": [
+      { "icon": "fa-chart-simple", "title": "Dados & Business Intelligence", "description": "Tome decisões informadas com insights acionáveis. Nossas soluções de BI ajudam a coletar, processar e visualizar dados em tempo real.", "image": "https://picsum.photos/seed/lucent-service-1/900/700", "url": "#contato" },
+      { "icon": "fa-code", "title": "Desenvolvimento & Integração", "description": "Tire suas ideias do papel com desenvolvimento de software sob medida. Projetamos, desenvolvemos e integramos soluções para o seu negócio.", "image": "https://picsum.photos/seed/lucent-service-2/900/700", "url": "#contato" },
+      { "icon": "fa-arrows-rotate", "title": "Transformação Digital", "description": "Fique à frente da concorrência com transformação digital. Ajudamos sua empresa a integrar as tecnologias mais recentes para ganhar eficiência.", "image": "https://picsum.photos/seed/lucent-service-3/900/700", "url": "#contato" }
+    ]
+  },
+
+  "case_section": {
+    "eyebrow": "Nossos Cases",
+    "description": "Projetos que combinam estratégia, tecnologia e execução para gerar resultado real."
+  },
+
+  "testimonials_section": {
+    "eyebrow": "Depoimentos",
+    "description": "Histórias reais de clientes que transformaram sua operação com a Lucent.",
+    "cta_url": "#depoimentos",
+    "cta_label": "Ver Mais Avaliações"
+  },
+
+  "success": {
+    "eyebrow": "Nosso Impacto",
+    "description": "De pequenas empresas a grandes bancos — ajudamos operações de todos os tamanhos a crescer com segurança."
+  },
+
+  "blog_section": {
+    "eyebrow": "Blog",
+    "description": "Nosso time de especialistas entende seus desafios e desenha estratégias para impulsionar seu negócio rumo ao futuro.",
+    "cta_url": "#blog",
+    "cta_label": "Ver Mais Posts"
+  },
+
+  "blog_posts": {
+    "items": [
+      { "link": "#", "image": "https://picsum.photos/seed/lucent-blog-1/700/500", "title": "Seu parceiro de confiança na transformação tecnológica", "excerpt": "Como parceiro de confiança, entendemos os objetivos e desafios do seu negócio antes de qualquer linha de código." },
+      { "link": "#", "image": "https://picsum.photos/seed/lucent-blog-2/700/500", "title": "Impulsionando resultados através de inovação e colaboração", "excerpt": "Cultivamos trabalho em equipe e solução criativa de problemas para entregar resultados excepcionais." }
+    ]
+  },
+
+  "contact_section": {
+    "eyebrow": "Contato",
+    "address": "Av. Paulista, 1000 — São Paulo, SP",
+    "cta_url": "#contato",
+    "cta_label": "Agendar Reunião"
+  },
+
+  "cta_banner": {
+    "title": "Fale com a Lucent",
+    "image": "https://picsum.photos/seed/lucent-cta/700/500",
+    "cta_url": "#contato",
+    "cta_label": "Iniciar Jornada"
+  },
+
+  "footer": {
+    "description": "Cultivamos trabalho em equipe e solução criativa de problemas para entregar resultados excepcionais aos nossos clientes.",
+    "rights_label": "Todos os direitos reservados.",
+    "col_links_title": "Links Rápidos",
+    "col_services_title": "Nossos Serviços",
+    "col_newsletter_title": "Newsletter",
+    "newsletter_description": "Assine e receba nossas últimas notícias e artigos.",
+    "social_links": [
+      { "url": "https://facebook.com", "network": "Facebook", "icon_class": "fa-facebook-f" },
+      { "url": "https://linkedin.com", "network": "LinkedIn", "icon_class": "fa-linkedin-in" },
+      { "url": "https://instagram.com", "network": "Instagram", "icon_class": "fa-instagram" },
+      { "url": "https://youtube.com", "network": "YouTube", "icon_class": "fa-youtube" }
+    ],
+    "quick_links": [
+      { "url": "#sobre", "text": "Sobre Nós" },
+      { "url": "#servicos", "text": "Nossos Serviços" },
+      { "url": "#cases", "text": "Cases" },
+      { "url": "#depoimentos", "text": "Depoimentos" }
+    ],
+    "services_links": [
+      { "url": "#servicos", "text": "Cibersegurança" },
+      { "url": "#servicos", "text": "Análise de Redes" },
+      { "url": "#servicos", "text": "Recuperação de Dados" },
+      { "url": "#servicos", "text": "Serviços de TI" }
+    ]
+  },
+
+  "addons": {
+    "animated-text-scramble": {
+      "scramble_text": {
+        "chars": "!<>-_\\/[]{}—=+*^?#abcdefghijklmnopqrstuvwxyz0123456789",
+        "cursor": "_",
+        "duration": "1600",
+        "delay": "0",
+        "content": "Soluções de TI para um futuro mais claro"
+      }
+    },
+
+    "logo-ticker": {
+      "speed": "3000",
+      "draggable": true,
+      "logo_ticker": {
+        "items": [
+          { "logo_url": "https://placehold.co/130x40/FFFFFF/0A0F2C?text=Nova", "alt_text": "Cliente Nova" },
+          { "logo_url": "https://placehold.co/130x40/FFFFFF/0A0F2C?text=Cygnus", "alt_text": "Cliente Cygnus" },
+          { "logo_url": "https://placehold.co/130x40/FFFFFF/0A0F2C?text=Delta+X", "alt_text": "Cliente Delta X" },
+          { "logo_url": "https://placehold.co/130x40/FFFFFF/0A0F2C?text=Orbital", "alt_text": "Cliente Orbital" },
+          { "logo_url": "https://placehold.co/130x40/FFFFFF/0A0F2C?text=Vertex", "alt_text": "Cliente Vertex" }
+        ]
+      }
+    },
+
+    "icon-list": {
+      "icon_list": {
+        "layout": "vertical",
+        "items": [
+          { "icon": "✅", "text": "Planejamento estratégico com especialistas dedicados" },
+          { "icon": "✅", "text": "Ferramentas de ponta e conhecimento profundo de mercado" },
+          { "icon": "✅", "text": "Suporte contínuo do primeiro contato à entrega" }
+        ]
+      }
+    },
+
+    "counter": {
+      "counter": {
+        "items": [
+          { "icon": "", "prefix": "", "value": "90", "suffix": "K", "label": "Clientes Felizes" },
+          { "icon": "", "prefix": "+", "value": "650", "suffix": "", "label": "Projetos Totais" },
+          { "icon": "", "prefix": "+", "value": "85", "suffix": "", "label": "Parcerias Ativas" }
+        ]
+      }
+    },
+
+    "gallery": {
+      "title": "",
+      "settings": { "columns": "3", "gap": "20px" },
+      "items": [
+        { "id": "1", "thumb": "https://picsum.photos/seed/lucent-case-1/700/700", "image": "https://picsum.photos/seed/lucent-case-1/1400/1400", "caption": "Rebranding Nimbus Cloud" },
+        { "id": "2", "thumb": "https://picsum.photos/seed/lucent-case-2/700/700", "image": "https://picsum.photos/seed/lucent-case-2/1400/1400", "caption": "Migração de Infraestrutura Vertex" },
+        { "id": "3", "thumb": "https://picsum.photos/seed/lucent-case-3/700/500", "image": "https://picsum.photos/seed/lucent-case-3/1400/1000", "caption": "Segurança Bancária Delta X" },
+        { "id": "4", "thumb": "https://picsum.photos/seed/lucent-case-4/700/500", "image": "https://picsum.photos/seed/lucent-case-4/1400/1000", "caption": "Analytics em Tempo Real Orbital" },
+        { "id": "5", "thumb": "https://picsum.photos/seed/lucent-case-5/700/900", "image": "https://picsum.photos/seed/lucent-case-5/1400/1800", "caption": "Plataforma de Dados Cygnus" },
+        { "id": "6", "thumb": "https://picsum.photos/seed/lucent-case-6/700/900", "image": "https://picsum.photos/seed/lucent-case-6/1400/1800", "caption": "Automação Inteligente Nova" }
+      ]
+    },
+
+    "testimonials": {
+      "items": [
+        { "content": "A dedicação da equipe em melhoria contínua e inovação é visível em cada entrega. Confiamos totalmente na Lucent.", "avatar": "https://picsum.photos/seed/lucent-avatar-1/120/120", "name": "Ben Stokes", "role": "Desenvolvedor", "company": "", "rating": "5" },
+        { "content": "Acreditamos que o verdadeiro sucesso está na satisfação e confiança dos clientes — e é exatamente isso que a Lucent entrega.", "avatar": "https://picsum.photos/seed/lucent-avatar-2/120/120", "name": "Tim Ferguson", "role": "CEO", "company": "Fundadora", "rating": "5" },
+        { "content": "Migrar nossa operação para a Lucent foi a decisão mais acertada do ano. Segurança e agilidade em um só lugar.", "avatar": "https://picsum.photos/seed/lucent-avatar-3/120/120", "name": "Aline Duarte", "role": "Diretora de TI", "company": "Vertex Labs", "rating": "4" }
+      ]
+    },
+
+    "map": {
+      "title": "",
+      "address": "Av. Paulista, 1000, São Paulo, SP, Brasil",
+      "zoom": "14",
+      "height": "420px"
+    },
+
+    "newsletter": {
+      "newsletter": {
+        "placeholder": "Seu e-mail",
+        "button_label": "Assinar",
+        "success_message": "Inscrição realizada com sucesso!",
+        "error_message": "Não foi possível concluir sua inscrição. Tente novamente."
+      }
+    },
+
+    "sticky-cta": {
+      "sticky_cta": {
+        "position": "right",
+        "url": "#contato",
+        "icon": "💬",
+        "label": "Fale Conosco"
+      }
+    },
+
+    "cookie-banner": {
+      "cookie_banner": {
+        "message": "Usamos cookies para melhorar sua experiência e analisar o tráfego do site. Ao continuar, você concorda com nossa política de privacidade.",
+        "privacy_link": "#",
+        "privacy_label": "Política de Privacidade",
+        "button_decline": "Recusar",
+        "button_accept": "Aceitar"
+      }
+    },
+
+    "whatsapp": {
+      "number": "5511988887777",
+      "message": "Olá! Vim pelo site e gostaria de saber mais sobre as soluções da Lucent.",
+      "label_text": "Fale no WhatsApp",
+      "settings": {
+        "position": "bottom-right",
+        "show_label": true,
+        "icon_class": "fa-brands fa-whatsapp",
+        "bg_color": "#25D366"
+      }
+    },
+
+    "popup": {
+      "popup": {
+        "image": "https://picsum.photos/seed/lucent-popup/560/560",
+        "title": "Diagnóstico de TI gratuito",
+        "content": "Agende uma sessão gratuita de 30 minutos com nosso time e descubra oportunidades de otimização para sua empresa.",
+        "cta_label": "Quero Meu Diagnóstico",
+        "cta_url": "#contato",
+        "trigger_type": "delay",
+        "trigger_value": "8"
+      }
+    }
+  }
+}

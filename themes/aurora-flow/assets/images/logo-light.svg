@@ -1,0 +1,11 @@
+<svg width="164" height="34" viewBox="0 0 164 34" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="afLogoGradientLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B7BFF"/>
+      <stop offset="100%" stop-color="#22D3EE"/>
+    </linearGradient>
+  </defs>
+  <circle cx="17" cy="17" r="15" fill="url(#afLogoGradientLight)"/>
+  <path d="M10 21 L17 9 L24 21 M13 17 H21" stroke="#FFFFFF" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="40" y="23" font-family="'Sora','Urbanist',sans-serif" font-size="19" font-weight="800" fill="#FFFFFF">Aurora Flow</text>
+</svg>

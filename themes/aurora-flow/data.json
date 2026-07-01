@@ -1,0 +1,432 @@
+{
+  "site_name": "Aurora Flow",
+  "site_description": "A plataforma de automação e crescimento que conecta marketing, vendas e dados em um único fluxo inteligente.",
+  "site_logo": "assets/images/logo.svg",
+  "site_favicon": "assets/images/favicon.svg",
+
+  "site": {
+    "contact": {
+      "email": "ola@auroraflow.com",
+      "phone": "+55 11 4000-1010",
+      "whatsapp": "5511999999999"
+    }
+  },
+
+  "design": {
+    "colors": {
+      "primary": "#6C4CFB",
+      "on-primary": "#FFFFFF",
+      "secondary": "#0B1220",
+      "tertiary": "#22D3EE",
+      "surface": "#FFFFFF",
+      "on-surface": "#0B1220",
+      "neutral": "#F5F3FF",
+      "error": "#EF4444",
+      "success": "#22C55E"
+    },
+    "fonts": {
+      "primary": "'Sora', sans-serif",
+      "secondary": "'Inter', sans-serif"
+    },
+    "rounded": {
+      "sm": "8px",
+      "md": "16px",
+      "lg": "24px",
+      "full": "999px"
+    },
+    "elevation": {
+      "sm": "0 2px 10px rgba(11,18,32,0.06)",
+      "md": "0 10px 28px rgba(11,18,32,0.10)",
+      "lg": "0 18px 44px rgba(11,18,32,0.16)",
+      "xl": "0 28px 64px rgba(11,18,32,0.22)"
+    },
+    "typography": {
+      "h1": { "fontSize": "64px", "fontWeight": "800" },
+      "h2": { "fontSize": "42px", "fontWeight": "800" },
+      "body-md": { "fontSize": "16px" },
+      "body-lg": { "fontSize": "20px" }
+    }
+  },
+
+  "nav": {
+    "cta_label": "Começar Agora",
+    "cta_url": "#planos"
+  },
+
+  "hero": {
+    "title": "Aurora Flow",
+    "description": "Combine automação, dados e criatividade em um único fluxo para captar, converter e reter clientes sem esforço manual.",
+    "cta_url": "#planos",
+    "cta_label": "Testar Grátis",
+    "secondary_cta_url": "#porque",
+    "secondary_cta_label": "Ver Como Funciona",
+    "image": "https://picsum.photos/seed/aurora-hero/900/1100",
+    "badge_value": "+38%",
+    "badge_label": "conversão média"
+  },
+
+  "trusted": {
+    "label": "Empresas que já fluem com a Aurora"
+  },
+
+  "showcase_a": {
+    "image": "https://picsum.photos/seed/aurora-showcase-a/1000/900",
+    "title": "Painel Aurora Flow",
+    "eyebrow": "O Produto",
+    "description": "Centralize campanhas, funis e atendimento em um painel único. Menos abas abertas, mais decisões rápidas — tudo sincronizado em tempo real.",
+    "cta_url": "#planos",
+    "cta_label": "Experimentar Grátis"
+  },
+
+  "services": {
+    "eyebrow": "Recursos",
+    "description": "Um conjunto completo de ferramentas para cada etapa da jornada do seu cliente, sem precisar trocar de plataforma."
+  },
+
+  "services_grid": {
+    "items": [
+      { "icon": "fa-user-plus", "title": "Onboarding Guiado", "description": "Ative novos usuários automaticamente com fluxos personalizados de boas-vindas." },
+      { "icon": "fa-diagram-project", "title": "Fluxo Flexível", "description": "Monte automações visuais sem código, adaptadas ao seu processo comercial." },
+      { "icon": "fa-gauge-high", "title": "Insights em Tempo Real", "description": "Acompanhe métricas críticas com dashboards atualizados a cada segundo." },
+      { "icon": "fa-chart-pie", "title": "Analytics Avançado", "description": "Relatórios detalhados que conectam marketing, vendas e produto." },
+      { "icon": "fa-window-restore", "title": "Painel Único", "description": "Toda a operação centralizada, sem alternar entre dezenas de ferramentas." },
+      { "icon": "fa-bullseye", "title": "Relatórios Sob Medida", "description": "Construa relatórios personalizados para cada time em minutos." }
+    ]
+  },
+
+  "showcase_b": {
+    "image": "https://picsum.photos/seed/aurora-showcase-b/1000/900",
+    "title": "Fluxo de trabalho Aurora",
+    "eyebrow": "Produtividade",
+    "description": "Da ideia à entrega, elimine tarefas repetitivas e dê ao seu time mais tempo para o que realmente importa.",
+    "feature_1": "Automatize integrações com suas ferramentas favoritas",
+    "feature_2": "Tecnologia rápida com recursos de alta produtividade",
+    "feature_3": "Centralize feedback, tarefas e ideias em um só lugar",
+    "cta_url": "#planos",
+    "cta_label": "Testar Grátis"
+  },
+
+  "process": {
+    "eyebrow": "O Processo",
+    "description": "Três passos simples para colocar sua operação para fluir — sem curva de aprendizado complicada."
+  },
+
+  "team": {
+    "eyebrow": "Nosso Time",
+    "description": "Especialistas em produto, dados e growth dedicados a fazer sua operação fluir melhor todos os dias."
+  },
+
+  "why": {
+    "eyebrow": "Por que Aurora Flow?",
+    "description": "Veja como é simples sair do zero até uma operação totalmente automatizada."
+  },
+
+  "results": {
+    "eyebrow": "Os Resultados",
+    "description": "Números reais de quem já colocou o crescimento em piloto automático com a Aurora Flow."
+  },
+
+  "pricing_section": {
+    "eyebrow": "Planos",
+    "description": "Escolha o plano ideal para o momento da sua empresa. Sem contratos longos, cancele quando quiser."
+  },
+
+  "testimonials_section": {
+    "eyebrow": "Depoimentos",
+    "description": "Times reais, resultados reais — veja o que dizem sobre fluir com a Aurora.",
+    "background_image": "https://picsum.photos/seed/aurora-testimonial-bg/1800/900"
+  },
+
+  "faq_section": {
+    "eyebrow": "FAQ",
+    "description": "Tudo o que você precisa saber antes de começar a fluir com a gente.",
+    "more_text": "Ainda tem uma dúvida?",
+    "more_url": "#contato",
+    "more_label": "Fale com a gente"
+  },
+
+  "blog_section": {
+    "eyebrow": "Blog",
+    "description": "Conteúdo produzido pelo nosso time para você crescer mais rápido."
+  },
+
+  "blog_posts": {
+    "items": [
+      { "link": "#", "image": "https://picsum.photos/seed/aurora-blog-1/700/520", "title": "Como automatizar o onboarding sem perder o toque humano", "category": "Produto", "author": "Equipe Aurora", "date": "18 Jun 2026" },
+      { "link": "#", "image": "https://picsum.photos/seed/aurora-blog-2/700/520", "title": "5 fluxos de automação que aceleram o crescimento em 2026", "category": "Growth", "author": "Equipe Aurora", "date": "05 Jun 2026" },
+      { "link": "#", "image": "https://picsum.photos/seed/aurora-blog-3/700/520", "title": "Por que dados em tempo real mudam a forma de decidir", "category": "Dados", "author": "Equipe Aurora", "date": "22 Mai 2026" }
+    ]
+  },
+
+  "contact_section": {
+    "eyebrow": "Contato",
+    "description": "Tem uma pergunta ou só quer dizer oi? Preencha o formulário abaixo."
+  },
+
+  "footer": {
+    "cta_url": "#planos",
+    "cta_label": "Começar Agora",
+    "description": "A plataforma de automação que conecta marketing, vendas e dados em um único fluxo inteligente.",
+    "rights_label": "Todos os direitos reservados.",
+    "made_with": "Feito com Aurora Flow.",
+    "col_product_title": "Produto",
+    "col_company_title": "Empresa",
+    "col_newsletter_title": "Newsletter",
+    "newsletter_description": "Novidades e dicas de growth direto na sua caixa de entrada.",
+    "social_links": [
+      { "url": "https://instagram.com", "network": "Instagram", "icon_class": "fa-instagram" },
+      { "url": "https://twitter.com", "network": "Twitter", "icon_class": "fa-twitter" },
+      { "url": "https://linkedin.com", "network": "LinkedIn", "icon_class": "fa-linkedin-in" },
+      { "url": "https://youtube.com", "network": "YouTube", "icon_class": "fa-youtube" }
+    ],
+    "product_links": [
+      { "url": "#servicos", "text": "Recursos" },
+      { "url": "#planos", "text": "Planos" },
+      { "url": "#porque", "text": "Integrações" },
+      { "url": "#faq", "text": "Perguntas Frequentes" }
+    ],
+    "company_links": [
+      { "url": "#sobre", "text": "Sobre Nós" },
+      { "url": "#equipe", "text": "Time" },
+      { "url": "#blog", "text": "Blog" },
+      { "url": "#contato", "text": "Contato" }
+    ]
+  },
+
+  "addons": {
+    "animated-text-scramble": {
+      "scramble_text": {
+        "chars": "!<>-_\\/[]{}—=+*^?#abcdefghijklmnopqrstuvwxyz0123456789",
+        "cursor": "_",
+        "duration": "1600",
+        "delay": "0",
+        "content": "Automação. Crescimento. Escala."
+      }
+    },
+
+    "logo-ticker": {
+      "speed": "3000",
+      "draggable": true,
+      "logo_ticker": {
+        "items": [
+          { "logo_url": "https://placehold.co/140x44/0B1220/FFFFFF?text=Nimbus", "alt_text": "Cliente Nimbus" },
+          { "logo_url": "https://placehold.co/140x44/0B1220/FFFFFF?text=Vertice", "alt_text": "Cliente Vértice" },
+          { "logo_url": "https://placehold.co/140x44/0B1220/FFFFFF?text=Orbital", "alt_text": "Cliente Orbital" },
+          { "logo_url": "https://placehold.co/140x44/0B1220/FFFFFF?text=Fluxo+X", "alt_text": "Cliente Fluxo X" },
+          { "logo_url": "https://placehold.co/140x44/0B1220/FFFFFF?text=Kantole", "alt_text": "Cliente Kantole" }
+        ]
+      }
+    },
+
+    "timeline": {
+      "timeline": {
+        "items": [
+          { "icon": "🚀", "date": "Etapa 1", "title": "Onboard", "content": "Conecte suas ferramentas em minutos com integrações prontas e um assistente de configuração guiado." },
+          { "icon": "🤝", "date": "Etapa 2", "title": "Colabore", "content": "Centralize tarefas, aprovações e feedback do time em um único fluxo compartilhado." },
+          { "icon": "⚡", "date": "Etapa 3", "title": "Automatize", "content": "Deixe a Aurora Flow cuidar do trabalho repetitivo enquanto você foca na estratégia." }
+        ]
+      }
+    },
+
+    "team": {
+      "team": {
+        "members": [
+          { "photo": "https://picsum.photos/seed/aurora-team-1/420/520", "name": "Marina Souza", "role": "CEO & Fundadora", "bio": "Lidera a visão de produto e a estratégia de crescimento da Aurora Flow.", "social_linkedin": "https://linkedin.com", "social_twitter": "https://twitter.com" },
+          { "photo": "https://picsum.photos/seed/aurora-team-2/420/520", "name": "Rafael Andrade", "role": "Head de Produto", "bio": "Transforma feedback de clientes em funcionalidades que realmente importam.", "social_linkedin": "https://linkedin.com", "social_twitter": "https://twitter.com" },
+          { "photo": "https://picsum.photos/seed/aurora-team-3/420/520", "name": "Carolina Lima", "role": "Head de Growth", "bio": "Conecta dados e criatividade para acelerar a aquisição de clientes.", "social_linkedin": "https://linkedin.com", "social_instagram": "https://instagram.com" },
+          { "photo": "https://picsum.photos/seed/aurora-team-4/420/520", "name": "Eduardo Tavares", "role": "CTO", "bio": "Constrói a infraestrutura que mantém a Aurora Flow rápida e confiável.", "social_linkedin": "https://linkedin.com", "social_twitter": "https://twitter.com" }
+        ]
+      }
+    },
+
+    "tabs": {
+      "tabs": {
+        "orientation": "vertical",
+        "items": [
+          {
+            "icon": "",
+            "title": "Crie suas tarefas",
+            "content": "<img src=\"https://picsum.photos/seed/aurora-tab-1/900/620\" alt=\"Criação de tarefas\"><h4>Crie suas tarefas</h4><p>Estruture campanhas e projetos em minutos com templates prontos para o seu segmento.</p>"
+          },
+          {
+            "icon": "",
+            "title": "Construa seu fluxo",
+            "content": "<img src=\"https://picsum.photos/seed/aurora-tab-2/900/620\" alt=\"Construção de fluxo\"><h4>Construa seu fluxo</h4><p>Monte automações visuais que conectam marketing, vendas e atendimento sem escrever código.</p>"
+          },
+          {
+            "icon": "",
+            "title": "Conquiste novos usuários",
+            "content": "<img src=\"https://picsum.photos/seed/aurora-tab-3/900/620\" alt=\"Aquisição de usuários\"><h4>Conquiste novos usuários</h4><p>Use dados em tempo real para identificar as melhores oportunidades de conversão.</p>"
+          }
+        ]
+      }
+    },
+
+    "counter": {
+      "counter": {
+        "items": [
+          { "icon": "🖱️", "prefix": "+", "value": "90", "suffix": "%", "label": "Taxa de Cliques" },
+          { "icon": "☁️", "prefix": "+", "value": "236", "suffix": "K", "label": "Downloads" },
+          { "icon": "⚙️", "prefix": "", "value": "82", "suffix": "%", "label": "Usuários Ativos" }
+        ]
+      }
+    },
+
+    "video": {
+      "video": {
+        "type": "youtube",
+        "url": "https://www.youtube.com/watch?v=kuceVNBTJio",
+        "poster": "https://picsum.photos/seed/aurora-video/1400/800",
+        "title": "Veja a Aurora Flow em ação"
+      }
+    },
+
+    "pricing": {
+     "pricing": {
+      "currency": "R$",
+      "plans": [
+        {
+          "title": "Starter",
+          "highlighted": false,
+          "price": "0",
+          "period": "mês",
+          "description": "Ideal para quem está começando a automatizar os primeiros fluxos.",
+          "features": [
+            { "feature": "Relatórios personalizados" },
+            { "feature": "Testes de usuário ilimitados" },
+            { "feature": "Pagamentos rápidos entre fronteiras" },
+            { "feature": "Faturamento por invoice" }
+          ],
+          "cta_url": "#contato",
+          "cta_label": "Começar Grátis"
+        },
+        {
+          "title": "Pro",
+          "highlighted": true,
+          "price": "349",
+          "period": "mês",
+          "description": "Para times que já vivem de performance e precisam de mais automação.",
+          "features": [
+            { "feature": "Relatórios personalizados" },
+            { "feature": "Testes de usuário ilimitados" },
+            { "feature": "Pagamentos rápidos entre fronteiras" },
+            { "feature": "Faturamento por invoice" },
+            { "feature": "Integrações customizadas" }
+          ],
+          "cta_url": "#contato",
+          "cta_label": "Assinar Agora"
+        },
+        {
+          "title": "Business",
+          "highlighted": false,
+          "price": "499",
+          "period": "mês",
+          "description": "Estrutura completa para operações em expansão e múltiplos times.",
+          "features": [
+            { "feature": "Squad dedicado de sucesso" },
+            { "feature": "Automação avançada multicanal" },
+            { "feature": "Consultoria estratégica mensal" },
+            { "feature": "Suporte prioritário 24/7" },
+            { "feature": "Integrações customizadas" }
+          ],
+          "cta_url": "#contato",
+          "cta_label": "Falar com Vendas"
+        }
+      ]
+     }
+    },
+
+    "testimonials": {
+      "items": [
+        { "content": "A Aurora Flow transformou nossa operação. Em 6 meses dobramos o número de leads qualificados sem contratar mais gente.", "avatar": "https://picsum.photos/seed/aurora-avatar-1/120/120", "name": "David James", "role": "Fundador", "company": "Spin Automation", "rating": "5" },
+        { "content": "A automação de onboarding sozinha já pagou a assinatura no primeiro mês. Ferramenta indispensável para quem escala rápido.", "avatar": "https://picsum.photos/seed/aurora-avatar-2/120/120", "name": "Eleanor Jensen", "role": "Empreendedora", "company": "", "rating": "4" },
+        { "content": "Suporte rápido, produto estável e um painel que realmente entende o meu negócio. Recomendo sem pestanejar.", "avatar": "https://picsum.photos/seed/aurora-avatar-3/120/120", "name": "Alizee Denten", "role": "Diretora de Marketing", "company": "Kantole Global", "rating": "5" },
+        { "content": "Migrar para a Aurora Flow foi a melhor decisão do último trimestre. Menos ferramentas, mais clareza.", "avatar": "https://picsum.photos/seed/aurora-avatar-4/120/120", "name": "Andrew Graham", "role": "Empreendedor", "company": "", "rating": "4" }
+      ]
+    },
+
+    "accordion": {
+      "accordion": {
+        "title": "",
+        "items": [
+          { "question": "O que é a Aurora Flow?", "answer": "É uma plataforma que automatiza fluxos de marketing, vendas e atendimento em um único painel, conectando dados em tempo real." },
+          { "question": "Posso testar antes de assinar?", "answer": "Sim! O plano Starter é gratuito e inclui os recursos essenciais para você validar a ferramenta no seu dia a dia." },
+          { "question": "Preciso de conhecimento técnico para usar?", "answer": "Não. Os fluxos são montados visualmente, sem necessidade de código, com templates prontos para os casos mais comuns." },
+          { "question": "Quais ferramentas a Aurora Flow integra?", "answer": "Integramos com as principais plataformas de CRM, e-mail marketing, pagamentos e atendimento do mercado." },
+          { "question": "Como funciona o suporte?", "answer": "Oferecemos suporte por chat e e-mail em todos os planos, com atendimento prioritário 24/7 no plano Business." }
+        ],
+        "settings": {
+          "allow_multiple": false
+        }
+      }
+    },
+
+    "form": {
+      "form": {
+        "title": "Fale com a gente",
+        "subtitle": "Preencha os campos abaixo e nosso time retorna em até 1 dia útil.",
+        "button_label": "Enviar Mensagem",
+        "success_message": "Mensagem enviada com sucesso! Em breve entraremos em contato.",
+        "endpoint": "",
+        "method": "POST",
+        "fields": [
+          { "type": "text", "name": "name", "label": "Seu nome", "placeholder": "Nome completo", "required": "true" },
+          { "type": "email", "name": "email", "label": "Seu e-mail", "placeholder": "voce@empresa.com", "required": "true" },
+          { "type": "textarea", "name": "message", "label": "Sua mensagem", "placeholder": "Como podemos ajudar?", "required": "true" }
+        ]
+      }
+    },
+
+    "newsletter": {
+      "newsletter": {
+        "placeholder": "Seu melhor e-mail",
+        "button_label": "Inscrever",
+        "success_message": "Inscrição realizada com sucesso! Em breve você receberá nossas novidades.",
+        "error_message": "Não foi possível concluir sua inscrição. Tente novamente."
+      }
+    },
+
+    "sticky-cta": {
+      "sticky_cta": {
+        "position": "right",
+        "url": "#planos",
+        "icon": "💬",
+        "label": "Testar Grátis"
+      }
+    },
+
+    "cookie-banner": {
+      "cookie_banner": {
+        "message": "Usamos cookies para personalizar sua experiência e analisar o tráfego do site. Ao continuar navegando, você concorda com nossa política de privacidade.",
+        "privacy_link": "#",
+        "privacy_label": "Política de Privacidade",
+        "button_decline": "Recusar",
+        "button_accept": "Aceitar Cookies"
+      }
+    },
+
+    "whatsapp": {
+      "number": "5511999999999",
+      "message": "Olá! Vim pelo site e gostaria de saber mais sobre a Aurora Flow.",
+      "label_text": "Fale no WhatsApp",
+      "settings": {
+        "position": "bottom-right",
+        "show_label": true,
+        "icon_class": "fa-brands fa-whatsapp",
+        "bg_color": "#25D366"
+      }
+    },
+
+    "popup": {
+      "popup": {
+        "image": "https://picsum.photos/seed/aurora-popup/560/560",
+        "title": "Ganhe 14 dias grátis no plano Pro",
+        "content": "Assine agora e desbloqueie automações avançadas sem compromisso. Cancele quando quiser.",
+        "cta_label": "Quero Testar",
+        "cta_url": "#planos",
+        "trigger_type": "delay",
+        "trigger_value": "8"
+      }
+    }
+  }
+}
