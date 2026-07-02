@@ -1,0 +1,436 @@
+{
+  "site_name": "Orbiq",
+  "site_description": "Plataforma de IA e agentes autônomos que ajuda empresas a automatizar fluxos de trabalho, reduzir custos e escalar operações com inteligência.",
+  "site_logo": "assets/images/logo-on-dark.svg",
+  "site_favicon": "assets/images/favicon.svg",
+
+  "site": {
+    "contact": {
+      "email": "ola@orbiq.ai",
+      "phone": "+55 11 4000-3030",
+      "whatsapp": "5511977776666"
+    }
+  },
+
+  "design": {
+    "colors": {
+      "primary": "#0175FF",
+      "on-primary": "#FFFFFF",
+      "secondary": "#03040A",
+      "tertiary": "#FFAC0A",
+      "surface": "#06070A",
+      "on-surface": "#F2F5FC",
+      "neutral": "#0C0F16",
+      "error": "#EF4444",
+      "success": "#22C55E"
+    },
+    "fonts": {
+      "primary": "Inter, sans-serif",
+      "secondary": "Inter, sans-serif"
+    },
+    "rounded": {
+      "sm": "8px",
+      "md": "14px",
+      "lg": "24px",
+      "full": "999px"
+    },
+    "elevation": {
+      "sm": "0 2px 12px rgba(0,0,0,0.24)",
+      "md": "0 12px 30px rgba(0,0,0,0.32)",
+      "lg": "0 20px 48px rgba(0,0,0,0.40)",
+      "xl": "0 30px 70px rgba(0,0,0,0.50)"
+    },
+    "typography": {
+      "h1": { "fontSize": "68px", "fontWeight": "800" },
+      "h2": { "fontSize": "44px", "fontWeight": "800" },
+      "body-md": { "fontSize": "16px" },
+      "body-lg": { "fontSize": "19px" }
+    }
+  },
+
+  "nav": {
+    "cta_label": "Começar Agora",
+    "cta_url": "#precos"
+  },
+
+  "hero": {
+    "badge_text": "Novidade — Orbiq 2.0 chega em breve",
+    "headline": "Reimagine o crescimento da sua empresa com IA",
+    "description": "Uma plataforma, agentes inteligentes e um marketplace de soluções para automatizar fluxos, reduzir custo operacional e acelerar cada etapa do seu negócio.",
+    "cta_url": "#precos",
+    "cta_label": "Começar Agora",
+    "secondary_cta_url": "#recursos",
+    "secondary_cta_label": "Ver Como Funciona",
+    "image": "https://picsum.photos/seed/orbiq-dashboard/1200/800",
+    "badge_value": "+38%",
+    "badge_label": "eficiência operacional",
+    "trust_label": "+1.200 empresas já confiam na Orbiq",
+    "trust_avatar_1": "https://picsum.photos/seed/orbiq-trust-1/80/80",
+    "trust_avatar_2": "https://picsum.photos/seed/orbiq-trust-2/80/80",
+    "trust_avatar_3": "https://picsum.photos/seed/orbiq-trust-3/80/80"
+  },
+
+  "trusted": {
+    "label": "Times que já operam com a Orbiq"
+  },
+
+  "exceptionalities": {
+    "eyebrow": "Diferenciais",
+    "headline": "O que torna a Orbiq diferente",
+    "description": "Mais inteligente, mais rápida e mais adaptável que soluções de IA tradicionais.",
+    "items": [
+      { "icon": "fa-bolt", "title": "Velocidade", "description": "Tempo de valor mais rápido com nossos agentes de IA e marketplace empresarial." },
+      { "icon": "fa-layer-group", "title": "Capacidades Profundas", "description": "Uma plataforma de agentes com profundidade para se adaptar a cada fluxo e comportamento." },
+      { "icon": "fa-shield-halved", "title": "Controle", "description": "O poder de uma plataforma padronizada, construída para as exigências do seu negócio." },
+      { "icon": "fa-arrows-split-up-and-left", "title": "Flexibilidade", "description": "Nossa abordagem é agnóstica de ecossistema — conecte como e onde quiser." }
+    ],
+    "cta_title": "Pronto para começar?",
+    "cta_description": "Vamos tornar isso realidade. Estamos prontos quando você estiver.",
+    "cta_url": "#precos",
+    "cta_label": "Falar com a gente"
+  },
+
+  "features": {
+    "eyebrow": "Recursos",
+    "headline": "Tudo que sua empresa precisa em uma só IA",
+    "description": "Simplifique, acelere e transforme com um ecossistema de IA totalmente conectado."
+  },
+
+  "products": {
+    "eyebrow": "Produtos",
+    "headline": "Múltiplos produtos, um só ecossistema",
+    "description": "Cobrimos as principais verticais do mercado com inteligência de ponta."
+  },
+
+  "products_grid": {
+    "items": [
+      { "icon": "fa-gears", "title": "Automação", "description": "Elimine tarefas repetitivas com agentes que executam fluxos inteiros de ponta a ponta." },
+      { "icon": "fa-building-columns", "title": "Bancário", "description": "Segurança e conformidade para operações financeiras críticas, sem atrito." },
+      { "icon": "fa-user-tie", "title": "Recrutamento", "description": "Triagem, entrevistas e onboarding conduzidos por agentes especializados." },
+      { "icon": "fa-bullhorn", "title": "Marketing", "description": "Otimize campanhas e conteúdo com automação inteligente orientada por dados." },
+      { "icon": "fa-cart-shopping", "title": "Ecommerce", "description": "Do atendimento à reposição de estoque, tudo automatizado em tempo real." },
+      { "icon": "fa-code", "title": "Desenvolvimento", "description": "Acelere entregas e reduza retrabalho com agentes que revisam e testam código." }
+    ]
+  },
+
+  "steps_section": {
+    "eyebrow": "Como Funciona",
+    "headline": "3 passos para colocar a IA para trabalhar",
+    "description": "Do cadastro ao resultado mensurável, sem complicação."
+  },
+
+  "steps": {
+    "items": [
+      {
+        "title": "Crie sua conta em segundos",
+        "description": "Escolha entre Google, Apple, GitHub ou crie uma conta com e-mail e senha.",
+        "point_1": "Entre instantaneamente com Google ou GitHub",
+        "point_2": "Crie suas próprias credenciais seguras",
+        "point_3": "Conecte-se pelo login da sua empresa"
+      },
+      {
+        "title": "Escolha o agente que vai atuar",
+        "description": "Em um universo de agentes inteligentes, escolha o que melhor serve ao seu objetivo.",
+        "point_1": "Agentes sob medida para tarefas específicas",
+        "point_2": "Acesso a um catálogo de agentes prontos",
+        "point_3": "Implante agentes alinhados às suas metas"
+      },
+      {
+        "title": "Guie manualmente ou automatize tudo",
+        "description": "Ajuste o fluxo manualmente ou deixe o agente conduzir o processo de ponta a ponta.",
+        "point_1": "Oriente o agente e ajuste fluxos quando quiser",
+        "point_2": "Deixe o agente executar tarefas sozinho",
+        "point_3": "Alterne entre manual e automático a qualquer hora"
+      }
+    ]
+  },
+
+  "security": {
+    "eyebrow": "Dados e Privacidade",
+    "headline": "Segurança em múltiplas camadas",
+    "description": "Proteja sua operação com segurança de IA em camadas — da criptografia de dados ao monitoramento de comportamento, tudo trabalhando junto.",
+    "image": "https://picsum.photos/seed/orbiq-security/1000/900",
+    "cta_url": "#faq",
+    "cta_label": "Saiba Mais"
+  },
+
+  "testimonials_section": {
+    "eyebrow": "Depoimentos",
+    "headline": "Aprovado por quem já usa",
+    "description": "Resultados reais compartilhados por quem está à frente da inovação."
+  },
+
+  "pricing_section": {
+    "eyebrow": "Preços",
+    "headline": "Planos flexíveis para cada estágio",
+    "description": "Escolha o plano que cabe no seu time e escala junto com o seu negócio.",
+    "promo_label": "Oferta de lançamento termina em"
+  },
+
+  "faq_section": {
+    "eyebrow": "FAQ",
+    "headline": "Perguntas frequentes sobre a Orbiq",
+    "description": "Respostas para as dúvidas mais comuns sobre nossa plataforma de IA empresarial."
+  },
+
+  "integrations_section": {
+    "eyebrow": "Integrações",
+    "headline": "Conecte com as ferramentas que você já usa",
+    "description": "Conectores prontos ou personalizados para seus sistemas internos e de terceiros."
+  },
+
+  "integrations_grid": {
+    "items": [
+      { "icon": "fa-slack", "title": "Slack", "brand": true },
+      { "icon": "fa-salesforce", "title": "Salesforce", "brand": true },
+      { "icon": "fa-google", "title": "Google Workspace", "brand": true },
+      { "icon": "fa-hubspot", "title": "HubSpot", "brand": true },
+      { "icon": "fa-microsoft", "title": "SharePoint", "brand": true },
+      { "icon": "fa-confluence", "title": "Confluence", "brand": true },
+      { "icon": "fa-github", "title": "GitHub", "brand": true },
+      { "icon": "fa-aws", "title": "AWS", "brand": true }
+    ]
+  },
+
+  "footer_cta": {
+    "headline": "Entre na era Orbiq, o futuro dos agentes de IA",
+    "description": "Tudo que seu time precisa, em um único espaço de trabalho. Fique focado, fique em sincronia.",
+    "cta_url": "#precos",
+    "cta_label": "Começar Agora",
+    "image": "https://picsum.photos/seed/orbiq-cta/700/520"
+  },
+
+  "footer": {
+    "description": "Plataforma de IA e agentes autônomos que ajuda empresas a automatizar fluxos, reduzir custos e escalar com inteligência.",
+    "rights_label": "Todos os direitos reservados.",
+    "made_with": "Feito com Orbiq.",
+    "col_nav_title": "Navegação",
+    "col_other_title": "Outras Páginas",
+    "col_newsletter_title": "Newsletter",
+    "newsletter_description": "Novidades sobre IA e automação direto na sua caixa de entrada.",
+    "nav_links": [
+      { "url": "#hero", "text": "Início" },
+      { "url": "#recursos", "text": "Recursos" },
+      { "url": "#produtos", "text": "Produtos" },
+      { "url": "#precos", "text": "Preços" },
+      { "url": "#faq", "text": "FAQ" }
+    ],
+    "other_links": [
+      { "url": "#", "text": "Documentação — em breve" },
+      { "url": "#", "text": "Blog — em breve" },
+      { "url": "#", "text": "Changelog — em breve" },
+      { "url": "#", "text": "Política de Privacidade" }
+    ],
+    "social_links": [
+      { "url": "https://instagram.com", "network": "Instagram", "icon_class": "fa-instagram" },
+      { "url": "https://twitter.com", "network": "X / Twitter", "icon_class": "fa-x-twitter" },
+      { "url": "https://linkedin.com", "network": "LinkedIn", "icon_class": "fa-linkedin-in" },
+      { "url": "https://reddit.com", "network": "Reddit", "icon_class": "fa-reddit-alien" }
+    ]
+  },
+
+  "addons": {
+    "animated-text-scramble": {
+      "scramble_text": {
+        "chars": "!<>-_\\/[]{}—=+*^?#01",
+        "cursor": "_",
+        "duration": "1600",
+        "delay": "0",
+        "content": "Automação. Inteligência. Escala."
+      }
+    },
+
+    "logo-ticker": {
+      "speed": "3000",
+      "draggable": true,
+      "logo_ticker": {
+        "items": [
+          { "logo_url": "https://placehold.co/140x44/06070A/F2F5FC?text=Nimbus", "alt_text": "Cliente Nimbus" },
+          { "logo_url": "https://placehold.co/140x44/06070A/F2F5FC?text=Vertica", "alt_text": "Cliente Vertica" },
+          { "logo_url": "https://placehold.co/140x44/06070A/F2F5FC?text=LuminaTech", "alt_text": "Cliente LuminaTech" },
+          { "logo_url": "https://placehold.co/140x44/06070A/F2F5FC?text=Nexora", "alt_text": "Cliente Nexora" },
+          { "logo_url": "https://placehold.co/140x44/06070A/F2F5FC?text=Altara", "alt_text": "Cliente Altara" }
+        ]
+      }
+    },
+
+    "tabs": {
+      "tabs": {
+        "orientation": "horizontal",
+        "items": [
+          {
+            "icon": "",
+            "title": "Uso",
+            "content": "<img src=\"https://picsum.photos/seed/orbiq-tab-uso/900/620\" alt=\"Agente de IA para o trabalho\"><h4>Agente de IA para o trabalho</h4><p>Conecte-se aos sistemas do seu negócio, entenda seus dados e fluxos, e ative automação de verdade.</p><ul class=\"ob-tab-tags\"><li>Saúde</li><li>Suporte Técnico</li><li>Marketing</li></ul>"
+          },
+          {
+            "icon": "",
+            "title": "Tecnologia",
+            "content": "<img src=\"https://picsum.photos/seed/orbiq-tab-tech/900/620\" alt=\"Tecnologia Orbiq\"><h4>Tecnologia Alpha</h4><p>Crie agentes e fluxos agentivos valiosos com confiança e controle contínuo.</p><ul class=\"ob-tab-tags\"><li>Multi-Agente</li><li>Modelo Mais Recente</li><li>Agentes Supervisores</li></ul>"
+          },
+          {
+            "icon": "",
+            "title": "Dados",
+            "content": "<img src=\"https://picsum.photos/seed/orbiq-tab-data/900/620\" alt=\"Fontes de dados corporativos\"><h4>Fontes de dados corporativos</h4><p>Nossa abordagem é agnóstica de ecossistema, permitindo que você escolha como conectar seus dados.</p><ul class=\"ob-tab-tags\"><li>SharePoint</li><li>SAP</li><li>Slack</li></ul>"
+          }
+        ]
+      }
+    },
+
+    "testimonials": {
+      "items": [
+        { "content": "A Orbiq transformou nossa operação. Em 5 meses automatizamos processos que consumiam metade do time de suporte.", "avatar": "https://picsum.photos/seed/orbiq-avatar-1/120/120", "name": "Daniel Reis", "role": "Diretor de Operações", "company": "LuminaTech", "rating": "5" },
+        { "content": "Implementação rápida e um time de suporte que realmente entende o produto. Os agentes já pagam a assinatura sozinhos.", "avatar": "https://picsum.photos/seed/orbiq-avatar-2/120/120", "name": "Sara Mitchel", "role": "VP de Transformação Digital", "company": "Nexora", "rating": "5" },
+        { "content": "A camada de segurança nos deu confiança para escalar automação em áreas sensíveis do negócio sem receio.", "avatar": "https://picsum.photos/seed/orbiq-avatar-3/120/120", "name": "Priya Nair", "role": "Head de Inovação", "company": "Altara Global", "rating": "4" }
+      ]
+    },
+
+    "pricing": {
+      "pricing": {
+        "currency": "R$",
+        "plans": [
+          {
+            "title": "Sonic",
+            "highlighted": false,
+            "price": "249",
+            "period": "mês",
+            "description": "Ideal para times pequenos que estão começando a automatizar.",
+            "features": [
+              { "feature": "Acesso aos agentes de IA principais" },
+              { "feature": "Automação de fluxos para times" },
+              { "feature": "Integrações básicas" },
+              { "feature": "Relatórios e análises padrão" },
+              { "feature": "Suporte por e-mail" }
+            ],
+            "cta_url": "#contato",
+            "cta_label": "Começar Agora"
+          },
+          {
+            "title": "Supersonic",
+            "highlighted": true,
+            "price": "499",
+            "period": "mês",
+            "description": "Para times que já vivem de performance e querem mais automação.",
+            "features": [
+              { "feature": "Agentes de IA avançados para fluxos" },
+              { "feature": "Integrações prioritárias" },
+              { "feature": "Dashboards avançados" },
+              { "feature": "Suporte 24/7 via chat" },
+              { "feature": "20.000 ações de IA por mês" }
+            ],
+            "cta_url": "#contato",
+            "cta_label": "Assinar Agora"
+          },
+          {
+            "title": "HyperSonic",
+            "highlighted": false,
+            "price": "Sob consulta",
+            "period": "personalizado",
+            "description": "Automação ilimitada com suporte dedicado de nível enterprise.",
+            "features": [
+              { "feature": "Agentes de IA enterprise-grade" },
+              { "feature": "Acesso total a API personalizada" },
+              { "feature": "Fluxos e automação ilimitados" },
+              { "feature": "Squad dedicado de sucesso" },
+              { "feature": "SLA e suporte prioritário 24/7" }
+            ],
+            "cta_url": "#contato",
+            "cta_label": "Falar com Vendas"
+          }
+        ]
+      }
+    },
+
+    "countdown": {
+      "countdown": {
+        "title": "",
+        "end_date": "2026-09-12T00:00:00",
+        "label_days": "Dias",
+        "label_hours": "Horas",
+        "label_minutes": "Min",
+        "label_seconds": "Seg",
+        "expired_message": "A oferta de lançamento já encerrou — mas nossos planos continuam com o melhor custo-benefício."
+      }
+    },
+
+    "accordion": {
+      "accordion": {
+        "title": "",
+        "items": [
+          { "question": "O que é a Orbiq?", "answer": "É uma plataforma de agentes de IA que automatiza fluxos de trabalho empresariais, conectando dados, sistemas e times em um único lugar." },
+          { "question": "Como os agentes de IA são diferentes de ferramentas de automação comuns?", "answer": "Agentes entendem contexto, tomam decisões e se adaptam ao fluxo — automações tradicionais apenas seguem regras fixas." },
+          { "question": "A Orbiq se integra com nossos sistemas atuais?", "answer": "Sim. Oferecemos conectores prontos para as principais ferramentas do mercado e suporte a integrações personalizadas via API." },
+          { "question": "A Orbiq é segura para uso empresarial?", "answer": "Sim. Usamos segurança em múltiplas camadas, com criptografia de dados e monitoramento contínuo de comportamento." },
+          { "question": "Quanto tempo leva para implementar a Orbiq?", "answer": "A maioria dos times fica operacional em poucos dias, com um assistente de configuração guiado." },
+          { "question": "Os agentes de IA podem substituir colaboradores humanos?", "answer": "Os agentes assumem tarefas repetitivas e operacionais, liberando pessoas para trabalho estratégico e de maior valor." }
+        ],
+        "settings": {
+          "allow_multiple": false
+        }
+      }
+    },
+
+    "newsletter": {
+      "newsletter": {
+        "placeholder": "Seu melhor e-mail",
+        "button_label": "Inscrever",
+        "success_message": "Inscrição realizada com sucesso! Em breve você receberá nossas novidades.",
+        "error_message": "Não foi possível concluir sua inscrição. Tente novamente."
+      }
+    },
+
+    "icon-list": {
+      "icon_list": {
+        "layout": "vertical",
+        "items": [
+          { "icon": "🛡️", "text": "Proteção inteligente contra acessos indevidos e anomalias" },
+          { "icon": "⚡", "text": "Detecção de ameaças em tempo real, camada por camada" },
+          { "icon": "✅", "text": "Conformidade contínua com os principais padrões do setor" }
+        ]
+      }
+    },
+
+    "sticky-cta": {
+      "sticky_cta": {
+        "position": "right",
+        "url": "#precos",
+        "icon": "🚀",
+        "label": "Começar Agora"
+      }
+    },
+
+    "cookie-banner": {
+      "cookie_banner": {
+        "message": "Usamos cookies para personalizar sua experiência e analisar o tráfego do site. Ao continuar navegando, você concorda com nossa política de privacidade.",
+        "privacy_link": "#",
+        "privacy_label": "Política de Privacidade",
+        "button_decline": "Recusar",
+        "button_accept": "Aceitar Cookies"
+      }
+    },
+
+    "whatsapp": {
+      "number": "5511977776666",
+      "message": "Olá! Vim pelo site e gostaria de saber mais sobre a Orbiq.",
+      "label_text": "Fale com a gente",
+      "settings": {
+        "position": "bottom-right",
+        "show_label": true,
+        "icon_class": "fa-brands fa-whatsapp",
+        "bg_color": "#25D366"
+      }
+    },
+
+    "popup": {
+      "popup": {
+        "image": "https://picsum.photos/seed/orbiq-popup/560/560",
+        "title": "Ganhe 30% de desconto no lançamento",
+        "content": "Assine agora um dos nossos planos e garanta o preço de lançamento antes que a oferta termine.",
+        "cta_label": "Quero o Desconto",
+        "cta_url": "#precos",
+        "trigger_type": "delay",
+        "trigger_value": "8"
+      }
+    }
+  }
+}

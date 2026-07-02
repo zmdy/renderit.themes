@@ -1,0 +1,11 @@
+<svg width="132" height="32" viewBox="0 0 132 32" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="obLogoGradientD" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0175FF"/>
+      <stop offset="100%" stop-color="#FFAC0A"/>
+    </linearGradient>
+  </defs>
+  <circle cx="16" cy="16" r="15" fill="none" stroke="url(#obLogoGradientD)" stroke-width="2"/>
+  <circle cx="16" cy="16" r="4.2" fill="url(#obLogoGradientD)"/>
+  <text x="38" y="21" font-family="Inter, sans-serif" font-size="18" font-weight="800" fill="#F2F5FC">Orbiq</text>
+</svg>
