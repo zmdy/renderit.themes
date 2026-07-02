@@ -15,7 +15,7 @@
 <!-- Font Awesome (ícones) -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-<!-- anime.js — requerido pelos addons animated-text-split / animated-text-scramble -->
+<!-- anime.js — requerido pelo addon animated-text-scramble e pelo split-text nativo do tema -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" defer></script>
 
 <!-- Swiper — requerido pelo addon logo-ticker -->
@@ -130,6 +130,14 @@
   .af-reveal.d3{transition-delay:.3s;} .af-reveal.d4{transition-delay:.4s;}
   .af-reveal.d5{transition-delay:.5s;}
 
+  /* ===================================================================
+     SPLIT-TEXT — título animado nativo (substitui o addon
+     animated-text-split, cujo mecanismo src="..." não é suportado pelo
+     motor de build; ver notas no <script> ao final do arquivo).
+     =================================================================== */
+  .af-split-text{overflow:hidden;display:block;}
+  .af-split-text .af-split-unit{display:inline-block;will-change:transform,opacity;}
+
   /* Reveal de imagens — efeito de wipe/clip-path extraído do template Haptic
      (classe original: bi-fun-fact-img bi-img-animation active) */
   .af-img-reveal{
@@ -177,7 +185,7 @@
     font-weight:var(--rdt-h2-weight);
     margin-bottom:18px;
   }
-  .af-section-title h2 .renderit-split-text-wrap{font-size:inherit;font-weight:inherit;padding:0;}
+  .af-section-title h2.af-split-text{font-size:inherit;font-weight:inherit;}
   .af-section-title p{
     font-size:var(--rdt-body-lg);
     color:color-mix(in srgb, var(--rdt-on-surface) 64%, transparent);
@@ -251,7 +259,7 @@
   .af-hero::before{content:"";position:absolute;inset:0;background:var(--af-gradient-radial);pointer-events:none;}
   .af-hero-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center;position:relative;z-index:2;}
   .af-hero-content h1{font-size:clamp(38px, 5.2vw, var(--rdt-h1-size));font-weight:var(--rdt-h1-weight);}
-  .af-hero-content .renderit-split-text-wrap{padding:6px 0 18px;font-size:inherit;font-weight:inherit;}
+  .af-hero-content h1.af-split-text{padding:6px 0 18px;font-size:inherit;font-weight:inherit;}
   .af-hero-desc{font-size:var(--rdt-body-lg);max-width:480px;margin-bottom:36px;color:color-mix(in srgb, var(--rdt-on-surface) 62%, transparent);}
   .af-hero-ctas{display:flex;gap:16px;flex-wrap:wrap;}
 
@@ -271,7 +279,7 @@
   .af-hero-badge span{font-size:12px;color:color-mix(in srgb, var(--rdt-on-surface) 55%, transparent);}
   @media (max-width:991px){
     .af-hero-wrap{grid-template-columns:1fr;text-align:center;}
-    .af-hero-content .renderit-split-text-wrap{text-align:center;}
+    .af-hero-content h1.af-split-text{text-align:center;}
     .af-hero-desc{margin-left:auto;margin-right:auto;}
     .af-hero-ctas{justify-content:center;}
     .af-hero-media{margin-top:60px;}
@@ -320,16 +328,19 @@
   }
   .af-feature-card h4{font-size:19px;margin-bottom:12px;}
   .af-feature-card p{font-size:14px;color:color-mix(in srgb, var(--rdt-on-surface) 62%, transparent);}
-  /* Variantes com gradiente derivado da marca — substitui os blocos coloridos fixos do template original */
-  .af-feature-card.is-grad-1{background:var(--af-gradient-card-1);color:#fff;}
-  .af-feature-card.is-grad-1 .icon{background:rgba(255,255,255,.16);color:#fff;}
-  .af-feature-card.is-grad-1 p{color:rgba(255,255,255,.78);}
-  .af-feature-card.is-grad-1 .num{color:#fff;}
-  .af-feature-card.is-grad-2{background:var(--af-gradient-card-3);color:#fff;}
-  .af-feature-card.is-grad-2 .icon{background:rgba(255,255,255,.14);color:#fff;}
-  .af-feature-card.is-grad-2 p{color:rgba(255,255,255,.75);}
-  .af-feature-card.is-grad-2 .num{color:#fff;}
-  .af-feature-card:not(.is-grad-1):not(.is-grad-2) .icon{background:color-mix(in srgb, var(--rdt-primary) 12%, transparent);color:var(--rdt-primary);}
+  /* Variantes com gradiente derivado da marca — substitui os blocos coloridos fixos do template original.
+     Aplicadas por posição (nth-child), não por condicional de índice — o resolvedor de
+     condições do runtime Live Mode (renderit-live.js) não suporta operadores de comparação,
+     então a condição nunca era satisfeita na hidratação client-side desta zona. */
+  .af-feature-card .icon{background:color-mix(in srgb, var(--rdt-primary) 12%, transparent);color:var(--rdt-primary);}
+  .af-services-grid .af-feature-card:nth-child(4){background:var(--af-gradient-card-1);color:#fff;}
+  .af-services-grid .af-feature-card:nth-child(4) .icon{background:rgba(255,255,255,.16);color:#fff;}
+  .af-services-grid .af-feature-card:nth-child(4) p{color:rgba(255,255,255,.78);}
+  .af-services-grid .af-feature-card:nth-child(4) .num{color:#fff;}
+  .af-services-grid .af-feature-card:nth-child(5){background:var(--af-gradient-card-3);color:#fff;}
+  .af-services-grid .af-feature-card:nth-child(5) .icon{background:rgba(255,255,255,.14);color:#fff;}
+  .af-services-grid .af-feature-card:nth-child(5) p{color:rgba(255,255,255,.75);}
+  .af-services-grid .af-feature-card:nth-child(5) .num{color:#fff;}
   @media (max-width:991px){.af-services-grid{grid-template-columns:repeat(2,1fr);}}
   @media (max-width:600px){.af-services-grid{grid-template-columns:1fr;}}
 
@@ -424,7 +435,7 @@
   .af-footer{padding-top:110px;background:var(--af-gradient-dark);color:#fff;}
   .af-footer-cta{text-align:center;padding-bottom:90px;}
   .af-footer-cta h2{font-size:clamp(30px,4.4vw,50px);color:#fff;margin-bottom:30px;}
-  .af-footer-cta .renderit-split-text-wrap{font-size:inherit;color:#fff;padding:0;}
+  .af-footer-cta h2.af-split-text{font-size:inherit;color:#fff;}
   .af-footer-main{border-top:1px solid rgba(255,255,255,.12);padding:70px 0 40px;}
   .af-footer-wrap{display:grid;grid-template-columns:1.2fr 1fr 1fr 1.3fr;gap:40px;}
   .af-footer p{color:rgba(255,255,255,.65);margin:18px 0 22px;max-width:320px;}
@@ -506,9 +517,7 @@
           %ADDON animated-text-scramble%
         </div>
 
-        <h1>
-          %ADDON animated-text-split src="data/titles/hero.json"%
-        </h1>
+        <h1 class="af-split-text" data-split="chars">%hero.headline%</h1>
 
         <p class="af-hero-desc af-reveal d1">%hero.description%</p>
 
@@ -548,7 +557,7 @@
     <div class="af-showcase-content af-reveal d2">
       <div class="af-eyebrow">%showcase_a.eyebrow%</div>
       <div class="af-section-title">
-        <h2>%ADDON animated-text-split src="data/titles/showcase-a.json"%</h2>
+        <h2 class="af-split-text" data-split="words">%showcase_a.headline%</h2>
       </div>
       <p class="af-desc">%showcase_a.description%</p>
       <a href="%showcase_a.cta_url%" class="af-btn" data-cursor-hover>%showcase_a.cta_label% <i class="fa-solid fa-arrow-right"></i></a>
@@ -563,7 +572,7 @@
   <div class="af-container">
     <div class="af-section-title af-reveal">
       <div class="af-eyebrow">%services.eyebrow%</div>
-      <h2>%ADDON animated-text-split src="data/titles/services.json"%</h2>
+      <h2 class="af-split-text" data-split="words">%services.headline%</h2>
       <p>%services.description%</p>
     </div>
 
@@ -572,7 +581,7 @@
          data-renderit-zone="services_grid"
          data-renderit-src="services_grid.json">
       %FOREACH items%
-      <div class="af-feature-card %IF INDEX == "3"%is-grad-1%ENDIF%%IF INDEX == "4"%is-grad-2%ENDIF%">
+      <div class="af-feature-card">
         <span class="num">0%INDEX_1%</span>
         <div class="icon"><i class="fa-solid %icon%"></i></div>
         <h4>%title%</h4>
@@ -595,7 +604,7 @@
     <div class="af-showcase-content af-reveal d2">
       <div class="af-eyebrow">%showcase_b.eyebrow%</div>
       <div class="af-section-title">
-        <h2>%ADDON animated-text-split src="data/titles/showcase-b.json"%</h2>
+        <h2 class="af-split-text" data-split="words">%showcase_b.headline%</h2>
       </div>
       <p class="af-desc">%showcase_b.description%</p>
 
@@ -617,7 +626,7 @@
   <div class="af-container">
     <div class="af-section-title is-center af-reveal">
       <div class="af-eyebrow">%process.eyebrow%</div>
-      <h2>%ADDON animated-text-split src="data/titles/process.json"%</h2>
+      <h2 class="af-split-text" data-split="chars">%process.headline%</h2>
       <p>%process.description%</p>
     </div>
 
@@ -632,7 +641,7 @@
   <div class="af-container">
     <div class="af-section-title is-center af-reveal">
       <div class="af-eyebrow">%team.eyebrow%</div>
-      <h2>%ADDON animated-text-split src="data/titles/team.json"%</h2>
+      <h2 class="af-split-text" data-split="chars">%team.headline%</h2>
       <p>%team.description%</p>
     </div>
 
@@ -647,7 +656,7 @@
   <div class="af-container">
     <div class="af-section-title af-reveal">
       <div class="af-eyebrow">%why.eyebrow%</div>
-      <h2>%ADDON animated-text-split src="data/titles/why.json"%</h2>
+      <h2 class="af-split-text" data-split="words">%why.headline%</h2>
       <p>%why.description%</p>
     </div>
 
@@ -662,7 +671,7 @@
   <div class="af-container">
     <div class="af-section-title is-center af-reveal">
       <div class="af-eyebrow">%results.eyebrow%</div>
-      <h2>%ADDON animated-text-split src="data/titles/results.json"%</h2>
+      <h2 class="af-split-text" data-split="chars">%results.headline%</h2>
       <p>%results.description%</p>
     </div>
 
@@ -681,7 +690,7 @@
   <div class="af-container">
     <div class="af-section-title is-center af-reveal">
       <div class="af-eyebrow">%pricing_section.eyebrow%</div>
-      <h2>%ADDON animated-text-split src="data/titles/pricing.json"%</h2>
+      <h2 class="af-split-text" data-split="chars">%pricing_section.headline%</h2>
       <p>%pricing_section.description%</p>
     </div>
 
@@ -696,7 +705,7 @@
   <div class="af-container">
     <div class="af-section-title is-center af-reveal">
       <div class="af-eyebrow">%testimonials_section.eyebrow%</div>
-      <h2>%ADDON animated-text-split src="data/titles/testimonials.json"%</h2>
+      <h2 class="af-split-text" data-split="chars">%testimonials_section.headline%</h2>
       <p>%testimonials_section.description%</p>
     </div>
 
@@ -711,7 +720,7 @@
   <div class="af-container">
     <div class="af-section-title is-center af-reveal">
       <div class="af-eyebrow">%faq_section.eyebrow%</div>
-      <h2>%ADDON animated-text-split src="data/titles/faq.json"%</h2>
+      <h2 class="af-split-text" data-split="chars">%faq_section.headline%</h2>
       <p>%faq_section.description%</p>
     </div>
 
@@ -730,7 +739,7 @@
   <div class="af-container">
     <div class="af-section-title is-center af-reveal">
       <div class="af-eyebrow">%blog_section.eyebrow%</div>
-      <h2>%ADDON animated-text-split src="data/titles/blog.json"%</h2>
+      <h2 class="af-split-text" data-split="chars">%blog_section.headline%</h2>
       <p>%blog_section.description%</p>
     </div>
 
@@ -762,7 +771,7 @@
   <div class="af-container">
     <div class="af-section-title is-center af-reveal">
       <div class="af-eyebrow">%contact_section.eyebrow%</div>
-      <h2>%ADDON animated-text-split src="data/titles/contact.json"%</h2>
+      <h2 class="af-split-text" data-split="chars">%contact_section.headline%</h2>
       <p>%contact_section.description%</p>
     </div>
 
@@ -779,7 +788,7 @@
      ============================================================ -->
 <footer class="af-footer">
   <div class="af-container af-footer-cta af-reveal">
-    <h2>%ADDON animated-text-split src="data/titles/footer-cta.json"%</h2>
+    <h2 class="af-split-text" data-split="words">%footer.cta_headline%</h2>
     <a href="%footer.cta_url%" class="af-btn is-light" data-cursor-hover>%footer.cta_label% <i class="fa-solid fa-arrow-right"></i></a>
   </div>
 
@@ -864,6 +873,96 @@ document.addEventListener('DOMContentLoaded', function () {
       a.addEventListener('click', function () { navMenu.classList.remove('is-open'); });
     });
   }
+
+  /* ------------------------------------------------------------
+     Split-text nativo (.af-split-text) — títulos animados char-a-char
+     ou palavra-a-palavra via anime.js, disparados ao entrar na viewport.
+     Substitui o addon animated-text-split: seu mecanismo de dados
+     externos (atributo src apontando para um JSON externo) depende de um
+     fetch de arquivo relativo ao projeto que o motor de build não
+     resolve, então o conteúdo nunca chegava a ser injetado (títulos
+     ficavam em branco no build renderizado). Aqui o conteúdo vem de
+     magic tags comuns (campo "headline" de cada seção), que funcionam normalmente.
+     ------------------------------------------------------------ */
+  (function () {
+    var splitEls = document.querySelectorAll('.af-split-text');
+    if (!splitEls.length) return;
+
+    function splitInto(el, mode) {
+      var text = (el.textContent || '').trim();
+      if (!text) return [];
+      el.textContent = '';
+      var frag = document.createDocumentFragment();
+      var units = [];
+      var pieces = mode === 'words' ? text.split(/(\s+)/) : text.split('');
+      pieces.forEach(function (piece) {
+        if (mode === 'words' && /^\s+$/.test(piece)) {
+          frag.appendChild(document.createTextNode(piece));
+          return;
+        }
+        var span = document.createElement('span');
+        span.className = 'af-split-unit';
+        span.style.opacity = '0';
+        span.textContent = (mode !== 'words' && piece === ' ') ? ' ' : piece;
+        if (mode === 'words') span.style.marginRight = '0.28em';
+        frag.appendChild(span);
+        units.push(span);
+      });
+      el.appendChild(frag);
+      return units;
+    }
+
+    function revealInstantly(units) {
+      units.forEach(function (u) { u.style.opacity = '1'; });
+    }
+
+    function animateSplit(el) {
+      var mode = el.getAttribute('data-split') === 'words' ? 'words' : 'chars';
+      var units = splitInto(el, mode);
+      if (!units.length) return;
+
+      if (window.anime) {
+        try {
+          window.anime({
+            targets: units,
+            translateY: [22, 0],
+            opacity: [0, 1],
+            duration: mode === 'words' ? 800 : 700,
+            delay: window.anime.stagger(mode === 'words' ? 55 : 20),
+            easing: 'easeOutExpo'
+          });
+        } catch (e) {
+          revealInstantly(units);
+        }
+      } else {
+        // Fallback: anime.js ainda não carregou (ou falhou) — exibe o texto sem animação
+        revealInstantly(units);
+      }
+    }
+
+    if ('IntersectionObserver' in window) {
+      var splitObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            animateSplit(entry.target);
+            splitObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.4 });
+      splitEls.forEach(function (el) { splitObs.observe(el); });
+    } else {
+      splitEls.forEach(animateSplit);
+    }
+
+    // Rede de segurança: se por algum motivo (falha de rede, bloqueio de CDN)
+    // o texto nunca for revelado, força a exibição após 3s para não deixar
+    // nenhum título em branco permanentemente.
+    setTimeout(function () {
+      document.querySelectorAll('.af-split-unit[style*="opacity: 0"]').forEach(function (u) {
+        u.style.opacity = '1';
+      });
+    }, 3000);
+  })();
 
   /* ------------------------------------------------------------
      Reveal-on-scroll com blur-in / fade-in (.af-reveal)
