@@ -15,7 +15,7 @@
 <!-- Font Awesome (ícones) -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-<!-- anime.js — requerido pelos addons animated-text-split / animated-text-scramble -->
+<!-- anime.js — requerido pelo addon animated-text-scramble e pelo split-text nativo do tema -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" defer></script>
 
 <!-- Swiper — requerido pelo addon logo-ticker -->
@@ -124,6 +124,14 @@
   .lc-reveal.d1{transition-delay:.1s;} .lc-reveal.d2{transition-delay:.2s;}
   .lc-reveal.d3{transition-delay:.3s;} .lc-reveal.d4{transition-delay:.4s;}
 
+  /* ===================================================================
+     SPLIT-TEXT — título animado nativo (substitui o addon
+     animated-text-split, cujo mecanismo src="..." não é suportado pelo
+     motor de build; ver notas no <script> ao final do arquivo).
+     =================================================================== */
+  .lc-split-text{overflow:hidden;display:block;}
+  .lc-split-text .lc-split-unit{display:inline-block;will-change:transform,opacity;}
+
   .lc-img-reveal{
     clip-path: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%);
     transition: clip-path 1.3s cubic-bezier(0.5, 0.5, 0, 1);
@@ -152,7 +160,7 @@
   .lc-eyebrow .renderit-scramble-text-wrap{font-size:12px;padding:0;color:var(--rdt-primary);}
 
   .lc-section-title h2{font-size:clamp(32px, 6vw, var(--rdt-h2-size));font-weight:var(--rdt-h2-weight);}
-  .lc-section-title h2 .renderit-split-text-wrap{font-size:inherit;font-weight:inherit;padding:0;}
+  .lc-section-title h2.lc-split-text{font-size:inherit;font-weight:inherit;}
   .lc-section-title p{font-size:clamp(15px, 2vw, var(--rdt-body-lg));color:color-mix(in srgb, var(--rdt-on-surface) 60%, transparent);max-width:560px;margin-top:16px;}
   .lc-section-title.is-center{text-align:center;margin-left:auto;margin-right:auto;}
   .lc-section-title.is-center p{margin-left:auto;margin-right:auto;}
@@ -208,7 +216,7 @@
   .lc-hero::before{content:"";position:absolute;inset:0;background:var(--lc-gradient-radial);pointer-events:none;}
   .lc-hero-wrap{position:relative;z-index:2;display:flex;flex-direction:column;gap:48px;}
   .lc-hero-content h1{font-size:clamp(34px, 9vw, 44px);font-weight:var(--rdt-h1-weight);}
-  .lc-hero-content .renderit-split-text-wrap{padding:8px 0 16px;font-size:inherit;font-weight:inherit;}
+  .lc-hero-content h1.lc-split-text{padding:8px 0 16px;font-size:inherit;font-weight:inherit;}
   .lc-hero-desc{font-size:clamp(15px,3vw,var(--rdt-body-lg));max-width:520px;margin-bottom:30px;color:color-mix(in srgb, var(--rdt-on-surface) 60%, transparent);}
   .lc-hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:44px;}
   .lc-hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
@@ -306,10 +314,38 @@
   }
 
   /* ===================================================================
-     SUCCESS / IMPACT — addon flipbox (3x, instâncias via src=)
+     SUCCESS / IMPACT — flip cards nativos (3x)
+     O addon flipbox foi projetado para uma única instância global por
+     página (namespace de dados "addons.flipbox" compartilhado); usá-lo
+     3x via src="..." para dar conteúdo distinto a cada card depende do
+     mesmo mecanismo de fetch relativo que não é resolvido pelo motor de
+     build, então os 3 cards ficavam com título/conteúdo vazios. Aqui o
+     card é implementado nativamente no tema (mesmo efeito 3D de flip),
+     com cada instância lendo campos próprios (success_cards.card_1, card_2, card_3).
      =================================================================== */
   .lc-success-grid{display:grid;grid-template-columns:1fr;gap:24px;margin-top:50px;}
   @media (min-width:768px){ .lc-success-grid{grid-template-columns:repeat(3,1fr);} }
+
+  .lc-flip-container{background-color:transparent;width:100%;height:300px;perspective:1000px;cursor:pointer;}
+  .lc-flip-inner{position:relative;width:100%;height:100%;text-align:center;transition:transform .6s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d;box-shadow:var(--rdt-elevation-md);border-radius:var(--rdt-rounded-lg);}
+  .lc-flip-container:hover .lc-flip-inner,
+  .lc-flip-container.is-flipped .lc-flip-inner{transform:rotateY(180deg);}
+  .lc-flip-front, .lc-flip-back{
+    position:absolute;width:100%;height:100%;-webkit-backface-visibility:hidden;backface-visibility:hidden;
+    border-radius:var(--rdt-rounded-lg);padding:30px;display:flex;flex-direction:column;
+    justify-content:center;align-items:center;overflow:hidden;
+  }
+  .lc-flip-front{background-color:var(--rdt-surface);color:var(--rdt-on-surface);}
+  .lc-flip-back{background-color:var(--rdt-primary);color:#fff;transform:rotateY(180deg);}
+  .lc-flip-icon{font-size:48px;margin-bottom:20px;line-height:1;}
+  .lc-flip-title{font-size:22px;font-weight:700;margin:0 0 12px;}
+  .lc-flip-content{font-size:15px;line-height:1.5;margin-bottom:18px;opacity:.92;}
+  .lc-flip-cta{
+    display:inline-block;padding:10px 20px;background:#fff;color:var(--rdt-primary);
+    border-radius:var(--rdt-rounded-md);text-decoration:none;font-weight:700;font-size:14px;
+    transition:transform .2s;
+  }
+  .lc-flip-cta:hover{transform:scale(1.05);}
 
   /* ===================================================================
      BLOG (LIVE-SECTION "blog_posts")
@@ -358,7 +394,7 @@
   }
   .lc-cta-card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 15%, rgba(255,255,255,.18), transparent 55%);}
   .lc-cta-card h2{color:#fff;font-size:clamp(28px,7vw,44px);position:relative;z-index:2;}
-  .lc-cta-card .renderit-split-text-wrap{color:#fff;padding:0;font-size:inherit;}
+  .lc-cta-card h2.lc-split-text{color:#fff;font-size:inherit;}
   .lc-cta-card .lc-cta-media{position:relative;z-index:2;width:100%;max-width:320px;border-radius:var(--rdt-rounded-lg);overflow:hidden;box-shadow:var(--rdt-elevation-xl);}
   .lc-cta-card .lc-cta-media img{width:100%;height:220px;object-fit:cover;}
   .lc-cta-card .lc-btn{position:relative;z-index:2;}
@@ -441,9 +477,7 @@
           %ADDON animated-text-scramble%
         </div>
 
-        <h1>
-          %ADDON animated-text-split src="data/titles/hero.json"%
-        </h1>
+        <h1 class="lc-split-text" data-split="chars">%hero.headline%</h1>
 
         <p class="lc-hero-desc lc-reveal d1">%hero.description%</p>
 
@@ -500,7 +534,7 @@
     <div class="lc-about-content lc-reveal d2">
       <div class="lc-eyebrow">%about.eyebrow%</div>
       <div class="lc-section-title">
-        <h2>%ADDON animated-text-split src="data/titles/about.json"%</h2>
+        <h2 class="lc-split-text" data-split="words">%about.headline%</h2>
       </div>
       <p class="lc-desc">%about.description%</p>
       %ADDON icon-list%
@@ -516,7 +550,7 @@
   <div class="lc-container">
     <div class="lc-section-title lc-reveal">
       <div class="lc-eyebrow">%services.eyebrow%</div>
-      <h2>%ADDON animated-text-split src="data/titles/services.json"%</h2>
+      <h2 class="lc-split-text" data-split="words">%services.headline%</h2>
       <p>%services.description%</p>
     </div>
 
@@ -546,7 +580,7 @@
   <div class="lc-container">
     <div class="lc-section-title is-center lc-reveal">
       <div class="lc-eyebrow">%case_section.eyebrow%</div>
-      <h2>%ADDON animated-text-split src="data/titles/case.json"%</h2>
+      <h2 class="lc-split-text" data-split="chars">%case_section.headline%</h2>
       <p>%case_section.description%</p>
     </div>
 
@@ -562,7 +596,7 @@
     <div class="lc-testimonials-intro lc-reveal">
       <div class="lc-eyebrow">%testimonials_section.eyebrow%</div>
       <div class="lc-section-title">
-        <h2>%ADDON animated-text-split src="data/titles/testimonials.json"%</h2>
+        <h2 class="lc-split-text" data-split="words">%testimonials_section.headline%</h2>
       </div>
       <p style="margin-top:16px;">%testimonials_section.description%</p>
       <a href="%testimonials_section.cta_url%" class="lc-btn lc-reveal" style="margin-top:26px;" data-cursor-hover>%testimonials_section.cta_label%</a>
@@ -581,14 +615,56 @@
   <div class="lc-container">
     <div class="lc-section-title is-center lc-reveal">
       <div class="lc-eyebrow">%success.eyebrow%</div>
-      <h2>%ADDON animated-text-split src="data/titles/success.json"%</h2>
+      <h2 class="lc-split-text" data-split="chars">%success.headline%</h2>
       <p>%success.description%</p>
     </div>
 
     <div class="lc-success-grid">
-      <div class="lc-reveal">%ADDON flipbox src="data/flip/flip-1.json"%</div>
-      <div class="lc-reveal d2">%ADDON flipbox src="data/flip/flip-2.json"%</div>
-      <div class="lc-reveal d3">%ADDON flipbox src="data/flip/flip-3.json"%</div>
+      <div class="lc-reveal">
+        <div class="lc-flip-container js-flip-card">
+          <div class="lc-flip-inner">
+            <div class="lc-flip-front">
+              <div class="lc-flip-icon">%success_cards.card_1.icon%</div>
+              <h3 class="lc-flip-title">%success_cards.card_1.title%</h3>
+            </div>
+            <div class="lc-flip-back">
+              <h3 class="lc-flip-title">%success_cards.card_1.title%</h3>
+              <div class="lc-flip-content">%success_cards.card_1.content%</div>
+              <a href="%success_cards.card_1.cta_url%" class="lc-flip-cta">%success_cards.card_1.cta_label%</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="lc-reveal d2">
+        <div class="lc-flip-container js-flip-card">
+          <div class="lc-flip-inner">
+            <div class="lc-flip-front">
+              <div class="lc-flip-icon">%success_cards.card_2.icon%</div>
+              <h3 class="lc-flip-title">%success_cards.card_2.title%</h3>
+            </div>
+            <div class="lc-flip-back">
+              <h3 class="lc-flip-title">%success_cards.card_2.title%</h3>
+              <div class="lc-flip-content">%success_cards.card_2.content%</div>
+              <a href="%success_cards.card_2.cta_url%" class="lc-flip-cta">%success_cards.card_2.cta_label%</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="lc-reveal d3">
+        <div class="lc-flip-container js-flip-card">
+          <div class="lc-flip-inner">
+            <div class="lc-flip-front">
+              <div class="lc-flip-icon">%success_cards.card_3.icon%</div>
+              <h3 class="lc-flip-title">%success_cards.card_3.title%</h3>
+            </div>
+            <div class="lc-flip-back">
+              <h3 class="lc-flip-title">%success_cards.card_3.title%</h3>
+              <div class="lc-flip-content">%success_cards.card_3.content%</div>
+              <a href="%success_cards.card_3.cta_url%" class="lc-flip-cta">%success_cards.card_3.cta_label%</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -601,7 +677,7 @@
     <div class="lc-blog-intro lc-reveal">
       <div class="lc-eyebrow">%blog_section.eyebrow%</div>
       <div class="lc-section-title">
-        <h2>%ADDON animated-text-split src="data/titles/blog.json"%</h2>
+        <h2 class="lc-split-text" data-split="words">%blog_section.headline%</h2>
       </div>
       <p style="margin-top:16px;">%blog_section.description%</p>
       <a href="%blog_section.cta_url%" class="lc-btn" style="margin-top:26px;" data-cursor-hover>%blog_section.cta_label%</a>
@@ -635,7 +711,7 @@
     <div class="lc-reveal d2">
       <div class="lc-eyebrow">%contact_section.eyebrow%</div>
       <div class="lc-section-title">
-        <h2>%ADDON animated-text-split src="data/titles/contact.json"%</h2>
+        <h2 class="lc-split-text" data-split="words">%contact_section.headline%</h2>
       </div>
 
       <div class="lc-contact-info-list">
@@ -664,7 +740,7 @@
 <section class="lc-cta">
   <div class="lc-container">
     <div class="lc-cta-card lc-reveal">
-      <h2>%ADDON animated-text-split src="data/titles/cta.json"%</h2>
+      <h2 class="lc-split-text" data-split="chars">%cta_banner.headline%</h2>
       <div class="lc-cta-media">
         <img src="%cta_banner.image%" alt="%cta_banner.title%">
       </div>
@@ -750,6 +826,94 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  /* ------------------------------------------------------------
+     Split-text nativo (.lc-split-text) — títulos animados char-a-char
+     ou palavra-a-palavra via anime.js, disparados ao entrar na viewport.
+     Substitui o addon animated-text-split: seu mecanismo de dados
+     externos (atributo src apontando para um JSON externo) depende de um
+     fetch de arquivo relativo ao projeto que o motor de build não
+     resolve, então o conteúdo nunca chegava a ser injetado (títulos
+     ficavam em branco no build renderizado). Aqui o conteúdo vem de
+     magic tags comuns (campo "headline" de cada seção), que funcionam normalmente.
+     ------------------------------------------------------------ */
+  (function () {
+    var splitEls = document.querySelectorAll('.lc-split-text');
+    if (!splitEls.length) return;
+
+    function splitInto(el, mode) {
+      var text = (el.textContent || '').trim();
+      if (!text) return [];
+      el.textContent = '';
+      var frag = document.createDocumentFragment();
+      var units = [];
+      var pieces = mode === 'words' ? text.split(/(\s+)/) : text.split('');
+      pieces.forEach(function (piece) {
+        if (mode === 'words' && /^\s+$/.test(piece)) {
+          frag.appendChild(document.createTextNode(piece));
+          return;
+        }
+        var span = document.createElement('span');
+        span.className = 'lc-split-unit';
+        span.style.opacity = '0';
+        span.textContent = (mode !== 'words' && piece === ' ') ? ' ' : piece;
+        if (mode === 'words') span.style.marginRight = '0.28em';
+        frag.appendChild(span);
+        units.push(span);
+      });
+      el.appendChild(frag);
+      return units;
+    }
+
+    function revealInstantly(units) {
+      units.forEach(function (u) { u.style.opacity = '1'; });
+    }
+
+    function animateSplit(el) {
+      var mode = el.getAttribute('data-split') === 'words' ? 'words' : 'chars';
+      var units = splitInto(el, mode);
+      if (!units.length) return;
+
+      if (window.anime) {
+        try {
+          window.anime({
+            targets: units,
+            translateY: [22, 0],
+            opacity: [0, 1],
+            duration: mode === 'words' ? 800 : 700,
+            delay: window.anime.stagger(mode === 'words' ? 55 : 20),
+            easing: 'easeOutExpo'
+          });
+        } catch (e) {
+          revealInstantly(units);
+        }
+      } else {
+        revealInstantly(units);
+      }
+    }
+
+    if ('IntersectionObserver' in window) {
+      var splitObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            animateSplit(entry.target);
+            splitObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.4 });
+      splitEls.forEach(function (el) { splitObs.observe(el); });
+    } else {
+      splitEls.forEach(animateSplit);
+    }
+
+    // Rede de segurança: força a exibição após 3s caso o texto nunca seja
+    // revelado (falha de rede/CDN), para não deixar títulos em branco.
+    setTimeout(function () {
+      document.querySelectorAll('.lc-split-unit[style*="opacity: 0"]').forEach(function (u) {
+        u.style.opacity = '1';
+      });
+    }, 3000);
+  })();
+
   /* Reveal blur-in / fade-in */
   var revealEls = document.querySelectorAll('.lc-reveal');
   if ('IntersectionObserver' in window) {
@@ -781,6 +945,11 @@ document.addEventListener('DOMContentLoaded', function () {
   } else {
     imgEls.forEach(function (el) { el.classList.add('active'); });
   }
+
+  /* Flip cards (Sucesso/Impacto) — toque para virar em telas sem hover */
+  document.querySelectorAll('.js-flip-card').forEach(function (card) {
+    card.addEventListener('click', function () { this.classList.toggle('is-flipped'); });
+  });
 
   /* Live Mode: reobserva zonas hidratadas dinamicamente */
   var zones = document.querySelectorAll('[data-renderit-zone]');

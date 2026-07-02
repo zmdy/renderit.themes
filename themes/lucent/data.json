@@ -25,8 +25,8 @@
       "success": "#16A34A"
     },
     "fonts": {
-      "primary": "'Space Grotesk', sans-serif",
-      "secondary": "'Inter', sans-serif"
+      "primary": "Space Grotesk, sans-serif",
+      "secondary": "Inter, sans-serif"
     },
     "rounded": {
       "sm": "8px",
@@ -55,6 +55,7 @@
 
   "hero": {
     "title": "Lucent",
+    "headline": "Soluções de TI inteligentes para um futuro mais claro",
     "description": "Potencialize seu negócio com soluções de nuvem, segurança e dados desenhadas sob medida para o seu momento — clareza do primeiro clique ao resultado.",
     "cta_url": "#contato",
     "cta_label": "Explorar Soluções",
@@ -71,6 +72,7 @@
   "about": {
     "image": "https://picsum.photos/seed/lucent-about/1000/900",
     "title": "Sobre a Lucent",
+    "headline": "Impulsionando negócios uma solução de cada vez",
     "eyebrow": "Sobre Nós",
     "description": "Seja otimizando infraestrutura de TI, reforçando a cibersegurança ou conduzindo a transformação digital, estamos comprometidos em ajudar sua empresa a crescer com clareza.",
     "cta_url": "#servicos",
@@ -79,6 +81,7 @@
 
   "services": {
     "eyebrow": "Nossos Serviços",
+    "headline": "Transformando negócios com serviços de TI especializados",
     "description": "Da análise de dados à transformação digital completa — um time especialista para cada etapa da jornada."
   },
 
@@ -92,11 +95,13 @@
 
   "case_section": {
     "eyebrow": "Nossos Cases",
+    "headline": "Histórias de sucesso que inspiram",
     "description": "Projetos que combinam estratégia, tecnologia e execução para gerar resultado real."
   },
 
   "testimonials_section": {
     "eyebrow": "Depoimentos",
+    "headline": "Nosso sucesso é medido pela sua satisfação",
     "description": "Histórias reais de clientes que transformaram sua operação com a Lucent.",
     "cta_url": "#depoimentos",
     "cta_label": "Ver Mais Avaliações"
@@ -104,11 +109,37 @@
 
   "success": {
     "eyebrow": "Nosso Impacto",
+    "headline": "Nosso impacto, o sucesso deles",
     "description": "De pequenas empresas a grandes bancos — ajudamos operações de todos os tamanhos a crescer com segurança."
+  },
+
+  "success_cards": {
+    "card_1": {
+      "icon": "🏢",
+      "title": "Pequenas & Médias Empresas",
+      "content": "Da nuvem à cibersegurança, ajudamos pequenas e médias empresas a operar com a estrutura de uma gigante.",
+      "cta_url": "#servicos",
+      "cta_label": "Saiba Mais"
+    },
+    "card_2": {
+      "icon": "🏛️",
+      "title": "Empresas & Corporações",
+      "content": "Serviços de TI sob medida — da gestão de infraestrutura a analytics avançado — para operações em larga escala.",
+      "cta_url": "#servicos",
+      "cta_label": "Saiba Mais"
+    },
+    "card_3": {
+      "icon": "🏦",
+      "title": "Serviços Financeiros & Bancos",
+      "content": "No setor financeiro, segurança e eficiência são inegociáveis. Ajudamos bancos a operar com total confiança.",
+      "cta_url": "#servicos",
+      "cta_label": "Saiba Mais"
+    }
   },
 
   "blog_section": {
     "eyebrow": "Blog",
+    "headline": "Fique por dentro com nossos posts mais recentes",
     "description": "Nosso time de especialistas entende seus desafios e desenha estratégias para impulsionar seu negócio rumo ao futuro.",
     "cta_url": "#blog",
     "cta_label": "Ver Mais Posts"
@@ -123,6 +154,7 @@
 
   "contact_section": {
     "eyebrow": "Contato",
+    "headline": "Vamos construir algo incrível juntos",
     "address": "Av. Paulista, 1000 — São Paulo, SP",
     "cta_url": "#contato",
     "cta_label": "Agendar Reunião"
@@ -130,6 +162,7 @@
 
   "cta_banner": {
     "title": "Fale com a Lucent",
+    "headline": "Transforme seu negócio, fale com a gente hoje",
     "image": "https://picsum.photos/seed/lucent-cta/700/500",
     "cta_url": "#contato",
     "cta_label": "Iniciar Jornada"
